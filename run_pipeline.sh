@@ -34,12 +34,6 @@ else
         echo "Close-related mitogenome genbank is $mito_gb"
 fi
 
-if [ -z $4 ]; then
-        FOO='1'
-else
-        FOO=$4
-
-
 echo -e "\nFirst let's run the blast with the close-related mitogenome\n"
 
 blast/bin/makeblastdb -in $mito_fa -dbtype nucl
@@ -85,6 +79,6 @@ python scripts/circularizationCheck.original.py $fasta.blastn.cov.NoPartials.sum
 python scripts/cut_coords.py $fasta.blastn.cov.NoPartials.sum.97.LargerContig.fasta.fasta > mito.circu.fasta
 
 #annotate the mitogenome with mitofinder
-/software/team311/mu2/MitoFinder/mitofinder -j mito.circu.ANNOTATION -a mito.circu.fasta -r $mito_gb -o 5
+scripts/MitoFinder/mitofinder -j mito.circu.ANNOTATION -a mito.circu.fasta -r $mito_gb -o 5
 
 echo "your mito genome is the file mito.circu.fasta. Please look inside the mitofinder Final Result folder to find your mitogenome annotated in genbank format."
