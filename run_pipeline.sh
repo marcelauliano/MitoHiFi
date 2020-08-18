@@ -1,9 +1,46 @@
+#!bin/bash
 fasta=$1
 mito_fa=$2
 mito_gb=$3
 threads=$4
 
-echo -e "\nFirst let's run the blast with the close-related mitogenome"
+if [ "$1" == "-h" ]; then
+        echo "Usage: <contigs.fasta>  <close-related_mitogenome.fasta> <close-related mitogenome.gb> <num_threads>"
+        echo -e "<contigs.fasta>  fasta contigs to search for mitogenome."     
+        echo -e "<close-related_mitogenome.fasta> Close-related species mitogenome in fasta format"
+        echo -e "<close-related mitogenome.gb> Close-related species mitogenome in genbank format" 
+        echo -e "<num_threads> Number of threads for the blast search" 
+        exit 0
+fi
+
+if [ -z $1 ]; then
+        echo "contig sequences not provided"
+        exit 1
+else
+        echo "contigs provided. It is $fasta"
+fi
+
+if [ -z $2 ]; then
+        echo "No close-related species fasta provided"
+        exit 1
+else
+        echo "Close-related mitogenome fasta is $mito_fa"
+fi
+
+if [ -z $3 ]; then
+        echo "No close-related species genbank file provided"
+        exit 1
+else
+        echo "Close-related mitogenome genbank is $mito_gb"
+fi
+
+if [ -z $4 ]; then
+        FOO='1'
+else
+        FOO=$4
+
+
+echo -e "\nFirst let's run the blast with the close-related mitogenome\n"
 
 blast/bin/makeblastdb -in $mito_fa -dbtype nucl
 echo -e "\nmakeblastdb done. Running blast with CCS contigs\n"
