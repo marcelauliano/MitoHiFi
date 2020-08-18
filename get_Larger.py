@@ -1,3 +1,4 @@
+#Marcela Uliano-Silva
 from Bio import SeqIO
 import sys
 #output=open("/lustre/scratch116/vr/projects/vgp/user/mu2/mito-automation/test-pipe/fasta_to_circu", "w")
