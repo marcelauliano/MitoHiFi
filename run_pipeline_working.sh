@@ -8,9 +8,9 @@ mito_gb=$3
 threads=$4
 
 #++++                  This script is part of:                    ++++
-#++++                       CCS mitogenome                        ++++
+#++++                  CCS mitogenome                             ++++
 #++++                  Darwin Tree of Life Assembly Pipeline      ++++
-#++++                   Credit: M Uliano-Silva                    ++++
+#++++                  Credit: M Uliano-Silva                     ++++
 
 
 if [ -z $1 ]; then
@@ -21,11 +21,11 @@ elif [ $1 == "-h" ]; then
 
         cat << EOF
         
-        Usage: <contigs.fasta>  <close-related_mitogenome.fasta> <close-related mitogenome.gb> <num_threads>"
-        "<contigs.fasta>  fasta contigs to search for mitogenome."     
-        "<close-related_mitogenome.fasta> Close-related species mitogenome in fasta format"
-         "<close-related mitogenome.gb> Close-related species mitogenome in genbank format" 
-        "<num_threads> Number of threads for the blast search" 
+        Uasage: '$0 -c contigs.fasta -f close-related_mitogenome.fasta -g close-related_mitogenome.gb -t threads'
+        -c: assemnbled fasta contigs/scaffolds to be searched to find mitogenome     
+        -f: Close-related species mitogenome in fasta format
+        -g: Close-related species mitogenome in genbank format 
+        -t: Number of threads for the blast search 
 EOF 
 
         exit 0
