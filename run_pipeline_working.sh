@@ -31,19 +31,30 @@ EOF
         exit 0
 fi
 
-if [ -z $2 ]; then
-        echo "No close-related species fasta provided"
-        exit 1
-else
-        echo "Close-related mitogenome fasta is $mito_fa"
-fi
+#set options
 
-if [ -z $3 ]; then
-        echo "No close-related species genbank file provided"
-        exit 1
-else
-        echo "Close-related mitogenome genbank is $mito_gb"
-fi
+while getopts ":c:f:g:t:" opt; do
+
+	case $opt in
+	
+	c)
+		contigs="$OPTARG"
+		;;
+	f)
+		fasta="$OPTARG"
+		;;
+	g)
+		genbank="$OPTARG"
+		;;
+	t)
+		threads="$OPTARG"
+		;;
+	\?)
+		echo ""Usage: cmd [-c] [-f] [-g] [-t]
+		;;
+	esac
+done
+		
 
 echo -e "\nFirst let's run the blast with the close-related mitogenome\n"
 
