@@ -29,7 +29,7 @@ git clone https://github.com/marcelauliano/MitoHiFi.git
 cd MitoHiFi
 cp ExampleFiles
 ln -s ../scripts
-sh MitoHiFi -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1
+sh run_mitoHiFi.sh -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1
 
 ```
 ### Required arguments
@@ -46,7 +46,7 @@ Parameters:
  ### Description of each intermediate output
  
  ``` 
- will be writting soon
+ will be written soon
 
  ```
  
