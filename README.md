@@ -1,4 +1,4 @@
-### Mito HiFi ####
+# Mito HiFi ####
 
 This repository contains software and scripts to circularise, cut and annotate mitogenomes assembled redudantly by assembly softwares such as HiCanu or Hifiasm.
 
