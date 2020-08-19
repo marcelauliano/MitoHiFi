@@ -48,6 +48,13 @@ while getopts ":c:f:g:t:" opt; do
 	esac
 done
 
+printf "\n\n++++                        mitoHiFi beta version            ++++\n"
+printf "++++ Darwin Tree of Life Hifi mitogenome circularisation and annotation ++++\n"
+printf "++++     Credit: M Uliano-Silva       ++++\n\n"
+
+printf "\nStarted at at: $(date "+%Y-%m-%d %H-%M-%S")\n"
+printf "\nWith command:\n"
+printf "\n${0}\n"
 echo -e "\nFirst let's run the blast with the close-related mitogenome\n"
 
 makeblastdb -in ${fasta} -dbtype nucl
@@ -95,4 +102,6 @@ python scripts/cut_coords.py ${contigs}.LargerContig.fasta > mitogenome.fasta
 #annotate the mitogenome with mitofinder
 mitofinder -j mitogenome.annotation -a mitogenome.fasta -r ${genbank} -o 5
 
-echo -e "\nPipeline done!!!\n Your mito genome is the file mitogenome.fasta. \n Annotation: Please look inside the mitofinder Final_Result folder to find your mitogenome annotated in genbank format.\n ALL DONE"
+echo -e "\nPipeline done!!!\n Your mito genome is the file mitogenome.fasta. \n Annotation: Please look inside the mitofinder Final_Result folder to find your mitogenome annotated in genbank format.\n"
+printf "\n\nDone!" &&
+printf "\n\nCompleted at: $(date "+%Y-%m-%d %H-%M-%S")\n\n"
