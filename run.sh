@@ -95,4 +95,4 @@ python scripts/cut_coords.py ${contigs}.LargerContig.fasta > mitogenome.fasta
 #annotate the mitogenome with mitofinder
 mitofinder -j mitogenome.annotation -a mitogenome.fasta -r ${genbank} -o 5
 
-echo "your mito genome is the file mitogenome.fasta. Please look inside the mitofinder Final_Result folder to find your mitogenome annotated in genbank format."
+echo -e "\nPipeline done!!!\n Your mito genome is the file mitogenome.fasta. \n Annotation: Please look inside the mitofinder Final_Result folder to find your mitogenome annotated in genbank format.\n ALL DONE"
