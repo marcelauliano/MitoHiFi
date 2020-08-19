@@ -26,6 +26,15 @@ git clone https://github.com/marcelauliano/MitoHiFi.git
 cd MitoHiFi
 cp ExampleFiles
 ln -s ../scripts
-sh MitoHiFi -c test.fa -f Nxxx.fasta -g Nxxx.gb -t 1
+sh MitoHiFi -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1
 
 ```
+### Required arguments
+
+```
+Usage: -c contigs.fasta -f close-related_mitogenome.fasta -g close-related_mitogenome.gb -t threads'
+	-c: assemnbled fasta contigs/scaffolds to be searched to find mitogenome
+	-f: Close-related species mitogenome in fasta format
+	-g: Close-related species mitogenome in genbank format 
+	-t: Number of threads for the blast search 
+ ```
