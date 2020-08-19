@@ -1,38 +1,57 @@
-#!bin/bash
+#!/bin/bash
+
+set -e -o pipefail
+
 fasta=$1
 mito_fa=$2
 mito_gb=$3
 threads=$4
 
-if [ "$1" == "-h" ]; then
-        echo "Usage: <contigs.fasta>  <close-related_mitogenome.fasta> <close-related mitogenome.gb> <num_threads>"
-        echo -e "<contigs.fasta>  fasta contigs to search for mitogenome."     
-        echo -e "<close-related_mitogenome.fasta> Close-related species mitogenome in fasta format"
-        echo -e "<close-related mitogenome.gb> Close-related species mitogenome in genbank format" 
-        echo -e "<num_threads> Number of threads for the blast search" 
-        exit 0
-fi
+#++++                  This script is part of:                    ++++
+#++++                  CCS mitogenome                             ++++
+#++++                  Darwin Tree of Life Assembly Pipeline      ++++
+#++++                  Credit: M Uliano-Silva                     ++++
+
 
 if [ -z $1 ]; then
-        echo "contig sequences not provided"
-        exit 1
-else
-        echo "contigs provided. It is $fasta"
+
+	echo "use $0 -h for help"
+	exit 0
+elif [ $1 == "-h" ]; then
+
+cat<<EOF
+	 Usage: '$0 -c contigs.fasta -f close-related_mitogenome.fasta -g close-related_mitogenome.gb -t threads'
+	-c: assemnbled fasta contigs/scaffolds to be searched to find mitogenome
+	-f: Close-related species mitogenome in fasta format
+	-g: Close-related species mitogenome in genbank format 
+	-t: Number of threads for the blast search 
+EOF
+	exit 0
 fi
 
-if [ -z $2 ]; then
-        echo "No close-related species fasta provided"
-        exit 1
-else
-        echo "Close-related mitogenome fasta is $mito_fa"
-fi
+#set options
 
-if [ -z $3 ]; then
-        echo "No close-related species genbank file provided"
-        exit 1
-else
-        echo "Close-related mitogenome genbank is $mito_gb"
-fi
+while getopts ":c:f:g:t:" opt; do
+
+	case $opt in
+	
+	c)
+		contigs="$OPTARG"
+		;;
+	f)
+		fasta="$OPTARG"
+		;;
+	g)
+		genbank="$OPTARG"
+		;;
+	t)
+		threads="$OPTARG"
+		;;
+	\?)
+		echo ""Usage: cmd [-c] [-f] [-g] [-t]
+		;;
+	esac
+done
 
 echo -e "\nFirst let's run the blast with the close-related mitogenome\n"
 
