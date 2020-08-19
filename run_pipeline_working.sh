@@ -1,4 +1,7 @@
 #!bin/bash
+set -e -o pipefail
+
+
 fasta=$1
 mito_fa=$2
 mito_gb=$3
