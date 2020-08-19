@@ -53,8 +53,8 @@ printf "++++ Darwin Tree of Life Hifi mitogenome circularisation and annotation 
 printf "++++     Credit: M Uliano-Silva       ++++\n\n"
 
 printf "\nStarted at at: $(date "+%Y-%m-%d %H-%M-%S")\n"
-printf "\nWith command:\n"
-printf "\n${0}\n"
+
+
 echo -e "\nFirst let's run the blast with the close-related mitogenome\n"
 
 makeblastdb -in ${fasta} -dbtype nucl
