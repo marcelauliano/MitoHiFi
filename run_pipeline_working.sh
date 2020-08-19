@@ -1,26 +1,34 @@
-#!bin/bash
-set -e -o pipefail
+#!/bin/bash
 
+set -e -o pipefail
 
 fasta=$1
 mito_fa=$2
 mito_gb=$3
 threads=$4
 
-if [ "$1" == "-h" ]; then
-        echo "Usage: <contigs.fasta>  <close-related_mitogenome.fasta> <close-related mitogenome.gb> <num_threads>"
-        echo -e "<contigs.fasta>  fasta contigs to search for mitogenome."     
-        echo -e "<close-related_mitogenome.fasta> Close-related species mitogenome in fasta format"
-        echo -e "<close-related mitogenome.gb> Close-related species mitogenome in genbank format" 
-        echo -e "<num_threads> Number of threads for the blast search" 
-        exit 0
-fi
+#++++                  This script is part of:                    ++++
+#++++                       CCS mitogenome                        ++++
+#++++                  Darwin Tree of Life Assembly Pipeline      ++++
+#++++                   Credit: M Uliano-Silva                    ++++
+
 
 if [ -z $1 ]; then
-        echo "contig sequences not provided"
-        exit 1
-else
-        echo "contigs provided. It is $fasta"
+
+	echo "use $0 -h for help"
+	exit 0
+elif [ $1 == "-h" ]; then
+
+        cat << EOF
+        
+        Usage: <contigs.fasta>  <close-related_mitogenome.fasta> <close-related mitogenome.gb> <num_threads>"
+        "<contigs.fasta>  fasta contigs to search for mitogenome."     
+        "<close-related_mitogenome.fasta> Close-related species mitogenome in fasta format"
+         "<close-related mitogenome.gb> Close-related species mitogenome in genbank format" 
+        "<num_threads> Number of threads for the blast search" 
+EOF 
+
+        exit 0
 fi
 
 if [ -z $2 ]; then
