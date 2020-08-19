@@ -94,7 +94,7 @@ python scripts/get_Larger.py ${contigs}.blastn.cov.NoPartials.sum.97.fasta > ${c
 python scripts/filterfasta.py -i ${contigs}.blastn.cov.NoPartials.sum.97.LargerContig.fasta.id ${contigs}.blastn.cov.NoPartials.sum.97.fasta > ${contigs}.LargerContig.fasta
 
 #find the coordinates where mitogenome cirularises 
-python scripts/circularizationCheck.original.py ${contigs}.LargerContig.fasta
+python scripts/circularizationCheck.modified.py ${contigs}.LargerContig.fasta
 
 #cut the fasta to get only one copy of the mitogenome
 python scripts/cut_coords.py ${contigs}.LargerContig.fasta > mitogenome.fasta
