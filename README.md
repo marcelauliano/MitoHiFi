@@ -1,4 +1,4 @@
-# Mito HiFi ####
+# Mito HiFi 
 
 This repository contains software and scripts to circularise, cut and annotate mitogenomes assembled redudantly by assembly softwares such as HiCanu or Hifiasm.
 
@@ -12,4 +12,10 @@ The dissemination of PacBio HiFi reads made it possible for mitogenomes to be as
 
 <b>Installation</b>
 
-Download 
+### Get and install MitoHiFi (Linux)
+
+```
+
+git clone https://github.com/marcelauliano/MitoHiFi.git
+
+```
