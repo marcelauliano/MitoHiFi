@@ -8,7 +8,7 @@ The dissemination of PacBio HiFi reads made it possible for mitogenomes to be as
 <b>Dependencies:</b>
 
 - Blast (makeblastdb and blastn) have to be installed and export them to your PATH
-- mitoFinder: You have to install [mitoFinder!](https://github.com/RemiAllio/MitoFinder) and export it to your PATH 
+- mitoFinder: You have to install [mitoFinder](https://github.com/RemiAllio/MitoFinder) and export it to your PATH 
 
 <b>Installation</b>
 
@@ -17,5 +17,15 @@ The dissemination of PacBio HiFi reads made it possible for mitogenomes to be as
 ```
 
 git clone https://github.com/marcelauliano/MitoHiFi.git
+
+```
+
+### Test run
+
+```
+cd MitoHiFi
+cp ExampleFiles
+ln -s ../scripts
+sh MitoHiFi -c test.fa -f Nxxx.fasta -g Nxxx.gb -t 1
 
 ```
