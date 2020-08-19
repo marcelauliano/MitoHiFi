@@ -1,5 +1,9 @@
 # Mito HiFi 
 
+This is a beta version!
+
+Marcela Uliano-Silva, et al., 2020
+
 This repository contains software and scripts to circularise, cut and annotate mitogenomes assembled redudantly by assembly softwares such as HiCanu or Hifiasm.
 
 The dissemination of PacBio HiFi reads made it possible for mitogenomes to be assembled straight away. Because of the circular nature of the molecule, however, the mitocontig is usually assembled rudandantly resulting in a contiguos many copies of the mitogenome (improve this description!!). This pipeline was developted to finalize the assembly and annotation of the mitogenome by (i) finding it among total assembled contigs, (ii) circularizing and cutting it to represent only one copy of the circular molecule and (iii) annotation it and presenting it in fasta and genbank format.
@@ -7,8 +11,8 @@ The dissemination of PacBio HiFi reads made it possible for mitogenomes to be as
 
 <b>Dependencies:</b>
 
-- Blast (makeblastdb and blastn) have to be installed and export them to your PATH
-- mitoFinder: You have to install [mitoFinder](https://github.com/RemiAllio/MitoFinder) and export it to your PATH 
+- Blast (makeblastdb and blastn) have to be installed and export on your PATH
+- mitoFinder: has to install [mitoFinder](https://github.com/RemiAllio/MitoFinder) and export on your PATH 
 
 <b>Installation</b>
 
@@ -41,3 +45,6 @@ Parameters:
  ```
  
  ### Description of each intermediate output
+ 
+ ``` under construction
+ ```
