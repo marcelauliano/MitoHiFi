@@ -2,9 +2,9 @@
 
 ------ This is a beta version! -------
 
-Marcela Uliano-Silva, et al., 2020
+Marcela Uliano-Silva *et al.,* 2020
 
--------
+-------   --------
 
 
 This repository contains software and scripts to circularise, cut and annotate mitogenomes assembled redudantly by assembly softwares such as HiCanu or Hifiasm.
