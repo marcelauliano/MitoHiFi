@@ -30,6 +30,7 @@ git clone https://github.com/marcelauliano/MitoHiFi.git
 cd MitoHiFi
 cd exampleFiles
 ln -s ../scripts
+ln -s ../run_mitoHiFi.sh
 sh run_mitoHiFi.sh -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1
 
 ```
