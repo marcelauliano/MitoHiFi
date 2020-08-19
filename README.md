@@ -28,7 +28,7 @@ git clone https://github.com/marcelauliano/MitoHiFi.git
 
 ```
 cd MitoHiFi
-cp ExampleFiles
+cp exampleFiles
 ln -s ../scripts
 sh run_mitoHiFi.sh -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1
 
