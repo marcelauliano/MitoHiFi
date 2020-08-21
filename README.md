@@ -32,7 +32,7 @@ cd MitoHiFi
 cd exampleFiles
 ln -s ../scripts
 ln -s ../run_mitoHiFi.sh
-sh run_mitoHiFi.sh -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1
+sh run_MitoHiFi.sh -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1
 
 ```
 ### Required arguments
@@ -44,12 +44,15 @@ Parameters:
 	-f: Close-related species mitogenome in fasta format
 	-g: Close-related species mitogenome in genbank format 
 	-t: Number of threads for the blast search 
+	-o: 
  ```
  
  ### Description of each intermediate output
  
  ``` 
- will be written soon
+ circularisationCheck.txt ...
+ parsed_blast.txt ...
+ !!!!! will be written soon !!!!!
 
  ```
  
