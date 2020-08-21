@@ -32,7 +32,7 @@ cd MitoHiFi
 cd exampleFiles
 ln -s ../scripts
 ln -s ../run_MitoHiFi.sh
-sh run_MitoHiFi.sh -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1
+sh run_MitoHiFi.sh -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1 -o 5
 
 ```
 ### Required arguments
