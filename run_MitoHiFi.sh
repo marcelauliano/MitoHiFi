@@ -84,23 +84,17 @@ blastn -query ${contigs} -db ${fasta} -num_threads ${threads} -out contigs.blast
 echo -e "Blast done!\n"
 
 
-python sort_blast.py contigs.blastn
-python scripts/filterfasta.py -i potentialmito.id ${contigs} > ${contigs}.mito.fa
+python scripts/parse_blast.py 
 
-#sort the fasta by the larger length and save it's id to a file
-#python scripts/get_Larger.py ${contigs}.blastn.cov.sum.perc.88.fasta > ${contigs}.blastn.cov.sum.perc.88.Largest.id
+python scripts/filterfasta.py -i contig.id ${contigs} > ${contigs}.mito.fa
 
-#get the fasta for the largest contig. Rembering that all contigs worked so far have 97% or more of its length in a blast match with the close-related mitogenome. So it's unlikely they would represent NUMTs. 
-#python scripts/filterfasta.py -i ${contigs}.blastn.cov.sum.perc.88.Largest.id ${contigs}.blastn.cov.sum.perc.88.fasta > ${contigs}.LargerContig.fasta
-
-#find the coordinates where mitogenome cirularises 
-python cur.py ${contigs}.mito.fa
+python script/circularizationCheck.modified.py ${contigs}.mito.fa
 
 #cut the fasta to get only one copy of the mitogenome
-python scripts/cut_coords.py ${contigs}.mito.fa  > mitogenomeehehehehe.fasta
+python scripts/cut_coords.py ${contigs}.mito.fa  > mitogenome.fasta
 
 #annotate the mitogenome with mitofinder
-mitofinder -j mitogenome.annotation -a mitogenomeehehehehe.fasta -r ${genbank} -o ${mitocode}
+mitofinder -j mitogenome.annotation -a mitogenome.fasta -r ${genbank} -o ${mitocode}
 
 echo -e "\nPipeline done!!!\n Your mito genome is the file mitogenome.fasta. \n Annotation: Please look inside the mitofinder Final_Result folder to find your mitogenome annotated in genbank format.\n"
 printf "\n\nDone!" &&
