@@ -87,7 +87,7 @@ def circularizationCheck(resultFile, circularSize, circularOffSet):
 	return (str(id),False,-1,-1)
 #dirpath = os.getcwd()
 #outfile = os.path.join(dirpath, 'circularizationCheck.out')
-output=open('circucheck', 'w')
+output=open('circularisationCheck.txt', 'w')
 if __name__ == '__main__':
 	if sys.argv[1] == '-h' or sys.argv[1] == '--help':
 		print( 'Usage: fasta_file')
