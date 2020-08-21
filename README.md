@@ -13,6 +13,7 @@ The dissemination of PacBio HiFi reads made it possible for mitogenomes to be as
 - Blast (makeblastdb and blastn) have to be installed and export on your PATH
 - mitoFinder: has to install [mitoFinder](https://github.com/RemiAllio/MitoFinder) and export on your PATH 
 - Biopython
+- Python Pandas
 
 <b>Installation</b>
 
