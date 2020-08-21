@@ -38,5 +38,5 @@ ac[(ac['%q_in_match'] > 70)].sort_values(by='%q_in_match', ascending=False).to_c
 
 id = (ac[(ac['%q_in_match'] > 70)].sort_values(by='%q_in_match', ascending=False)['qseqid'].iloc[0])
 id_series = pd.Series(id)
-id_series.to_csv("contig.id, index=False, header=None)
+id_series.to_csv("contig.id", index=False, header=None)
 print("parsing of blast done, let's filter the fasta and them circularise it")
