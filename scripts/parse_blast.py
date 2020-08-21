@@ -1,4 +1,4 @@
-# Credit: M Uliano-Silva
+# Credit: Marcela Uliano-Silva
 
 import pandas as pd
 import sys
