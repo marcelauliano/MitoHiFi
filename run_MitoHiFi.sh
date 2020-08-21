@@ -95,7 +95,7 @@ python scripts/cut_coords.py ${contigs}.mito.fa  > mitogenome.fasta
 
 #annotate the mitogenome with mitofinder
 mitofinder -j mitogenome.annotation -a mitogenome.fasta -r ${genbank} -o ${mitocode}
-
+rm *.nsq *.nin *.nhr *.xml
 echo -e "\nPipeline done!!!\n Your mito genome is the file mitogenome.fasta. \n Annotation: Please look inside 'mitogenome.annotation/mitogenome.annotation_Final_Results/' folder to find your mitogenome annotated in genbank format.\n"
 printf "\n\nDone!" &&
 printf "\n\nCompleted at: $(date "+%Y-%m-%d %H-%M-%S")\n\n"
