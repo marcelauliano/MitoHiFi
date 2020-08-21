@@ -34,7 +34,7 @@ ac=result1[result1['leng_query'] > slen].sort_values(by='%q_in_match')
 
 # if the % of the query in the blast match is smaller than 70%, drop it
 ac[(ac['%q_in_match'] > 70)].sort_values(by='%q_in_match', ascending=False)
-ac[(ac['%q_in_match'] > 70)].sort_values(by='%q_in_match', ascending=False).to_csv("sor_blast.txt", index=False, sep="\t")
+ac[(ac['%q_in_match'] > 70)].sort_values(by='%q_in_match', ascending=False).to_csv("parsed_blast.txt", index=False, sep="\t")
 
 id = (ac[(ac['%q_in_match'] > 70)].sort_values(by='%q_in_match', ascending=False)['qseqid'].iloc[0])
 id_series = pd.Series(id)
