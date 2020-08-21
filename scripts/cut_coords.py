@@ -1,7 +1,7 @@
 from Bio import SeqIO
 import sys
 input_fasta = sys.argv[1]
-circu_info = open('circucheck', 'r')
+circu_info = open('circularisationCheck.txt', 'r')
 file = circu_info.read()
 obj=file.split(",")
 if obj[1] == " True":
