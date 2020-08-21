@@ -83,36 +83,8 @@ echo -e "\nmakeblastdb done. Running blast with CCS contigs\n"
 blastn -query ${contigs} -db ${fasta} -num_threads ${threads} -out contigs.blastn -outfmt '6 std qlen slen'
 echo -e "Blast done!\n"
 
-# This awk line calculates the percentage of the query and subject in the blast match on each line. Percetages become columns 15 (query) and 16 (subject)
-#cat ${contigs}.blastn | awk {print$($4*100)/$14)}' > ${contigs}.blastn.cov
 
-#awk bellow sums up the percentages of each query on a blast hit. Column 2 is the percentage, column 3 the is the query size and column 4 the subject size.
-#echo -e \nNow we check which contigs have 97% or more of its length in the blast match with the close-related species mitogenome:\n"
-#awk {arr[$1]+=$15} END {for (i in arr) {print i,arr[i]}}' ${contigs}.blastn.cov > ${contigs}.blastn.cov.sum
-
-#awk bellow calculates the percentage of the size of the query in relation to the close-related mitogenome. If your contigs are less than 80% of the size of the close-related mito, its likely you don't have the complete mitogenome
-#cat ${contigs}.blastn.cov.sum | awk #{print$1(($3*100)/$4)}' > ${contigs}.blastn.cov.sum.perc
-#percentage=$(cat ${contigs}.blastn.cov.sum.perc | awk {print$5}' )
-
-#if [[ $percentage < 80 ]]; then
-#	echo -e \nIt seems that all of your contigs are 80% smaller than the close-related mitogenome size. Not sure if you have the complete mitogenome assembled here! Exiting...\n'
-#	exit 0
-#else
-#	echo -e \n...\n'
-#fi
-#get the IDs for the queries that are at least 88% on the blast match. If more than 97% of the query is on the blast hit, its likely its the mitogenome.
-#cat ${contigs}.blastn.cov.sum | awk '{if > ${contigs}.blastn.cov.sum.perc.88
-#cat ${contigs}.blastn.cov.sum.perc.88 | awk  ${contigs}.blastn.cov.sum.perc.88.id
-
-#echo -e se ones are contig that have 88% or more of their total length in a blast match with the close related mitogenome. Their are likely to  represent the mitogenome for your species!\n"
-#cat ${contigs}.blastn.cov.sum.perc.88.id
-
-
-#echo -e Let's circularize the largest so we can be sure our mitogenone is complete\n"
-
-
-#get the fasta sequences
-python vamos2.py contigs.blastn
+python sort_blast.py contigs.blastn
 python scripts/filterfasta.py -i potentialmito.id ${contigs} > ${contigs}.mito.fa
 
 #sort the fasta by the larger length and save it's id to a file
