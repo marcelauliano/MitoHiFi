@@ -1,3 +1,5 @@
+# Credit: M Uliano-Silva
+
 import pandas as pd
 import sys
 
@@ -32,10 +34,9 @@ ac=result1[result1['leng_query'] > slen].sort_values(by='%q_in_match')
 
 # if the % of the query in the blast match is smaller than 70%, drop it
 ac[(ac['%q_in_match'] > 70)].sort_values(by='%q_in_match', ascending=False)
-ac[(ac['%q_in_match'] > 70)].sort_values(by='%q_in_match', ascending=False).to_csv("/lustre/scratch116/vr/projects/vgp/user/mu2/mito-automation/test-pipe/again3/MitoHiFi/exampleFiles/exaploblastedited", index=False, sep="\t")
+ac[(ac['%q_in_match'] > 70)].sort_values(by='%q_in_match', ascending=False).to_csv("sor_blast.txt", index=False, sep="\t")
 
 id = (ac[(ac['%q_in_match'] > 70)].sort_values(by='%q_in_match', ascending=False)['qseqid'].iloc[0])
 id_series = pd.Series(id)
-id_series
-id_series.to_csv("/lustre/scratch116/vr/projects/vgp/user/mu2/mito-automation/test-pipe/again3/MitoHiFi/exampleFiles/potentialmito.id", index=False, header=None)
-print("all done here, let's filter the fasta and them circularise it")
+id_series.to_csv("contig.id, index=False, header=None)
+print("parsing of blast done, let's filter the fasta and them circularise it")
