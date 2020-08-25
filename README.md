@@ -3,10 +3,16 @@
 ------ This is a beta version! -------
 
 
-This repository contains software and scripts to circularise, cut and annotate mitogenomes assembled redudantly by assembly softwares such as HiCanu or Hifiasm.
+MitoHiFi circularises, cuts and annotate mitogenome from contigs assembled with PacBio HiFi reads and softwares such as HiCanu or Hifiasm.
 
-The dissemination of PacBio HiFi reads makes the assemble of high-quality mitogenome straigh forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled rudandantly resulting in a contiguos multiple-copies mitogenome (IMPROVE THIS DESCRIPTION!!). This pipeline was developted to finalize the assembly and annotation of the mitogenome by (i) finding it among total assembled nuclear contigs, (ii) circularising and cutting it to represent only one copy of the circular molecule and (iii) annotation and presenting it in fasta and genbank format.
+The dissemination of PacBio HiFi reads makes the assembly of high-quality mitogenome straigh forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redandantly resulting in a continuos multiple-copies mitogenome-contig. This pipeline was developed to finalize the assembly and annotation of the mitogenome by:
 
+(i) finding it among complete genome assembled contigs,
+(ii) circularising and cutting it to represent only one copy of the circular molecule and 
+(iii) producing an annotation and presenting it in fasta and genbank format.
+
+- To run this pipeline you need (i) your multifasta contig files, and a close-related species mitochondrial genome in (ii) fasta and in (iii) genbank format.
+- This pipeline can also be ran starting from polished PacBio CLR contigs or ONT contigs. You must be sure your contigs are well polished.
 
 <b>Dependencies:</b>
 
