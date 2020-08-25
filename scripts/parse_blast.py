@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-Copyright 2020 Marcela Uliano-Silva
+" Copyright 2020 Marcela Uliano-Silva
 
     This script is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -13,7 +13,7 @@ Copyright 2020 Marcela Uliano-Silva
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>."
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. "
             
 import pandas as pd
 import sys
