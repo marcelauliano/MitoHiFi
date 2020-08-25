@@ -65,13 +65,19 @@ Parameters:
  ### Output
  
  ```
- * mitogenome.fasta *  - this is your final mitogenome in fasta format
+ *mitogenome.fasta*  - this is your final mitogenome in fasta format
  
 Inside the folder mitogenome.annotation/mitogenome.annotation_Final_Results/ you find mitogenome.gb, which is the annotation of your mitogenome performed by mitofinder and outputed in genbank format. 
  
 ```
- 
- ### Description of each intermediate output
+### Further
+
+If you would like to rotate your mitogenome to start at tRNA-Phe, check the coordinates of it on your genbank file and run:
+```
+python script/rotate.py -i mitogenome.fasta -r <coordinate> > mitogenome.rotated.fa
+```
+
+ ### Description intermediate outputs
  
  ``` 
  circularisationCheck.txt ...
