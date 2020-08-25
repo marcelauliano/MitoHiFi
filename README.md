@@ -1,4 +1,4 @@
-# Mito HiFi 
+# MitoHiFi 
 
 ------ This is a beta version! -------
 
@@ -7,7 +7,7 @@ MitoHiFi distributed under the [license](https://github.com/marcelauliano/MitoHi
 --------------------------------------
 
 
-MitoHiFi circularises, cuts and annotate mitogenome from contigs assembled with PacBio HiFi reads and softwares such as HiCanu or Hifiasm.
+<b>MitoHiFi</b> circularises, cuts and annotates the mitogenome from contigs assembled with PacBio HiFi reads and softwares such as HiCanu or Hifiasm.
 
 The dissemination of PacBio HiFi reads makes the assembly of high-quality mitogenome straigh forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redandantly resulting in a continuos multiple-copies mitogenome-contig. This pipeline was developed to finalize the assembly and annotation of the mitogenome by:
 
