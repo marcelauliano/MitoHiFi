@@ -87,6 +87,8 @@ python scripts/rotate.py -i mitogenome.fasta -r <coordinate> > mitogenome.rotate
  - leng_query - length of your contig
  - s_length  lenght of the close-related mitogenome given
  
+ <b>contigs.blastn:</b> - outfm 6 regular tab output plus 2 extra columns which contain length_of_query and length_of_subject 
+ 
 
  
 
