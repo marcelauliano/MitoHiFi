@@ -89,7 +89,7 @@ python scripts/rotate.py -i mitogenome.fasta -r <coordinate> > mitogenome.rotate
  
  <b>contigs.blastn:</b> - outfmt 6 blast output plus 2 extra columns containing respectively length_of_query and length_of_subject 
  
-<b>circularisationCheck.txt:</b>  - one liner separated by commas containing: the id of contig, if it circularises or not (True or False), star coordinate of circularisation, end coordinate of circularisation
+<b>circularisationCheck.txt:</b>  - one liner separated by commas containing: the id of contig, if it circularises or not (True or False), start coordinate of circularisation, end coordinate of circularisation
  
 
  
