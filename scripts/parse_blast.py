@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 Copyright 2020 Marcela Uliano-Silva
 
     This script is free software: you can redistribute it and/or modify
