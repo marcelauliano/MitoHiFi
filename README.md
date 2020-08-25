@@ -62,6 +62,14 @@ Parameters:
                         Code 25. Candidate Division SR1 and Gracilibacteria
  ```
  
+ ### Output ###
+ 
+ ```
+ mitogenome.fasta  - this is your final mitogenome in fasta format
+ 
+ 
+ 
+ 
  ### Description of each intermediate output
  
  ``` 
