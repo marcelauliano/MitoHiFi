@@ -11,7 +11,7 @@ MitoHiFi distributed under the [license](https://github.com/marcelauliano/MitoHi
 
 The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straight forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in a multiple-copies mitogenome-contig. This pipeline was developed to finalize the assembly and annotation of the mitogenome by:
 
-(i) finding it among complete genome assembled contigs 
+(i) finding it among complete genome assembled contigs     
 (ii) circularising and cutting it to represent only one copy of the circular molecule and  
 (iii) producing an annotation and presenting it in fasta and genbank format.
 
