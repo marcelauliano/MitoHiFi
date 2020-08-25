@@ -80,9 +80,12 @@ python scripts/rotate.py -i mitogenome.fasta -r <coordinate> > mitogenome.rotate
  ### Description intermediate outputs
  
  ``` 
- circularisationCheck.txt ...
- parsed_blast.txt ...
- !!!!! will be written soon !!!!!
+ <b>parsed_blast.txt:</b>   - tab separated file with 4 columns as follows
+
+ - qseqid - the ID of your input contigs
+ - %q_in_match - a percentage of the length of your contig in a blast match with the close related species  
+ - leng_query - length of your contig
+ - s_length  lenght of the 
 
  ```
  
