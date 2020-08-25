@@ -74,7 +74,7 @@ Inside the folder mitogenome.annotation/mitogenome.annotation_Final_Results/ you
 
 If you would like to rotate your mitogenome to start at tRNA-Phe, check the coordinates of it on your genbank file and run:
 ```
-python script/rotate.py -i mitogenome.fasta -r <coordinate> > mitogenome.rotated.fa
+python scripts/rotate.py -i mitogenome.fasta -r <coordinate> > mitogenome.rotated.fa
 ```
 
  ### Description intermediate outputs
