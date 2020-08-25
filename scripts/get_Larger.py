@@ -1,6 +1,5 @@
 from Bio import SeqIO
 import sys
-#output=open("/lustre/scratch116/vr/projects/vgp/user/mu2/mito-automation/test-pipe/fasta_to_circu", "w")
 out1 = {}
 for sequence in SeqIO.parse(sys.argv[1], "fasta"):
     id = sequence.id
