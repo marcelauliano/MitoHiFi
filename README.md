@@ -44,7 +44,7 @@ sh run_MitoHiFi.sh -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1 -o 5
 ### Required arguments
 
 ```
-Usage: 'sh run_mitoHiFi.sh -c contigs.fasta -f close-related_mitogenome.fasta -g close-related_mitogenome.gb -t threads'
+Usage: 'sh run_mitoHiFi.sh -c contigs.fasta -f close-related_mitogenome.fasta -g close-related_mitogenome.gb -t threads -o <integer>'
 Parameters:	
 	-c: assemnbled fasta contigs/scaffolds to be searched to find mitogenome
 	-f: Close-related species mitogenome in fasta format
