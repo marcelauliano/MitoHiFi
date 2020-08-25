@@ -1,3 +1,4 @@
+#Credit: Marcela Uliano-Silva
 from Bio import SeqIO
 import sys
 out1 = {}
