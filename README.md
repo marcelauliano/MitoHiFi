@@ -62,13 +62,14 @@ Parameters:
                         Code 25. Candidate Division SR1 and Gracilibacteria
  ```
  
- ### Output ###
+ ### Output
  
  ```
- mitogenome.fasta  - this is your final mitogenome in fasta format
+ * mitogenome.fasta *  - this is your final mitogenome in fasta format
  
+Inside the folder mitogenome.annotation/mitogenome.annotation_Final_Results/ you find mitogenome.gb, which is the annotation of your mitogenome performed by mitofinder and outputed in genbank format. 
  
- 
+```
  
  ### Description of each intermediate output
  
