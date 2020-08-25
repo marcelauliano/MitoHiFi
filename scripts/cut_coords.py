@@ -1,3 +1,6 @@
+#!/usr/bin/python
+#Credit Marcela Uliano-Silva
+
 from Bio import SeqIO
 import sys
 input_fasta = sys.argv[1]
