@@ -83,14 +83,16 @@ echo -e "\nmakeblastdb done. Running blast with CCS contigs\n"
 blastn -query ${contigs} -db ${fasta} -num_threads ${threads} -out contigs.blastn -outfmt '6 std qlen slen'
 echo -e "Blast done!\n"
 
-
+#the next script parses a series of conditions to exclude blast with NUMTs. 
 python scripts/parse_blast.py 
 
+#Next, we extract the mitogenome contig
 python scripts/filterfasta.py -i contig.id ${contigs} > ${contigs}.mito.fa
 
+#We check for circularisation
 python scripts/circularizationCheck.modified.py ${contigs}.mito.fa
 
-#cut the fasta to get only one copy of the mitogenome
+#If it circularises, we cut the fasta to get only one copy of the mitogenome
 python scripts/cut_coords.py ${contigs}.mito.fa  > mitogenome.fasta
 
 #annotate the mitogenome with mitofinder
