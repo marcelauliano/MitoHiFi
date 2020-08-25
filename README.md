@@ -65,9 +65,9 @@ Parameters:
  ### Output
  
  ```
- #mitogenome.fasta#  - this is your final mitogenome in fasta format
+ mitogenome.fasta  - this is your final mitogenome in fasta format
  
-'mitogenome.annotation/mitogenome.annotation_Final_Results/' you find mitogenome.gb, which is the annotation of your mitogenome performed by mitofinder and outputed in genbank format. 
+Inside 'mitogenome.annotation/mitogenome.annotation_Final_Results/' you find mitogenome.annotation_mtDNA_contig.gb, which is the annotation of your mitogenome performed by mitofinder and outputed in genbank format. 
  
 ```
 ### Further
