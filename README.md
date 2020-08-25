@@ -10,8 +10,8 @@ The dissemination of PacBio HiFi reads makes the assemble of high-quality mitoge
 
 <b>Dependencies:</b>
 
-- Blast (makeblastdb and blastn) have to be installed and export on your PATH
-- mitoFinder: has to install [mitoFinder](https://github.com/RemiAllio/MitoFinder) and export on your PATH 
+- Blast (makeblastdb and blastn) have to be installed and export to your PATH
+- mitoFinder: has to be installed [mitoFinder](https://github.com/RemiAllio/MitoFinder) and export to your PATH 
 - Biopython
 - Python Pandas
 
@@ -79,19 +79,16 @@ python scripts/rotate.py -i mitogenome.fasta -r <coordinate> > mitogenome.rotate
 
  ### Description intermediate outputs
  
- ``` 
-parsed_blast.txt   - tab separated file with 4 columns as follows
+<b>parsed_blast.txt:</b>   - tab separated file with 4 columns as follows
 
 
- qseqid - the ID of your input contigs
- %q_in_match - a percentage of the length of your contig in a blast match with the close related species  
- leng_query - length of your contig
- s_length  lenght of the close-related mitogenome given
- 
- ---------
- 
+ - qseqid - the ID of your input contigs
+ - %q_in_match - a percentage of the length of your contig in a blast match with the close related species  
+ - leng_query - length of your contig
+ - s_length  lenght of the close-related mitogenome given
  
 
- ```
+ 
+
  
  For more information mu2@sanger.ac.uk
