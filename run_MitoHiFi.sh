@@ -5,7 +5,7 @@ set -e -o pipefail
 #++++                  This script is part of:                    ++++
 #++++                  CCS mitogenome                             ++++
 #++++                  Darwin Tree of Life Assembly Pipeline      ++++
-#++++                  Credit: M Uliano-Silva                     ++++
+#++++                  Credit: Marcela Uliano-Silva               ++++
 
 
 if [ -z $1 ]; then
