@@ -4,6 +4,8 @@
 
 MitoHiFi distributed under the [license](https://github.com/marcelauliano/MitoHiFi/blob/master/scripts/LICENSE) 
 
+--------------------------------------
+
 
 MitoHiFi circularises, cuts and annotate mitogenome from contigs assembled with PacBio HiFi reads and softwares such as HiCanu or Hifiasm.
 
