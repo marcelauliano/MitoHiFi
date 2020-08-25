@@ -82,11 +82,15 @@ python scripts/rotate.py -i mitogenome.fasta -r <coordinate> > mitogenome.rotate
  ``` 
 parsed_blast.txt   - tab separated file with 4 columns as follows
 
-Columns:
+
  qseqid - the ID of your input contigs
  %q_in_match - a percentage of the length of your contig in a blast match with the close related species  
  leng_query - length of your contig
- s_length  lenght of the 
+ s_length  lenght of the close-related mitogenome given
+ 
+ ---------
+ 
+ 
 
  ```
  
