@@ -11,11 +11,10 @@ MitoHiFi distributed under the [license](https://github.com/marcelauliano/MitoHi
 
 The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straight forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in a multiple-copies mitogenome-contig. This pipeline was developed to finalize the assembly and annotation of the mitogenome by:
 
-1-) finding it among complete genome assembled contigs,
-2-) circularising and cutting it to represent only one copy of the circular molecule and 
-3-) producing an annotation and presenting it in fasta and genbank format.
+(i) finding it among complete genome assembled contigs, 
+(ii) circularising and cutting it to represent only one copy of the circular molecule and  
+(iii) producing an annotation and presenting it in fasta and genbank format.
 
-- To run this pipeline you need 3 inputs: (i) your multifasta contig files, and a close-related species mitochondrial genome in (ii) fasta and in (iii) genbank format.
 - This pipeline can also be ran starting from polished PacBio CLR contigs or ONT contigs. You must be sure your contigs are well polished.
 
 <b>Dependencies:</b>
@@ -46,6 +45,8 @@ sh run_MitoHiFi.sh -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1 -o 5
 
 ```
 ### Required arguments
+
+- To run this pipeline you need 3 inputs: (i) your multifasta contig files, and a close-related species mitochondrial genome in (ii) fasta and in (iii) genbank format.
 
 ```
 Usage: 'sh run_mitoHiFi.sh -c contigs.fasta -f close-related_mitogenome.fasta -g close-related_mitogenome.gb -t threads -o <integer>'
