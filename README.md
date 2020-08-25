@@ -17,9 +17,9 @@ The dissemination of high-quality long reads - such as PacBio HiFi - makes the a
 
 - This pipeline can also be ran starting from polished PacBio CLR contigs or ONT contigs. You must be sure your contigs are well polished.
 
-<b>Dependencies:</b>
+### Dependencies
 
-- Blast (makeblastdb and blastn) have to be installed and export to your PATH
+- BLAST+ (makeblastdb and blastn) have to be installed and export to your PATH
 - mitoFinder: has to be installed [mitoFinder](https://github.com/RemiAllio/MitoFinder) and export to your PATH 
 - Biopython
 - Python Pandas
