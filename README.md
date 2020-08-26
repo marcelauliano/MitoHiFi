@@ -90,7 +90,7 @@ python scripts/rotate.py -i mitogenome.fasta -r <coordinate> > mitogenome.rotate
 If you would like to finalise another ontig as the mitogenome - for studies of heteroplasmy for example - check the output <b>parsed_blast.txt:</b> , chose the contig ID, use the scripts/filterfasta.py to extract only that contig and run the pipeline with it again.
 
 ```
-python scripts/filterfasta.py -i contig.id <your_initial_input > contig.id.fa
+python scripts/filterfasta.py -i contig.id <your_initial_input> > contig.id.fa
 
 sh run_MitoHiFi.sh -c contig.id.fa -f <close-related-mito>.fasta -g <close-related-mito>.gb -t <int> -o <int>
 ```
