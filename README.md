@@ -91,6 +91,7 @@ If you would like to finalise another ontig as the mitogenome - for studies of h
 
 ```
 python scripts/filterfasta.py -i contig.id <your_initial_input > contig.id.fa
+
 sh run_MitoHiFi.sh -c contig.id.fa -f <close-related-mito>.fasta -g <close-related-mito>.gb -t <int> -o <int>
 ```
 
