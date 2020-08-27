@@ -87,7 +87,7 @@ If you would like to rotate your mitogenome to start at tRNA-Phe, check the coor
 ```
 python scripts/rotate.py -i mitogenome.fasta -r <coordinate> > mitogenome.rotated.fa
 ```
-If you would like to finalise another contig as the mitogenome - for studies of heteroplasmy for example - check the output <b>parsed_blast.txt</b> , chose the contig ID, use the scripts/filterfasta.py to extract only that contig and run the pipeline with it again.
+If you would like to finalise another contig as the mitogenome - for studies of heteroplasmy for example - check the output <b>parsed_blast.txt</b> , choose the contig ID, use the scripts/filterfasta.py to extract only that contig and run the pipeline with it again.
 
 ```
 python scripts/filterfasta.py -i contig.id <your_initial_input> > contig.id.fa
