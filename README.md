@@ -20,7 +20,7 @@ The dissemination of high-quality long reads - such as PacBio HiFi - makes the a
 ### Dependencies
 
 - BLAST+ (makeblastdb and blastn) have to be installed and export to your PATH
-- mitoFinder: has to be installed [mitoFinder](https://github.com/RemiAllio/MitoFinder) and export to your PATH 
+- MitoFinder: has to be installed [mitoFinder](https://github.com/RemiAllio/MitoFinder) and export to your PATH 
 - Biopython
 - Python Pandas
 
