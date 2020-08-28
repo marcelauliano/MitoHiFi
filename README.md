@@ -20,7 +20,7 @@ The dissemination of high-quality long reads - such as PacBio HiFi - makes the a
 ### Dependencies
 
 - BLAST+ (makeblastdb and blastn) have to be installed and export to your PATH
-- MitoFinder: has to be installed [mitoFinder](https://github.com/RemiAllio/MitoFinder) and export to your PATH 
+- MitoFinder: has to be installed [MitoFinder](https://github.com/RemiAllio/MitoFinder) and export to your PATH 
 - Biopython
 - Python Pandas
 
@@ -110,5 +110,18 @@ sh run_MitoHiFi.sh -c contig.id.fa -f <close-related-mito>.fasta -g <close-relat
 <b>circularisationCheck.txt</b>  - one liner separated by commas containing: the id of contig, if it circularises or not (True or False), start coordinate of circularisation, end coordinate of circularisation
  
 
+### Citations ####
+
+
+
+Please cite:
+
+- Allio, R, Schomaker‐Bastos, A, Romiguier, J, Prosdocimi, F, Nabholz, B, Delsuc, F. MitoFinder: Efficient automated large‐scale extraction of mitogenomic data in target enrichment phylogenomics. Mol Ecol Resour. 2020; 00: 1– 14. https://doi.org/10.1111/1755-0998.13160
+
+For tRNAs annotation:
+
+- Laslett, D., & Canbäck, B. (2008). ARWEN: a program to detect tRNA genes in metazoan mitochondrial nucleotide sequences. Bioinformatics, 24(2), 172-175.
+
+-------------------
  
  For more information mu2@sanger.ac.uk
