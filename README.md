@@ -114,11 +114,13 @@ sh run_MitoHiFi.sh -c contig.id.fa -f <close-related-mito>.fasta -g <close-relat
 
 
 
-Please cite:
+When using MitoHifi, please cite this github page and
+
+Please cite MitoFinder:
 
 - Allio, R, Schomaker‐Bastos, A, Romiguier, J, Prosdocimi, F, Nabholz, B, Delsuc, F. MitoFinder: Efficient automated large‐scale extraction of mitogenomic data in target enrichment phylogenomics. Mol Ecol Resour. 2020; 00: 1– 14. https://doi.org/10.1111/1755-0998.13160
 
-For tRNAs annotation:
+And for tRNAs annotation:
 
 - Laslett, D., & Canbäck, B. (2008). ARWEN: a program to detect tRNA genes in metazoan mitochondrial nucleotide sequences. Bioinformatics, 24(2), 172-175.
 
