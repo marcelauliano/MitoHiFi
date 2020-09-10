@@ -21,5 +21,4 @@ blast_cov['%subject_in_match'] = blast_cov['alilength']*100 / (blast_cov['s_leng
 #sum percentages of subject sequence in blast match based on column query id and subject id
 a= blast_cov.groupby(['qseqid','sseqid'])['%subject_in_match'].sum().to_frame().rename(columns={'sseqid':'%subject_in_match'}).reset_index()
 a.to_csv("parsed_blast_SumPercSubject.txt", index=False, sep="\t")
-print("If on your new created file 'parsed_blast_SumPercSubject.txt' you see 100% or close to it of your subject in the blast match, its very likely you have a large NUMT pulling all the mitoreads to it. \n You will need to identify those reads and run an assembler 
-again (e.g. hicanu or hifiasm), then come back to MitoHiFi with the mito assembled contigs.")
+print("If on your new created file 'parsed_blast_SumPercSubject.txt' you see 100% or close to it of your subject in the blast match, its very likely you have a large NUMT pulling all the mitoreads to it. \n You will need to identify those reads and run an assembler again (e.g. hicanu or hifiasm), then come back to MitoHiFi with the mito assembled contigs.")
