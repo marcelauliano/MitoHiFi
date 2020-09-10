@@ -54,4 +54,4 @@ ac[(ac['%q_in_match'] > 0)].sort_values(by='%q_in_match', ascending=False)
 ac[(ac['%q_in_match'] > 0)].sort_values(by='%q_in_match', ascending=False).to_csv("parsed_blast.All_QueryLengthPerc.txt", index=False, sep="\t")
 
 
-print("Parsing of blast done. \n -- Are the percentage of your queries length in the blast matches less than 70%? --  \n If so, run 'python scripts/parse_blast_subject.py' and look at the results. \n Its likely you have a large NUMT pulling all the mitoreads to it. You will need to identify those reads and run an assembler again, then come back to MitoHiFi.")
+print("Parsing of blast done!! Have a look at your new created file 'parsed_blast.All_QueryLengthPerc.txt' \n -- Are the percentage of your queries length in the blast matches less than 70%? --  \n If so, run 'python scripts/parse_blast_subject.py' and look at the results. \n Its likely you have a large NUMT pulling all the mitoreads to it. You will need to identify those reads and run an assembler again, then come back to MitoHiFi.")
