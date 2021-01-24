@@ -1,6 +1,6 @@
 # MitoHiFi 
 
------- This is a beta version! -------
+------ This is v1 -------
 
 MitoHiFi distributed under the [license](https://github.com/marcelauliano/MitoHiFi/blob/master/scripts/LICENSE) 
 
