@@ -90,7 +90,7 @@ python scripts/parse_blast.py
 python scripts/filterfasta.py -i contig.id ${contigs} > ${contigs}.mito.fa
 
 #We check for circularisation
-python scripts/circularizationCheck.modified.py ${contigs}.mito.fa
+python scripts/circularizationCheck_modified.py ${contigs}.mito.fa
 
 #If it circularises, we cut the fasta to get only one copy of the mitogenome
 python scripts/cut_coords.py ${contigs}.mito.fa  > mitogenome.fasta
