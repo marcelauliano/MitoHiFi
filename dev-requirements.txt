@@ -1,0 +1,21 @@
+# For testing
+tox
+coverage
+pytest
+pytest-cov
+docker
+
+#Building Docs
+sphinx_rtd_theme
+sphinx-argparse
+sphinx
+CommonMark
+
+# Used for code checking.
+pyflakes
+flake8
+flake8-import-order
+
+# For release
+wheel
+twine
