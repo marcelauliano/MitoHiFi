@@ -92,9 +92,9 @@ python scripts/filterfasta.py -l ${length} -n ${genbank}.HiFiMapped.bam.fasta > 
 
 echo -e "\nNow let's run hifiasm to assemble the mapped and filtered reads!.\n"
 
+hifiasm -t${threads} -o ${genbank}.HiFiMapped.bam.filtered.assembled ${genbank}.HiFiMapped.bam.filtered.fasta 2>hifiasm.log
 
-
-echo -e "\nFirst let's run the blast with the close-related mitogenome\n"
+echo -e "\nNow let's run the blast of the assembled with the close-related mitogenome\n"
 
 makeblastdb -in ${fasta} -dbtype nucl
 echo -e "\nmakeblastdb done. Running blast with CCS contigs\n"
