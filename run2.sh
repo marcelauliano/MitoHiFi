@@ -16,11 +16,11 @@ elif [ $1 == "-h" ]; then
 
 cat<<EOF
 	 Usage: '$0 -c contigs.fasta -f close-related_mitogenome.fasta -g close-related_mitogenome.gb -t threads'
-  -r: Pacbio HiFi reads from your species
+        -r: Pacbio HiFi reads from your species
 	-f: Close-related species mitogenome in fasta format
 	-g: Close-related species mitogenome in genbank format 
 	-t: Number of threads for (i) hifiasm and (ii) the blast search 
-  -l: Length of the close-related mitogenome (to filter out possible NUMTs)
+        -l: Length of the close-related mitogenome (to filter out possible NUMTs)
 	-o: <integer> MitoFinder parameter: Organism genetic code following NCBI table (integer):
                         1. The Standard Code 2. The Vertebrate Mitochondrial
                         Code 3. The Yeast Mitochondrial Code 4. The Mold,
@@ -94,12 +94,16 @@ echo -e "\nNow let's run hifiasm to assemble the mapped and filtered reads!.\n"
 
 hifiasm -t${threads} -o ${genbank}.HiFiMapped.bam.filtered.assembled ${genbank}.HiFiMapped.bam.filtered.fasta 2>hifiasm.log
 
-echo -e "\nNow let's run the blast of the assembled with the close-related mitogenome\n"
+scripts/gfa2fa ${genbank}.HiFiMapped.bam.filtered.assembled.p_ctg.gfa > ${genbank}.HiFiMapped.bam.filtered.assembled.p_ctg.fa
+scripts/gfa2fa ${genbank}.HiFiMapped.bam.filtered.assembled.a_ctg.gfa > ${genbank}.HiFiMapped.bam.filtered.assembled.a_ctg.fa
+cat ${genbank}.HiFiMapped.bam.filtered.assembled.p_ctg.fa ${genbank}.HiFiMapped.bam.filtered.assembled.a_ctg.fa > hifiasm.contigs.fasta
+
+echo -e "\nNow let's run the blast of the assembled contigs with the close-related mitogenome\n"
 
 makeblastdb -in ${fasta} -dbtype nucl
-echo -e "\nmakeblastdb done. Running blast with CCS contigs\n"
+echo -e "\nmakeblastdb done. Running blast with the assembled hifiasm contigs\n"
 
-blastn -query ${contigs} -db ${fasta} -num_threads ${threads} -out contigs.blastn -outfmt '6 std qlen slen'
+blastn -query hifiasm.contigs.fasta -db ${fasta} -num_threads ${threads} -out contigs.blastn -outfmt '6 std qlen slen'
 echo -e "Blast done!\n"
 
 #the next script parses a series of conditions to exclude blast with NUMTs. 
