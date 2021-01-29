@@ -17,7 +17,8 @@ RAW_CONTENT_URL = "https://raw.github.com/%s/%s/master/" % (
 )
 
 TEST_DIR = 'exampleFiles'
-PROJECT_DESCRIPTION = 'MitoHiFi circularises, cuts and annotates the mitogenome from contigs assembled with PacBio HiFi reads and softwares such as HiCanu or Hifiasm.'
+PROJECT_DESCRIPTION = '''MitoHiFi circularises, cuts and annotates the mitogenome from contigs assembled with
+                         PacBio HiFi reads and softwares such as HiCanu or Hifiasm.'''
 ENTRY_POINTS = '''
         [console_scripts]
         circularization-check=mitohifi.circularizationCheck_modified:main
