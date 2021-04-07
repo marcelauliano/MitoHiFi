@@ -7,13 +7,20 @@ MitoHiFi distributed under the [license](https://github.com/marcelauliano/MitoHi
 --------------------------------------
 
 
-<b>MitoHiFi</b> circularises, cuts and annotates the mitogenome from contigs assembled with PacBio HiFi reads and softwares such as HiCanu or Hifiasm.
+<b>MitoHiFi</b> assembles your mitogenome from Pacbio HiFi reads.
 
-The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straight forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in multiple-copy mitogenome-contigs. This pipeline was developed to finalise the assembly and annotation of the mitogenome by:
+With Mitoifi_v2 you can start from raw Pacbio HiFi reads (flag -r) or from assembled contigs (flag -c). You will also going to need a close-relates mitochondria sequence in fasta and gb. But we have an internal script that is going to download it for you from NCBI.
 
-(i) finding it among complete genome assembled contigs     
-(ii) circularising and cutting it to represent only one copy of the circular molecule and  
-(iii) producing an annotation and presenting it in fasta and genbank format.
+######
+
+The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straight forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in multiple-copy mitogenome-contigs. This pipeline was developed to finalise the assembly and annotation of the mitogenome. It will also going to dected different variants of the mitogenome present in your sample. At the end you are going to have a final consensus assembled and annotated and the same for the variants. In addtion, you will find an aligment of all the variants to facilitate your analysis.
+
+MitoHifi v2 will:
+
+(i) extract mito reads and assemble them with hifiasm (flag -r), or find the mito contigs among assembled contigs (flag -c)    
+(ii) indetify and separate NUMTS from real mitochontigs  
+(iii) generate a circularized, non-redudant version of the mitochondria sequences present in your sample
+(iv) 
 
 - This pipeline can also be ran starting from polished PacBio CLR contigs or ONT contigs. You must be sure your contigs are well polished.
 
