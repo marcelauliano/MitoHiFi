@@ -2,7 +2,7 @@
 
 ------ This is v2 -------
 
-MitoHiFi distributed under the [license](https://github.com/marcelauliano/MitoHiFi/blob/master/scripts/LICENSE) 
+MitoHiFi is a python pipeline distributed under the [license](https://github.com/marcelauliano/MitoHiFi/blob/master/scripts/LICENSE) 
 
 --------------------------------------
 
@@ -11,7 +11,8 @@ MitoHiFi distributed under the [license](https://github.com/marcelauliano/MitoHi
 
 With Mitoifi_v2 you can start from raw Pacbio HiFi reads (flag -r) or from assembled contigs (flag -c). You will also going to need a close-relates mitochondria sequence in fasta and gb. But we have an internal script that is going to download it for you from NCBI.
 
-######
+-----
+-----
 
 The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straight forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in multiple-copy mitogenome-contigs. This pipeline was developed to finalise the assembly and annotation of the mitogenome. It will also going to dected different variants of the mitogenome present in your sample. At the end you are going to have a final consensus assembled and annotated and the same for the variants. In addtion, you will find an aligment of all the variants to facilitate your analysis.
 
@@ -19,10 +20,15 @@ MitoHifi v2 will:
 
 (i) extract mito reads and assemble them with hifiasm (flag -r), or find the mito contigs among assembled contigs (flag -c)    
 (ii) indetify and separate NUMTS from real mitochontigs  
-(iii) generate a circularized, non-redudant version of the mitochondria sequences present in your sample
-(iv) 
+(iii) generate a circularized, non-redudant and annotated version of all the mitochondria sequences present in your sample
+(iv) choose a final consensus as the final mitochondria
 
-- This pipeline can also be ran starting from polished PacBio CLR contigs or ONT contigs. You must be sure your contigs are well polished.
+-----
+-----
+
+### Installation
+
+There are two ways to install MitoHifi_v2 at the moment; (i) mannually - and then you will need to have all the dependencis on your PATH, or with (ii) a singularity image.
 
 ### Dependencies
 
@@ -30,6 +36,11 @@ MitoHifi v2 will:
 - MitoFinder: has to be installed [MitoFinder](https://github.com/RemiAllio/MitoFinder) and export to your PATH 
 - Biopython
 - Python Pandas
+- Mafft
+- cdhit
+- hifiasm
+- samtools
+- minimap2
 
 <b>Installation</b>
 
@@ -41,7 +52,7 @@ git clone https://github.com/marcelauliano/MitoHiFi.git
 
 ```
 
-### Test run
+### Running MitoHifi_v2 with test data
 
 ```
 cd MitoHiFi
