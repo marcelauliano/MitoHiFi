@@ -1,6 +1,6 @@
 # MitoHiFi 
 
------- This is v1 -------
+------ This is v2 -------
 
 MitoHiFi distributed under the [license](https://github.com/marcelauliano/MitoHiFi/blob/master/scripts/LICENSE) 
 
