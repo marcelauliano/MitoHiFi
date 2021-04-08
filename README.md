@@ -7,14 +7,14 @@ MitoHiFi is a python pipeline distributed under the [license](https://github.com
 --------------------------------------
 
 
-<b>MitoHiFi</b> assembles your mitogenome from Pacbio HiFi reads.
+<b>MitoHiFi</b> assembles a species mitogenome from Pacbio HiFi reads.
 
-With Mitoifi_v2 you can start from raw Pacbio HiFi reads (flag -r) or from assembled contigs (flag -c). You will also going to need a close-relates mitochondria sequence in fasta and gb. But we have an internal script that is going to download it for you from NCBI.
+With Mitoifi.v2 you can start from raw Pacbio HiFi reads (flag -r) or from assembled contigs (flag -c). You will also going to need a close-related mitochondria sequence in fasta and gb format. We have an internal script that can download it for you from NCBI (findMitoReference.py).
 
 -----
 -----
 
-The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straight forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in multiple-copy mitogenome-contigs. This pipeline was developed to finalise the assembly and annotation of the mitogenome. It will also going to dected different variants of the mitogenome present in your sample. At the end you are going to have a final consensus assembled and annotated and the same for the variants. In addtion, you will find an aligment of all the variants to facilitate your analysis.
+The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straight forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in multiple-copy mitogenome-contigs. This pipeline was developed to finalise the assembly and annotation of the mitogenome. It will also dected different variants of the mitogenome present in your sample. At the end you are going to have all the variants assembled and annotated, and MitoHiFi.v2 is going to choose a final consensus sequence. In addtion, you will find an aligment of all the variants to facilitate your analysis of mitochondria heteroplasmy.
 
 MitoHifi v2 will:
 
@@ -28,9 +28,9 @@ MitoHifi v2 will:
 
 ### Installation
 
-There are two ways to install MitoHifi_v2 at the moment; (i) mannually - and then you will need to have all the dependencis on your PATH, or with (ii) a singularity image.
+There are two ways to install MitoHifi.v2 at the moment; (i) mannually - and then you will need to have all the dependencies installed in your PATH, or with (ii) a singularity image.
 
-### Dependencies
+### Manual installation - Dependencies
 
 - BLAST+ (makeblastdb and blastn) have to be installed and export to your PATH
 - MitoFinder: has to be installed [MitoFinder](https://github.com/RemiAllio/MitoFinder) and export to your PATH 
@@ -44,13 +44,28 @@ There are two ways to install MitoHifi_v2 at the moment; (i) mannually - and the
 
 <b>Installation</b>
 
-### Get and install MitoHiFi (Linux)
+### Once dependencies are done, install MitoHiFi.v2 (Linux)
 
 ```
 
 git clone https://github.com/marcelauliano/MitoHiFi.git
 
 ```
+
+### Running MitoHiFi.v2 from a Singularity image
+
+We recommned using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to -r
+
+MitoHiFi.v2 was wrapped up into singularity container which you can use as:
+
+singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v3.sif  mitohifi-v3-fromCirc_v02.11.3.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb  -t 20 -o 2
+
+Singluarity versions lower than 3.7 do not support spaces in the arguments, so if you want to pass several read datasets as in the example above use singularity version 3.7 or higher. 
+
+The script for creating the reference files is incorporated into singularity image and can be used as follows:
+
+singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v3.sif  findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
+
 
 ### Running MitoHifi_v2 with test data
 
