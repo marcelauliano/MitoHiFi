@@ -7,7 +7,7 @@ MitoHiFi is a python pipeline distributed under the [license](https://github.com
 --------------------------------------
 
 
-<b>MitoHiFi</b> assembles a species mitogenome from Pacbio HiFi reads.
+## <b>MitoHiFi</b> is a python workflow that assembles a species mitogenome from Pacbio HiFi reads.
 
 With Mitoifi.v2 you can start from raw Pacbio HiFi reads (flag -r) or from assembled contigs (flag -c). You will also going to need a close-related mitochondria sequence in fasta and gb format. We have an internal script that can download it for you from NCBI (findMitoReference.py).
 
