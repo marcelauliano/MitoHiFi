@@ -41,19 +41,12 @@ MitoHifi.v2 was developed with the following software versions:
 blast version 2.6.0
 
 [MitoFinder version 1.4](https://github.com/RemiAllio/MitoFinder)
-
 Biopython version 1.78
-
 Pandas version 1.1.3
-
 MAFFT version 7.475
-
 HiFiasm 0.14-r312
-
 CD-HIT version 4.8.1
-
 samtools version 1.7
-
 minimap version 2.17-r941 
 
 <b>Installation</b>
@@ -96,15 +89,16 @@ sh run_MitoHiFi.sh -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1 -o 5
 ```
 ### Required arguments
 
-1-) To run this pipeline, first you need a close-related mitochondria in fasta and genbank format. We have a script that can help you find this input. Giving the name of the species you are assembling, the script is going to look for the closest mitochondria it can find on NCBI. You can give the parameter -s to the script if you would like to download a partial mitochondria, but only for a species of the same genus. Otherwise, without -s, the script is going to search for complete mitochondrias only and as close as possible to your species on interest.
+1-) To run this pipeline, first you need a close-related mitochondria in fasta and genbank format. We have a script that can help you find this input. Giving the name of the species you are assembling, the script is going to look for the closest mitochondria it can find on NCBI. You can give the parameter **-s** to the script if you would like to restrict your mitochondria search for species within your given genus, but this means the script can download partial mitochondrial sequences. Otherwise, without **-s**, the script is going to search for complete mitochondrias only and as close as possible to your species on interest.
 
 Using the species in our test data as an example, you would do:
 
+```
 findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000
+```
+This will output you xxx.fasta and xxx.gb that you will use as flags **-f** and **-g** in the main pipeline.
 
-This will output you xxx.fasta and xxx.gb that you will use as flags -f and -g in the main pipeline.
-
-2-) Now, you need to decide if you are running MitoHiFi.v2 from (i) raw reads, in which case the pipeline is going to mapp your reads to the close-related species and then assemble the with Hifiasm, or (ii) your already have a Pacbio HiFi assembly and you are going to give the contigs to the pipeline (flag -c).
+2-) Now, you need to decide if you are running MitoHiFi.v2 from (i) raw reads, in which case the pipeline is going to map your reads to the close-related species and then assemble the using Hifiasm, or (ii) your already have a Pacbio HiFi assembly and you are going to give the contigs to the pipeline (flag **-c**).
 
 2.1-) If you are starting from raw reads, your required commands are:
 
