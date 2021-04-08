@@ -15,6 +15,8 @@ With Mitoifi.v2 you can start from raw Pacbio HiFi reads (flag -r) or from assem
 
 *The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straight forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in multiple-copy mitogenome-contigs. This pipeline was developed to finalise the assembly and annotation of the mitogenome. It will also dected different variants of the mitogenome present in your sample. At the end you are going to have all the variants assembled and annotated, and MitoHiFi.v2 is going to choose a final consensus sequence. In addtion, you will find an aligment of all the variants to facilitate your analysis of mitochondria heteroplasmy.*
 
+
+
 MitoHifi v2 will:
 
 (i) extract mito reads and assemble them with hifiasm (flag -r), or find the mito contigs among assembled contigs (flag -c)    
@@ -22,8 +24,10 @@ MitoHifi v2 will:
 (iii) generate a circularized, non-redudant and annotated version of all the mitochondria sequences present in your sample
 (iv) choose a final consensus as the final mitochondria
 
+
 -----
------
+
+
 
 ### Installation
 
@@ -31,15 +35,18 @@ There are two ways to install MitoHifi.v2 at the moment; (i) mannually - and the
 
 ### Manual installation - Dependencies
 
-- BLAST+ (makeblastdb and blastn) have to be installed and export to your PATH
-- MitoFinder: has to be installed [MitoFinder](https://github.com/RemiAllio/MitoFinder) and export to your PATH 
-- Biopython
-- Python Pandas
-- Mafft
-- cdhit
-- hifiasm
-- samtools
-- minimap2
+All the software listes bellow have to be installed an exported to your PATH. 
+MitoHifi.v2 was developed with the following software versions:
+
+blast version 2.6.0
+[MitoFinder version 1.4](https://github.com/RemiAllio/MitoFinder)
+Biopython version 1.78
+Pandas version 1.1.3
+MAFFT version 7.475
+HiFiasm 0.14-r312
+CD-HIT version 4.8.1
+samtools version 1.7
+minimap version 2.17-r941 
 
 <b>Installation</b>
 
@@ -53,9 +60,9 @@ git clone https://github.com/marcelauliano/MitoHiFi.git
 
 ### Running MitoHiFi.v2 from a Singularity image
 
-We recommned using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to -r
+We have wrapped up MitoHiFi.v2 code into a singularity container. We recommned using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag -r
 
-MitoHiFi.v2 was wrapped up into singularity container which you can use as:
+MitoHiFi.v2 siungularity can be commanded as:
 
 singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v3.sif  mitohifi-v3-fromCirc_v02.11.3.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb  -t 20 -o 2
 
