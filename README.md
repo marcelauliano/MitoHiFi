@@ -79,6 +79,75 @@ sh run_MitoHiFi.sh -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1 -o 5
 ```
 ### Required arguments
 
+1-) To run this pipeline, first you need a close-related mitochondria in fasta and genbank format. We have a script that can help you find this input. Giving the name of the species you are assembling, the script is going to look for the closest mitochondria it can find on NCBI. You can give the parameter -s to the script if you would like to download a partial mitochondria, but only for a species of the same genus. Otherwise, without -s, the script is going to search for complete mitochondrias only and as close as possible to your species on interest.
+
+Using the species in our test data as an example, you would do:
+
+findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000
+
+This will output you xxx.fasta and xxx.gb that you will use as flags -f and -g in the main pipeline.
+
+2-) Now, you need to decide if you are running MitoHiFi.v2 from (i) raw reads, in which case the pipeline is going to mapp your reads to the close-related species and then assemble the with Hifiasm, or (ii) your already have a Pacbio HiFi assembly and you are going to give the contigs to the pipeline (flag -c).
+
+2.1-) If you are starting from raw reads, your required commands are:
+
+```
+Usage: 'python mitohifi_v2.py -r "f1.fasta f2.fasta f3.fasta" -f reference.fasta -g reference.gb  -t <int> -o <int> '
+
+Parameters descriptions:
+	-r: PacBio HiFi reads
+	-f: Close-related species mitogenome in fasta format
+	-g: Close-related species mitogenome in genbank format 
+	-t: Number of threads for minimap2, hifiasm and the blast search 
+	-o: <integer> MitoFinder parameter: Organism genetic code following NCBI table (integer):
+                        1. The Standard Code 2. The Vertebrate Mitochondrial
+                        Code 3. The Yeast Mitochondrial Code 4. The Mold,
+                        Protozoan, and Coelenterate Mitochondrial Code and the
+                        Mycoplasma/Spiroplasma Code 5. The Invertebrate
+                        Mitochondrial Code 6. The Ciliate, Dasycladacean and
+                        Hexamita Nuclear Code 9. The Echinoderm and Flatworm
+                        Mitochondrial Code 10. The Euplotid Nuclear Code 11.
+                        The Bacterial, Archaeal and Plant Plastid Code 12. The
+                        Alternative Yeast Nuclear Code 13. The Ascidian
+                        Mitochondrial Code 14. The Alternative Flatworm
+                        Mitochondrial Code 16. Chlorophycean Mitochondrial
+                        Code 21. Trematode Mitochondrial Code 22. Scenedesmus
+                        obliquus Mitochondrial Code 23. Thraustochytrium
+                        Mitochondrial Code 24. Pterobranchia Mitochondrial
+                        Code 25. Candidate Division SR1 and Gracilibacteria
+ ```
+
+2.2-) If you are starting from assembled contigs, your required commands are:
+
+```
+Usage: 'python mitohifi_v2.py -c contigs.fasta -f reference.fasta -g reference.gb  -t <int> -o <int> '
+
+Parameters descriptions:
+	-c: contigs # from assemblers such as Hicanu or Hifiasm
+	-f: Close-related species mitogenome in fasta format
+	-g: Close-related species mitogenome in genbank format 
+	-t: Number of threads for minimap2, hifiasm and the blast search 
+	-o: <integer> MitoFinder parameter: Organism genetic code following NCBI table (integer):
+                        1. The Standard Code 2. The Vertebrate Mitochondrial
+                        Code 3. The Yeast Mitochondrial Code 4. The Mold,
+                        Protozoan, and Coelenterate Mitochondrial Code and the
+                        Mycoplasma/Spiroplasma Code 5. The Invertebrate
+                        Mitochondrial Code 6. The Ciliate, Dasycladacean and
+                        Hexamita Nuclear Code 9. The Echinoderm and Flatworm
+                        Mitochondrial Code 10. The Euplotid Nuclear Code 11.
+                        The Bacterial, Archaeal and Plant Plastid Code 12. The
+                        Alternative Yeast Nuclear Code 13. The Ascidian
+                        Mitochondrial Code 14. The Alternative Flatworm
+                        Mitochondrial Code 16. Chlorophycean Mitochondrial
+                        Code 21. Trematode Mitochondrial Code 22. Scenedesmus
+                        obliquus Mitochondrial Code 23. Thraustochytrium
+                        Mitochondrial Code 24. Pterobranchia Mitochondrial
+                        Code 25. Candidate Division SR1 and Gracilibacteria
+ ```
+
+
+
+- 
 - To run this pipeline you need 3 inputs: (i) your multifasta contig files, and a close-related species mitochondrial genome in (ii) fasta and in (iii) genbank format.
 
 ```
