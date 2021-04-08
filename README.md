@@ -64,14 +64,17 @@ We have wrapped up MitoHiFi.v2 code into a singularity container. We recommned u
 
 MitoHiFi.v2 siungularity can be commanded as:
 
-singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v3.sif  mitohifi-v3-fromCirc_v02.11.3.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb  -t 20 -o 2
+```
+singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.sif  mitohifi_v2.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb  -t 10 -o 2
+```
 
 Singluarity versions lower than 3.7 do not support spaces in the arguments, so if you want to pass several read datasets as in the example above use singularity version 3.7 or higher. 
 
-The script for creating the reference files is incorporated into singularity image and can be used as follows:
+The script for generating the reference files is incorporated into the singularity image and can be called as follows:
 
+```
 singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v3.sif  findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
-
+```
 
 ### Running MitoHifi_v2 with test data
 
