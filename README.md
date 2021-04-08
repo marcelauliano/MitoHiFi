@@ -11,10 +11,9 @@ MitoHiFi is a python pipeline distributed under the [license](https://github.com
 
 With Mitoifi.v2 you can start from raw Pacbio HiFi reads (flag -r) or from assembled contigs (flag -c). You will also going to need a close-related mitochondria sequence in fasta and gb format. We have an internal script that can download it for you from NCBI (findMitoReference.py).
 
------
------
 
-The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straight forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in multiple-copy mitogenome-contigs. This pipeline was developed to finalise the assembly and annotation of the mitogenome. It will also dected different variants of the mitogenome present in your sample. At the end you are going to have all the variants assembled and annotated, and MitoHiFi.v2 is going to choose a final consensus sequence. In addtion, you will find an aligment of all the variants to facilitate your analysis of mitochondria heteroplasmy.
+
+*The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straight forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in multiple-copy mitogenome-contigs. This pipeline was developed to finalise the assembly and annotation of the mitogenome. It will also dected different variants of the mitogenome present in your sample. At the end you are going to have all the variants assembled and annotated, and MitoHiFi.v2 is going to choose a final consensus sequence. In addtion, you will find an aligment of all the variants to facilitate your analysis of mitochondria heteroplasmy.*
 
 MitoHifi v2 will:
 
