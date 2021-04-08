@@ -77,16 +77,6 @@ The script for generating the reference files is incorporated into the singulari
 singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v3.sif  findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
 ```
 
-### Running MitoHifi_v2 with test data
-
-```
-cd MitoHiFi
-cd exampleFiles
-ln -s ../scripts
-ln -s ../run_MitoHiFi.sh
-sh run_MitoHiFi.sh -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb -t 1 -o 5
-
-```
 ### Required arguments
 
 1-) To run this pipeline, first you need a close-related mitochondria in fasta and genbank format. We have a script that can help you find this input. Giving the name of the species you are assembling, the script is going to look for the closest mitochondria it can find on NCBI. You can give the parameter **-s** to the script if you would like to restrict your mitochondria search for species within your given genus, but this means the script can download partial mitochondrial sequences. Otherwise, without **-s**, the script is going to search for complete mitochondrias only and as close as possible to your species on interest.
@@ -154,37 +144,20 @@ Parameters descriptions:
                         obliquus Mitochondrial Code 23. Thraustochytrium
                         Mitochondrial Code 24. Pterobranchia Mitochondrial
                         Code 25. Candidate Division SR1 and Gracilibacteria
- ```
+
+
+### Running MitoHifi_v2 with test data
+
+- Download the data from the exampleFiles folder. The fasta and .gb file for NC_016067.1 will be your **-f** and **-g** inputs, respectively. Remember you could have gotten those files with the script findMitoReference.py.
+- Now run the test with the test.fa
+
 
 
 
 - 
 - To run this pipeline you need 3 inputs: (i) your multifasta contig files, and a close-related species mitochondrial genome in (ii) fasta and in (iii) genbank format.
 
-```
-Usage: 'sh run_mitoHiFi.sh -c contigs.fasta -f close-related_mitogenome.fasta -g close-related_mitogenome.gb -t threads -o <integer>'
-Parameters:	
-	-c: assemnbled fasta contigs/scaffolds to be searched to find mitogenome
-	-f: Close-related species mitogenome in fasta format
-	-g: Close-related species mitogenome in genbank format 
-	-t: Number of threads for the blast search 
-	-o: <integer> MitoFinder parameter: Organism genetic code following NCBI table (integer):
-                        1. The Standard Code 2. The Vertebrate Mitochondrial
-                        Code 3. The Yeast Mitochondrial Code 4. The Mold,
-                        Protozoan, and Coelenterate Mitochondrial Code and the
-                        Mycoplasma/Spiroplasma Code 5. The Invertebrate
-                        Mitochondrial Code 6. The Ciliate, Dasycladacean and
-                        Hexamita Nuclear Code 9. The Echinoderm and Flatworm
-                        Mitochondrial Code 10. The Euplotid Nuclear Code 11.
-                        The Bacterial, Archaeal and Plant Plastid Code 12. The
-                        Alternative Yeast Nuclear Code 13. The Ascidian
-                        Mitochondrial Code 14. The Alternative Flatworm
-                        Mitochondrial Code 16. Chlorophycean Mitochondrial
-                        Code 21. Trematode Mitochondrial Code 22. Scenedesmus
-                        obliquus Mitochondrial Code 23. Thraustochytrium
-                        Mitochondrial Code 24. Pterobranchia Mitochondrial
-                        Code 25. Candidate Division SR1 and Gracilibacteria
- ```
+
  
  ### Output
  
