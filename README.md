@@ -39,13 +39,21 @@ All the software listes bellow have to be installed an exported to your PATH.
 MitoHifi.v2 was developed with the following software versions:
 
 blast version 2.6.0
+
 [MitoFinder version 1.4](https://github.com/RemiAllio/MitoFinder)
+
 Biopython version 1.78
+
 Pandas version 1.1.3
+
 MAFFT version 7.475
+
 HiFiasm 0.14-r312
+
 CD-HIT version 4.8.1
+
 samtools version 1.7
+
 minimap version 2.17-r941 
 
 <b>Installation</b>
