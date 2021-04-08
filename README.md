@@ -2,7 +2,7 @@
 
 ------ This is v2 -------
 
-MitoHiFi is a python pipeline distributed under the [license](https://github.com/marcelauliano/MitoHiFi/blob/master/scripts/LICENSE) 
+MitoHiFi is a python pipeline distributed under the [license](LICENSE)
 
 --------------------------------------
 
