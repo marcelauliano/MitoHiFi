@@ -35,11 +35,10 @@ There are two ways to install MitoHifi.v2 at the moment; (i) mannually - and the
 
 ### Manual installation - Dependencies
 
-All the software listes bellow have to be installed an exported to your PATH. 
-MitoHifi.v2 was developed with the following software versions:
+All the software listed bellow have to be installed an exported to your PATH. 
+MitoHifi.v2 was developed and tested with the following software versions:
 
-blast version 2.6.0
-
+Blast version 2.6.0
 [MitoFinder version 1.4](https://github.com/RemiAllio/MitoFinder)
 Biopython version 1.78
 Pandas version 1.1.3
@@ -63,7 +62,7 @@ git clone https://github.com/marcelauliano/MitoHiFi.git
 
 We have wrapped up MitoHiFi.v2 code into a singularity container. We recommned using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag -r
 
-MitoHiFi.v2 siungularity can be commanded as:
+MitoHiFi.v2 siungularity should be called as:
 
 ```
 singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.sif  mitohifi_v2.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb  -t 10 -o 2
