@@ -83,13 +83,15 @@ singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v3.sif  
 Using the species in our test data as an example, you would do:
 
 ```
-findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000
+findMitoReference.py --species "Phalera bucephala" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000
 ```
-This will output you xxx.fasta and xxx.gb that you will use as flags **-f** and **-g** in the main pipeline.
+This command will output you NC_016067.1.fasta and NC_016067.1.gb that you will use as flags **-f** and **-g** in the main pipeline.
 
-2-) Now, you need to decide if you are running MitoHiFi.v2 from (i) raw reads, in which case the pipeline is going to map your reads to the close-related species and then assemble the using Hifiasm, or (ii) your already have a Pacbio HiFi assembly and you are going to give the contigs to the pipeline (flag **-c**).
+2-) Now, you need to decide if you are running MitoHiFi.v2 from:
+(i) raw reads, in which case the pipeline is going to map your reads to the close-related species (to pull out mito-reads and exclude possible NUMTS) and then assemble them using Hifiasm, or 
+(ii) your already have a Pacbio HiFi assembly and you are going to give the contigs to the pipeline (flag **-c**).
 
-2.1-) If you are starting from raw reads, your required commands are:
+2.1-) If you are starting from raw reads, your required arguments are:
 
 ```
 Usage: 'python mitohifi_v2.py -r "f1.fasta f2.fasta f3.fasta" -f reference.fasta -g reference.gb  -t <int> -o <int> '
@@ -117,7 +119,7 @@ Parameters descriptions:
                         Code 25. Candidate Division SR1 and Gracilibacteria
  ```
 
-2.2-) If you are starting from assembled contigs, your required commands are:
+2.2-) If you are starting from assembled contigs, your required arguments are:
 
 ```
 Usage: 'python mitohifi_v2.py -c contigs.fasta -f reference.fasta -g reference.gb  -t <int> -o <int> '
@@ -147,20 +149,20 @@ Parameters descriptions:
 
 ### Running MitoHifi_v2 with test data
 
+- Use your singularity container image or have all the dependencies in your path then,
 - Download the data from the exampleFiles folder. The fasta and .gb file for NC_016067.1 will be your **-f** and **-g** inputs, respectively. Remember you could have gotten those files with the script findMitoReference.py.
-- Now run the test with the test.fa
+- Now run the test with the assembled contigs called test.fa
 
 
-
-
-- 
-- To run this pipeline you need 3 inputs: (i) your multifasta contig files, and a close-related species mitochondrial genome in (ii) fasta and in (iii) genbank format.
-
+'python mitohifi_v2.py -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb  -t <int> -o 5 '
 
  
- ### Output
+ ### Outputs
  
  ```
+ 
+ 
+ 
  mitogenome.fasta  - this is your final mitogenome in fasta format
  
 Inside 'mitogenome.annotation/mitogenome.annotation_Final_Results/' you find mitogenome.annotation_mtDNA_contig.gb, which is the annotation of your mitogenome performed by mitofinder and outputed in genbank format. 
