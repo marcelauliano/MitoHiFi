@@ -156,12 +156,35 @@ Parameters descriptions:
 
 'python mitohifi_v2.py -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb  -t <int> -o 5 '
 
- 
- ### Outputs
- 
  ```
  
  
+ ### Outputs
+ 
+MitoHifi will produce a series of folders with the results. The main result will be in your working folder and it constitutes of:
+- final_mitogenome.fasta - the final mitochondria circularized and rotated to start at tRNA-Phe
+- final_mitogenome.gb - the final mitochondria annotated in genbank format.
+
+## Further outputs
+
+ Folders:
+ 
+ contigs_filtering will contain 3 outputs:
+ 
+- parsed_blast.txt - 
+- parsed_blast_all.txt
+- contigs_ids.txt
+- contigs.blastn - this will show blast results 
+ 
+ <b>parsed_blast.txt</b>   - tab separated file with 4 columns as follows
+
+
+ - qseqid - the ID of your input contigs
+ - %q_in_match - a percentage of the length of your contig in a blast match with the close related species  
+ - leng_query - length of your contig
+ - s_length  lenght of the close-related mitogenome given
+ 
+ <b>contigs.blastn</b> - outfmt 6 blast output plus 2 extra columns containing respectively length_of_query and length_of_subject 
  
  mitogenome.fasta  - this is your final mitogenome in fasta format
  
