@@ -197,6 +197,8 @@ Folder **final_mitogenome_choice** will contain a few files, the most important 
 
 ## Important parameter to change and test
 
+Mitohifi is going to pull possible mito contigs by blasting your contigs with the close-related mito. The Default parameter **-p** is going to chose any contig which has 50% or more of its length in the blast match. This is the default because with invertebrate taxa from the Darwin Tree of Life we have been seeing that the repetitive portion of the mitogenomes is not very conserved between even close-related taxa. 
+
 The parameter **-p** 
 
 
