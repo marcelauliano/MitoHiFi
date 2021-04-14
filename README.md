@@ -64,6 +64,13 @@ git clone --branch mitohifi_v2 https://github.com/marcelauliano/MitoHiFi.git
 
 ### Running MitoHiFi.v2 from a Singularity image
 
+In order to build the Docker image:
+
+```
+cd MitoHifi
+docker build .
+```
+
 We have wrapped up MitoHiFi.v2 code into a singularity container. We recommned using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag -r
 
 MitoHiFi.v2 siungularity should be called as:
@@ -77,7 +84,7 @@ Singluarity versions lower than 3.7 do not support spaces in the arguments, so i
 The script for generating the reference files is incorporated into the singularity image and can be called as follows:
 
 ```
-singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v3.sif  findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
+singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.sif  findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
 ```
 
 ### Required arguments
