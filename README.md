@@ -20,7 +20,7 @@ With Mitoifi.v2 you can start from raw Pacbio HiFi reads (flag -r) or from assem
 MitoHifi v2 will:
 
 (i) extract mito reads and assemble them with hifiasm (flag -r), or find the mito contigs among assembled contigs (flag -c)    
-(ii) indetify and separate NUMTS from real mitochontigs  
+(ii) indentify and separate NUMTS from real mitochontigs  
 (iii) generate a circularized, non-redudant and annotated version of all the mitochondria sequences present in your sample	
 (iv) choose a final consensus as the final mitochondria
 
