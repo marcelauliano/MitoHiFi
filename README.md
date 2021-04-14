@@ -2,7 +2,10 @@
 
 ------ This is v2 -------
 
-MitoHiFi is a python pipeline distributed under the [license](LICENSE)
+MitoHiFi is a python pipeline distributed under the [License](LICENSE)
+
+
+MitoHifi was first developed to assemble the mitogenomes of the Darwin Tree of Life Project 
 
 --------------------------------------
 
