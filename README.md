@@ -21,7 +21,7 @@ MitoHifi v2 will:
 
 (i) extract mito reads and assemble them with hifiasm (flag -r), or find the mito contigs among assembled contigs (flag -c)    
 (ii) indetify and separate NUMTS from real mitochontigs  
-(iii) generate a circularized, non-redudant and annotated version of all the mitochondria sequences present in your sample
+(iii) generate a circularized, non-redudant and annotated version of all the mitochondria sequences present in your sample	
 (iv) choose a final consensus as the final mitochondria
 
 
@@ -35,7 +35,7 @@ There are two ways to install MitoHifi.v2 at the moment; (i) mannually - and the
 
 ### Manual installation - Dependencies
 
-All the software listed bellow have to be installed an exported to your PATH. 
+All the software listed bellow have to be installed and exported to your PATH. 
 MitoHifi.v2 was developed and tested with the following software versions:
 
 - Blast version 2.6.0 
