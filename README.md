@@ -169,51 +169,24 @@ MitoHifi will produce a series of folders with the results. The main result will
 
  Folders:
  
- contigs_filtering will contain 3 outputs:
+ **contigs_filtering** will contain 3 outputs:
  
-- parsed_blast.txt - 
+- parsed_blast.txt 
 - parsed_blast_all.txt
 - contigs_ids.txt
-- contigs.blastn - this will show blast results 
+- contigs.blastn - outfmt 6 blast output plus 2 extra columns containing respectively length_of_query and length_of_subject 
  
- <b>parsed_blast.txt</b>   - tab separated file with 4 columns as follows
-
+ Columns descriptions
+ <b>parsed_blast.txt</b> and <b>parsed_blast.txt</b> - tab separated files with 4 columns as follows
 
  - qseqid - the ID of your input contigs
- - %q_in_match - a percentage of the length of your contig in a blast match with the close related species  
+ - %q_in_match - a percentage of the length of your contig in a blast match with the close related species reference
  - leng_query - length of your contig
- - s_length  lenght of the close-related mitogenome given
+ - s_length - lenght of the close-related mitogenome given
+ - perc - how much percente the leng_query is in relation to s_length
  
- <b>contigs.blastn</b> - outfmt 6 blast output plus 2 extra columns containing respectively length_of_query and length_of_subject 
+
  
- mitogenome.fasta  - this is your final mitogenome in fasta format
- 
-Inside 'mitogenome.annotation/mitogenome.annotation_Final_Results/' you find mitogenome.annotation_mtDNA_contig.gb, which is the annotation of your mitogenome performed by mitofinder and outputed in genbank format. 
- 
-```
-### Further
-
-If you would like to rotate your mitogenome to start at tRNA-Phe, check the coordinates of it on your genbank file and run:
-```
-python scripts/rotate.py -i mitogenome.fasta -r <coordinate> > mitogenome.rotated.fa
-```
-If you would like to finalise another contig as the mitogenome - for studies of heteroplasmy for example - check the output <b>parsed_blast.txt</b> , choose the contig ID, use the scripts/filterfasta.py to extract only that contig and run the pipeline with it again.
-
-```
-python scripts/filterfasta.py -i contig.id <your_initial_input> > contig.id.fa
-
-sh run_MitoHiFi.sh -c contig.id.fa -f <close-related-mito>.fasta -g <close-related-mito>.gb -t <int> -o <int>
-```
-
- ### Description intermediate outputs
- 
-<b>parsed_blast.txt</b>   - tab separated file with 4 columns as follows
-
-
- - qseqid - the ID of your input contigs
- - %q_in_match - a percentage of the length of your contig in a blast match with the close related species  
- - leng_query - length of your contig
- - s_length  lenght of the close-related mitogenome given
  
  <b>contigs.blastn</b> - outfmt 6 blast output plus 2 extra columns containing respectively length_of_query and length_of_subject 
  
