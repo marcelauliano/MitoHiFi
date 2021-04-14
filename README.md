@@ -5,7 +5,7 @@
 MitoHiFi is a python pipeline distributed under the [License](LICENSE)
 
 
-MitoHifi was first developed to assemble the mitogenomes of the Darwin Tree of Life Project (DToL)
+MitoHifi was first developed to assemble the mitogenomes of the Darwin Tree of Life Project (DToL) ![](dtol-logo-round-300x132.png)
 
 Find out more [Darwin Tree of Life data portal](https://portal.darwintreeoflife.org/)
 
