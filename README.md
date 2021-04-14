@@ -154,7 +154,7 @@ Parameters descriptions:
 - Now run the test with the assembled contigs called test.fa
 
 ```
-'python mitohifi_v2.py -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb  -t <int> -o 5 '
+'python mitohifi_v2.py -c exampleFiles/test.fa -f exampleFiles/NC_016067.1.fasta -g exampleFiles/NC_016067.1.gb -t 1 -o 5'
 
  ```
  
