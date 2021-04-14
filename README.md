@@ -146,6 +146,7 @@ Parameters descriptions:
                         Mitochondrial Code 24. Pterobranchia Mitochondrial
                         Code 25. Candidate Division SR1 and Gracilibacteria
 
+```
 
 ### Running MitoHifi_v2 with test data
 
@@ -153,7 +154,7 @@ Parameters descriptions:
 - Download the data from the exampleFiles folder. The fasta and .gb file for NC_016067.1 will be your **-f** and **-g** inputs, respectively. Remember you could have gotten those files with the script findMitoReference.py.
 - Now run the test with the assembled contigs called test.fa
 
-
+```
 'python mitohifi_v2.py -c test.fa -f NC_016067.1.fasta -g NC_016067.1.gb  -t <int> -o 5 '
 
  ```
