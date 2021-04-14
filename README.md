@@ -188,6 +188,8 @@ Folder **contigs_circularization** will contain files related to circularizing t
 
 - all_contigs.circularisationCheck.txt - describes the points of circularization for the chosen contigs. The script is ran iteractively until no more circularizatin is found, which will happen when you meet (False, -1, -1). The columns are: the contig id, if it circularises or not (True or False), start coordinate of circularisation, end coordinate of circularisation.
 
+Folder **potential_contigs** will contain a folder for each contig present in parsed_blast.txt. Within each contig folder you will find the circularized and annotated mitosequence for that contig.
+
 
 
 
