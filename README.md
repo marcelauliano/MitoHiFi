@@ -48,7 +48,6 @@ MitoHifi.v2 was developed and tested with the following software versions:
 - samtools version 1.7 
 - minimap version 2.17-r941  
 
-<b>Installation</b>
 
 ### Once dependencies are done, install MitoHiFi.v2 (Linux)
 
