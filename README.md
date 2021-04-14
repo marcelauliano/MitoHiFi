@@ -191,7 +191,13 @@ Folder **contigs_circularization** will contain files related to circularizing t
 Folder **potential_contigs** will contain a folder for each contig present in parsed_blast.txt. Within each contig folder you will find the circularized and annotated mitosequence for that contig.
 
 
+Folder **final_mitogenome_choice** will contain a few files, the most important one being
 
+- all_mitogenomes.rotated.aligned.fa - this is an aligment of all the mithocondrial sequences assembled by the pipeline. Its possible you will find heteroplasmy in your sample, in which case you will have more than one version of the final mito represented. The pipeline chooses a final consensus by a majority rule, using cdhit-est to cluster sequenvces at a 80% identitty and chosing the largest one in that cluster as the final. If you want to study heteroplasmy of your sample, please investigate the *all_mitogenomes.rotated.aligned.fa* file further, and all the results in the **potential_contigs** folder.
+
+## Important parameter to change and test
+
+The parameter **-p** 
 
 
 
