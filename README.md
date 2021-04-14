@@ -216,5 +216,6 @@ And for tRNAs annotation:
 
 -------------------
  
- For more information on python code and pipeline: mu2@sanger.ac.uk and jf18@sanger.ac.uk	
+ For more information on python code and pipeline: mu2@sanger.ac.uk and jf18@sanger.ac.uk
+ 
  Questions on the Singularity: kk16@sanger.ac.uk
