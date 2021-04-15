@@ -207,6 +207,12 @@ Folder **final_mitogenome_choice** will contain a few files, the most important 
 
 - all_mitogenomes.rotated.aligned.fa - this is an aligment of all the mithocondrial sequences assembled by the pipeline. Its possible you will find heteroplasmy in your sample, in which case you will have more than one version of the final mito represented. The pipeline chooses a final consensus by a majority rule, using cdhit-est to cluster sequenvces at a 80% identitty and chosing the largest one in that cluster as the final. If you want to study heteroplasmy of your sample, please investigate the *all_mitogenomes.rotated.aligned.fa* file further, and all the results in the **potential_contigs** folder.
 
+If you run the pipelie with **-r** we will have a further folder called **reads_mapping_and_assembly** which will contain
+
+- gbk.HiFiMapped.bam.fasta - all reads that map to the close-related mito
+- gbk.HiFiMapped.bam.filtered.fasta - mapping reads filtered by size. We remove any reads that are larger than the size of the close-related mito as a rough way to filter out numpts
+- hifiasm.contigs.fasta - final hifiasm prim and alternate contigs concatenated. This is the file used to find your mitos.
+
 ## Important parameter to change and test (-p)
 
 Mitohifi is going to pull possible mito contigs by blasting your contigs with the close-related mito. The Default parameter **-p** is going to chose any contig which has 50% or more of its length in the blast match. This is the default because with invertebrate taxa from the Darwin Tree of Life we have been seeing that the repetitive portion of the mitogenomes is not very conserved between some taxa. In these cases, a more stringent **-p** ends up excluding real mito sequences. Nevertheless, if you are working with more conserved taxa - such as mammals and other vertebrates - use higher -p (such as 80 or 90) for better results.
