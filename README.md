@@ -207,10 +207,10 @@ Folder **final_mitogenome_choice** will contain a few files, the most important 
 
 - all_mitogenomes.rotated.aligned.fa - this is an aligment of all the mithocondrial sequences assembled by the pipeline. Its possible you will find heteroplasmy in your sample, in which case you will have more than one version of the final mito represented. The pipeline chooses a final consensus by a majority rule, using cdhit-est to cluster sequenvces at a 80% identitty and chosing the largest one in that cluster as the final. If you want to study heteroplasmy of your sample, please investigate the *all_mitogenomes.rotated.aligned.fa* file further, and all the results in the **potential_contigs** folder.
 
-If you run the pipelie with **-r** we will have a further folder called **reads_mapping_and_assembly** which will contain
+If you run the pipelie with **-r** you will have a further folder called **reads_mapping_and_assembly** which will contain
 
-- gbk.HiFiMapped.bam.fasta - all reads that map to the close-related mito
-- gbk.HiFiMapped.bam.filtered.fasta - mapping reads filtered by size. We remove any reads that are larger than the size of the close-related mito as a rough way to filter out numpts
+- gbk.HiFiMapped.bam.fasta - all reads that mapped to the close-related mito
+- gbk.HiFiMapped.bam.filtered.fasta - mapped reads filtered by size. We remove any reads that are larger than the size of the close-related mito as a rough way to filter out numpts
 - hifiasm.contigs.fasta - final hifiasm prim and alternate contigs concatenated. This is the file used to find your mitos.
 
 ## Important parameter to change and test (-p)
