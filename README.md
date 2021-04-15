@@ -188,7 +188,7 @@ MitoHifi will produce a series of folders with the results. The main result will
 - contigs_ids.txt
 - contigs.blastn - outfmt 6 blast output plus 2 extra columns containing respectively length_of_query and length_of_subject 
  
- Columns descriptions of <b>parsed_blast.txt</b> and <b>parsed_blast.txt</b>: tab separated files with 4 columns as follows
+ Columns descriptions of <b>parsed_blast.txt</b> and <b>parsed_blast_all.txt</b>: tab separated files with 4 columns as follows
 
  - qseqid - the ID of your input contigs
  - %q_in_match - a percentage of the length of your contig in a blast match with the close related species reference
