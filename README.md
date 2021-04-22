@@ -107,15 +107,32 @@ This command will output you NC_016067.1.fasta and NC_016067.1.gb that you will 
 ```
 Usage: 'python mitohifi_v2.py -r "f1.fasta f2.fasta f3.fasta" -f reference.fasta -g reference.gb  -t <int> -o <int> '
 
-Parameters descriptions:
-	-r: PacBio HiFi reads
-	-f: Close-related species mitogenome in fasta format
-	-g: Close-related species mitogenome in genbank format 
-	-t: Number of threads for minimap2, hifiasm and the blast search 
-	-o: <integer> MitoFinder parameter: Organism genetic code following NCBI table (integer):
-                        1. The Standard Code 2. The Vertebrate Mitochondrial
-                        Code 3. The Yeast Mitochondrial Code 4. The Mold,
-                        Protozoan, and Coelenterate Mitochondrial Code and the
+usage: mitohifi_v2.py (-r R | -c C) [-h] -f F -g G -t T [-p P]
+                      [--circular-size CIRCULAR_SIZE]
+                      [--circular-offset CIRCULAR_OFFSET] [-o O]
+
+Arguments:
+  -r R                  -r: Pacbio Hifi Reads from your species
+  -c C                  -c: Assemnbled fasta contigs/scaffolds to be searched
+                        to find mitogenome
+  -h, --help            Print this help message.
+  -f F                  -f: Close-related Mitogenome is fasta format
+  -g G                  -k: Close-related species Mitogenome in genebank
+                        format
+  -t T                  -t: Number of threads for different steps such as
+                        hifiams, minimap2, samtools and blast
+  -p P                  -p: Percentage of query in the blast match with close-
+                        related mito
+  --circular-size CIRCULAR_SIZE
+                        Size to consider when checking for circularization
+  --circular-offset CIRCULAR_OFFSET
+                        Offset from start and finish to consider when looking
+                        for circularization
+  -o O                  -o: Organism genetic code following NCBI table (for
+                        mitogenome annotation): 1. The Standard Code 2. The
+                        Vertebrate MitochondrialCode 3. The Yeast
+                        Mitochondrial Code 4. The Mold,Protozoan, and
+                        Coelenterate Mitochondrial Code and the
                         Mycoplasma/Spiroplasma Code 5. The Invertebrate
                         Mitochondrial Code 6. The Ciliate, Dasycladacean and
                         Hexamita Nuclear Code 9. The Echinoderm and Flatworm
@@ -128,6 +145,8 @@ Parameters descriptions:
                         obliquus Mitochondrial Code 23. Thraustochytrium
                         Mitochondrial Code 24. Pterobranchia Mitochondrial
                         Code 25. Candidate Division SR1 and Gracilibacteria
+                        Code
+
  ```
 
 2.2-) If you are starting from assembled contigs, your required arguments are:
@@ -135,15 +154,32 @@ Parameters descriptions:
 ```
 Usage: 'python mitohifi_v2.py -c contigs.fasta -f reference.fasta -g reference.gb  -t <int> -o <int> '
 
-Parameters descriptions:
-	-c: contigs # from assemblers such as Hicanu or Hifiasm
-	-f: Close-related species mitogenome in fasta format
-	-g: Close-related species mitogenome in genbank format 
-	-t: Number of threads for minimap2, hifiasm and the blast search 
-	-o: <integer> MitoFinder parameter: Organism genetic code following NCBI table (integer):
-                        1. The Standard Code 2. The Vertebrate Mitochondrial
-                        Code 3. The Yeast Mitochondrial Code 4. The Mold,
-                        Protozoan, and Coelenterate Mitochondrial Code and the
+usage: mitohifi_v2.py (-r R | -c C) [-h] -f F -g G -t T [-p P]
+                      [--circular-size CIRCULAR_SIZE]
+                      [--circular-offset CIRCULAR_OFFSET] [-o O]
+
+Arguments:
+  -r R                  -r: Pacbio Hifi Reads from your species
+  -c C                  -c: Assemnbled fasta contigs/scaffolds to be searched
+                        to find mitogenome
+  -h, --help            Print this help message.
+  -f F                  -f: Close-related Mitogenome is fasta format
+  -g G                  -k: Close-related species Mitogenome in genebank
+                        format
+  -t T                  -t: Number of threads for different steps such as
+                        hifiams, minimap2, samtools and blast
+  -p P                  -p: Percentage of query in the blast match with close-
+                        related mito
+  --circular-size CIRCULAR_SIZE
+                        Size to consider when checking for circularization
+  --circular-offset CIRCULAR_OFFSET
+                        Offset from start and finish to consider when looking
+                        for circularization
+  -o O                  -o: Organism genetic code following NCBI table (for
+                        mitogenome annotation): 1. The Standard Code 2. The
+                        Vertebrate MitochondrialCode 3. The Yeast
+                        Mitochondrial Code 4. The Mold,Protozoan, and
+                        Coelenterate Mitochondrial Code and the
                         Mycoplasma/Spiroplasma Code 5. The Invertebrate
                         Mitochondrial Code 6. The Ciliate, Dasycladacean and
                         Hexamita Nuclear Code 9. The Echinoderm and Flatworm
@@ -156,6 +192,8 @@ Parameters descriptions:
                         obliquus Mitochondrial Code 23. Thraustochytrium
                         Mitochondrial Code 24. Pterobranchia Mitochondrial
                         Code 25. Candidate Division SR1 and Gracilibacteria
+                        Code
+
 
 ```
 
