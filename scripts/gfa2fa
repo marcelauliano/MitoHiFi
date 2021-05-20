@@ -1,5 +1,0 @@
-#!/usr/bin/awk -f
-
-/^S/ {
-    print ">"$2"\n"$3
-}
