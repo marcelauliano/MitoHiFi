@@ -35,6 +35,7 @@ RUN apt-get -qq -y update \
     && tar -xzvf 0.14.2.tar.gz \
     && cd hifiasm-0.14.2 && make
 
+ENV PATH /bin/MitoFinder/:${PATH}
 ENV PATH /bin/hifiasm-0.14.2/:${PATH}
 
 COPY mitohifi_v2.py /bin/
