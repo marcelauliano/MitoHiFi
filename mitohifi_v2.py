@@ -106,7 +106,7 @@ def main():
     parser.add_argument("-g", help= "-k: Close-related species Mitogenome in genebank format", required = "True")
     parser.add_argument("-t", help= "-t: Number of threads for (i) hifiasm and (ii) the blast search", required = "True", type=int)
     parser.add_argument("-p", help="-p: Percentage of query in the blast match with close-related mito", type=int, default=50)
-    parser.add_argument("-m", help="-m: Number of bits for HiFiasm bloom filter [it maps to maps to -f in HiFiasm] (default = 0)", type=int, default=0)
+    parser.add_argument("-m", help="-m: Number of bits for HiFiasm bloom filter [it maps to -f in HiFiasm] (default = 0)", type=int, default=0)
     parser.add_argument('--circular-size', help='Size to consider when checking for circularization', type=int, default=220)
     parser.add_argument('--circular-offset', help='Offset from start and finish to consider when looking for circularization', type=int, default=40)
     parser.add_argument("-o", help="""-o: Organism genetic code following NCBI table (for mitogenome annotation):
