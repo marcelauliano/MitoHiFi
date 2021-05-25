@@ -123,7 +123,7 @@ Arguments:
                         hifiams, minimap2, samtools and blast
   -p P                  -p: Percentage of query in the blast match with close-
                         related mito
-  -m M                  -m: Number of bits for HiFiasm bloom filter (default = 0)
+  -m M                  -m: Number of bits for HiFiasm bloom filter [it maps to maps to -f in HiFiasm] (default = 0)
   --circular-size CIRCULAR_SIZE
                         Size to consider when checking for circularization
   --circular-offset CIRCULAR_OFFSET
