@@ -107,7 +107,7 @@ This command will output you NC_016067.1.fasta and NC_016067.1.gb that you will 
 ```
 Usage: 'python mitohifi_v2.py -r "f1.fasta f2.fasta f3.fasta" -f reference.fasta -g reference.gb  -t <int> -o <int> '
 
-usage: mitohifi_v2.py (-r R | -c C) [-h] -f F -g G -t T [-p P]
+usage: mitohifi_v2.py (-r R | -c C) [-h] -f F -g G -t T [-p P] [-m M]
                       [--circular-size CIRCULAR_SIZE]
                       [--circular-offset CIRCULAR_OFFSET] [-o O]
 
@@ -123,6 +123,7 @@ Arguments:
                         hifiams, minimap2, samtools and blast
   -p P                  -p: Percentage of query in the blast match with close-
                         related mito
+  -m M                  -m: Number of bits for HiFiasm bloom filter (default = 0)
   --circular-size CIRCULAR_SIZE
                         Size to consider when checking for circularization
   --circular-offset CIRCULAR_OFFSET
