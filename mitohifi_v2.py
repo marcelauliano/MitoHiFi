@@ -152,7 +152,7 @@ def main():
         print("\nNow let's run hifiasm to assemble the mapped and filtered reads!\n")
         
         with open("hifiasm.log", "w") as hifiasm_log_f:
-            subprocess.run(["hifiasm", "-t", str(args.t), "-m", str(args.m), "-o", "gbk.HiFiMapped.bam.filtered.assembled", "gbk.HiFiMapped.bam.filtered.fasta", ], stderr=subprocess.STDOUT, stdout=hifiasm_log_f)
+            subprocess.run(["hifiasm", "-t", str(args.t), "-f", str(args.m), "-o", "gbk.HiFiMapped.bam.filtered.assembled", "gbk.HiFiMapped.bam.filtered.fasta", ], stderr=subprocess.STDOUT, stdout=hifiasm_log_f)
         
         gfa2fa_script = os.path.join(os.path.dirname(__file__),"gfa2fa") # gets path to gfa2fa script
         
