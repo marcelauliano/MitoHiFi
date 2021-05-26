@@ -174,7 +174,7 @@ def main():
         fixContigHeaders.fix_headers(original_contigs, "fixed_header_contigs.fasta")
         
         os.remove(original_contigs) # remove original contig file  
-        os.rename("fixed_header_contigs.fasta", original_contigs) # replace original contigs file by the version that has the headers fixed
+        shutil.move("fixed_header_contigs.fasta", original_contigs) # replace original contigs file by the version that has the headers fixed
         
         contigs = original_contigs
         
