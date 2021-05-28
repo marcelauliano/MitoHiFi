@@ -47,7 +47,6 @@ def get_largest_cluster(cdhit_clstr_file):
             largest_cluster = curr_cluster
             largest_cluster_len = len(curr_sequences)
             largest_cluster_seqs = curr_sequences
-    print("[x] Current sequences: {}".format(curr_sequences))
     for sequence in largest_cluster_seqs:
         if sequence[-1] == "*":
             representative_seq = sequence
