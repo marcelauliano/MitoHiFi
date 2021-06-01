@@ -42,12 +42,11 @@ def get_largest_cluster(cdhit_clstr_file):
                 #clusters[cluster_id] = 0
             else:
                 curr_sequences.append(line.strip())
-        # catch the last cluster        
+        # catch the last cluster
         if len(curr_sequences) > largest_cluster_len:
             largest_cluster = curr_cluster
             largest_cluster_len = len(curr_sequences)
             largest_cluster_seqs = curr_sequences
-    
     for sequence in largest_cluster_seqs:
         if sequence[-1] == "*":
             representative_seq = sequence

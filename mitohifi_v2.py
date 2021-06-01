@@ -106,6 +106,7 @@ def main():
     parser.add_argument("-g", help= "-k: Close-related species Mitogenome in genebank format", required = "True")
     parser.add_argument("-t", help= "-t: Number of threads for (i) hifiasm and (ii) the blast search", required = "True", type=int)
     parser.add_argument("-p", help="-p: Percentage of query in the blast match with close-related mito", type=int, default=50)
+    parser.add_argument("-m", help="-m: Number of bits for HiFiasm bloom filter [it maps to -f in HiFiasm] (default = 0)", type=int, default=0)
     parser.add_argument('--circular-size', help='Size to consider when checking for circularization', type=int, default=220)
     parser.add_argument('--circular-offset', help='Offset from start and finish to consider when looking for circularization', type=int, default=40)
     parser.add_argument("-o", help="""-o: Organism genetic code following NCBI table (for mitogenome annotation):
@@ -151,7 +152,7 @@ def main():
         print("\nNow let's run hifiasm to assemble the mapped and filtered reads!\n")
         
         with open("hifiasm.log", "w") as hifiasm_log_f:
-            subprocess.run(["hifiasm", "-t", str(args.t), "-o", "gbk.HiFiMapped.bam.filtered.assembled", "gbk.HiFiMapped.bam.filtered.fasta", ], stderr=subprocess.STDOUT, stdout=hifiasm_log_f)
+            subprocess.run(["hifiasm", "-t", str(args.t), "-f", str(args.m), "-o", "gbk.HiFiMapped.bam.filtered.assembled", "gbk.HiFiMapped.bam.filtered.fasta", ], stderr=subprocess.STDOUT, stdout=hifiasm_log_f)
         
         gfa2fa_script = os.path.join(os.path.dirname(__file__),"gfa2fa") # gets path to gfa2fa script
         
@@ -173,7 +174,7 @@ def main():
         fixContigHeaders.fix_headers(original_contigs, "fixed_header_contigs.fasta")
         
         os.remove(original_contigs) # remove original contig file  
-        os.rename("fixed_header_contigs.fasta", original_contigs) # replace original contigs file by the version that has the headers fixed
+        shutil.move("fixed_header_contigs.fasta", original_contigs) # replace original contigs file by the version that has the headers fixed
         
         contigs = original_contigs
         
