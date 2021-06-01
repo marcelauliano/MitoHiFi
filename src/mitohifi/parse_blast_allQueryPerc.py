@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    '''
+'''
             
 import pandas as pd
 import sys
@@ -27,17 +27,17 @@ my_names = ["qseqid", "sseqid", "pident", "alilength" , "mismatch", "gapopen", "
 blast_cov = pd.read_csv("contigs.blastn", 
                         sep="\t", names = my_names, )
 
-#Get the percentage of the query in the blast aligment
+# Get the percentage of the query in the blast aligment
 blast_cov['alilength']*100 / (blast_cov['leng_query'])
 blast_cov['%q_in_match'] = blast_cov['alilength']*100 / (blast_cov['leng_query'])
 
-#sum percentages of query sequence in blast match based on column id
+# sum percentages of query sequence in blast match based on column id
 a= blast_cov.groupby('qseqid')['%q_in_match'].sum().to_frame().rename(columns={'qseqid':'%q_in_match'}).reset_index()
 
-#get size of query and subject and drop duplicates
+# get size of query and subject and drop duplicates
 seqsizes = blast_cov[['qseqid', 'leng_query', 's_length']].drop_duplicates(subset='qseqid')
 
-#merge 'a' and 'seqsizes' dataframes by 'qseqid'
+# merge 'a' and 'seqsizes' dataframes by 'qseqid'
 result = pd.merge(a, seqsizes, on='qseqid')
 
 # Now let's filter the blast matches

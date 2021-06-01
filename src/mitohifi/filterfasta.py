@@ -12,9 +12,7 @@
     GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    '''
-
-
+'''
 
 import sys, re
 
@@ -40,7 +38,6 @@ def filterFasta(inStream, outPath, minLength=None, idList=None,
     else:
         filterLengthIdList(inStream, outPath, format, minLength, idList, 
                            regex, neg, log)
-    
 
 def filterLengthIdList(inStream, outPath, format, minLength=None, 
                        idList=None, regex=False, neg=False, log=sys.stderr):
@@ -124,7 +121,7 @@ if __name__ == "__main__":
     usage = "usage: %prog [options] input.fasta [output.fasta]"
 
     parser = OptionParser(usage)
-    
+
     parser.add_option("-q", "--quite",
                        action="store_true", dest="quiet", default=False, 
                        help="do not print status messages to the screen",)
@@ -157,28 +154,28 @@ if __name__ == "__main__":
                        default=False, 
                        help="use regular expression instead of exact "
                             "matching for IDs",)
-      
+
     parser.add_option("-n", "--negative",
                        action="store_true", dest="neg",
                        default=False, 
                        help="do exactly the opposite of what would normally "
                             "be done",)
     (options, args) = parser.parse_args()
-    
-    if (options.idList and options.random):
+
+    if options.idList and options.random:
         parser.error("Options -i and -r are mutually exclusive.")
-    if (options.minLength and options.random):
+    if options.minLength and options.random:
         parser.error("Options -l and -r are mutually exclusive.")
-    if (options.regexp and not options.idList):
+    if options.regexp and not options.idList:
         parser.error("Options -e can only be used with -i.")
-    if (options.random and options.neg):
+    if options.random and options.neg:
         parser.error("Negative mode does not work with random mode.")
-    
+
     if options.quiet:
         log = None
     else:
         log = sys.stderr
-        
+
     if len(args) < 1:
         if gzImported and options.gzip:
             parser.error("Pipe mode (no input file argument) does not work together with -z (gzipped input).")
@@ -186,13 +183,13 @@ if __name__ == "__main__":
         log.write("Will be writing to stdout.\n")
         out = sys.stdout
     elif len(args) == 1:
-        #if no output file was given write to std out
+        # if no output file was given write to std out
         log.write("Will be writing to stdout.\n")
         out = sys.stdout
     else:
         out = args[1]
-    
-    if len(args)>2:
+
+    if len(args) > 2:
         if log:
             log.write("Additional arguments will be ignored!\n")
     if options.neg:
@@ -207,7 +204,6 @@ if __name__ == "__main__":
                 idList.append(line.strip())
             iListFile.close()
         except IOError:
-            pass
             if log:
                 log.write("ID list parameter is not a valid path. Assume it to "
                           "be comma separated string.\n")
@@ -217,16 +213,16 @@ if __name__ == "__main__":
             log.write("Using list of Regular Expression on IDs to filter.\n")
         elif idList:
             log.write("Using list of IDs to filter.\n")
-                    
+
     if len(args) == 0:
         inStream = sys.stdin
     elif gzImported and options.gzip:
         inStream = gzip.open(args[0], "r")
     else:
         inStream = open(args[0], "r")
-    
+
     try:                
-        filterFasta(inStream, out, options.minLength, idList, options.random, 
+        filterFasta(inStream, out, options.minLength, idList, options.random,
                     options.fastq, options.regexp, options.neg, log=log)
     finally:
         if len(args) > 0:
