@@ -2,8 +2,17 @@
 
 ------ This is v1 -------
 
-MitoHiFi distributed under the [license](https://github.com/marcelauliano/MitoHiFi/blob/master/scripts/LICENSE) 
+MitoHiFi distributed under the [license](https://github.com/marcelauliano/MitoHiFi/blob/master/scripts/LICENSE)
 
+
+ATTENTION!!!
+
+If you want to use MitoHifi, please clone the branch mitohifi_v2
+
+
+```
+git clone --branch mitohifi_v2 https://github.com/marcelauliano/MitoHiFi.git
+```
 --------------------------------------
 
 
