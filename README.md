@@ -58,7 +58,7 @@ MitoHifi.v2 was developed and tested with the following software versions:
 
 ```
 
-git clone --branch mitohifi_v2 https://github.com/marcelauliano/MitoHiFi.git
+git clone https://github.com/marcelauliano/MitoHiFi.git
 
 ```
 
