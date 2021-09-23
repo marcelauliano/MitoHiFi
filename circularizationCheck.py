@@ -48,12 +48,6 @@ def circularizationCheck(resultFile, circularSize=220, circularOffSet=40):
 		print ("formatDB during circularization check failed...")
 		print ('')
 		return (False,-1,-1)
-		
-	with open("circularization_check.blast.xml",'w') as blastResultFile:
-		command = "blastn -task blastn -db " + resultFile + " -query " + resultFile + " -outfmt 5" #call BLAST with XML output
-		args = shlex.split(command)
-		blastAll = Popen(args, stdout=blastResultFile)
-		blastAll.wait()
 
 	with open("circularization_check.blast.tsv",'w') as blastResultFile:
 		command = "blastn -task blastn -db " + resultFile + " -query " + resultFile + " -outfmt 6" #call BLAST with TSV output
@@ -61,7 +55,7 @@ def circularizationCheck(resultFile, circularSize=220, circularOffSet=40):
 		blastAll = Popen(args, stdout=blastResultFile)
 		blastAll.wait()
 
-	blastparse = SearchIO.parse('circularization_check.blast.xml', 'blast-xml') #get all queries
+	blastparse = SearchIO.parse('circularization_check.blast.tsv', 'blast-tab') #get all queries
 
 	'''
 	Let's loop through all blast results and see if there is a circularization.
