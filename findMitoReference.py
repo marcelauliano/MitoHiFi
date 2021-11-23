@@ -85,7 +85,8 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--species', required=True, help='latin name')
     parser.add_argument('--email', required=True)
-    parser.add_argument('--outfolder', nargs='?', default="")
+    parser.add_argument('--outfolder', nargs='?', default="closestMitoReference", \
+                        help='Folder to house the downloaded reference. Default: closestMitoReference')
     parser.add_argument('-s', action='store_true', help='search for an exact species')
     parser.add_argument('--min_length', nargs='?', type=int  , default=0, \
                                   help='minimal appropriate length')
