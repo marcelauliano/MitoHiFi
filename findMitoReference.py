@@ -1,5 +1,19 @@
 #!/usr/bin/env python
 
+'''
+    Copyright 2021 Ksenia Krasheninnikova
+    This script is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    '''
+
 from argparse import ArgumentParser
 import os
 from Bio import Entrez
@@ -19,9 +33,9 @@ def get_lineage(species):
     for e in records[0]["Lineage"].split(' ')[::-1]:
         yield e
 
-def query_same_species(species, outfolder, min_length):
+def query_same_species(species, outfolder, min_length, org_type='mitochondrion'):
     term = "\""+ species +"\" [Organism] AND "  +\
-            "mitochondrion[All Fields]"
+            org_type+"[All Fields]"
     handle = Entrez.esearch(db="nucleotide",term=term, idtype="acc")
     record = Entrez.read(handle)
     rs = {}
@@ -33,7 +47,7 @@ def query_same_species(species, outfolder, min_length):
             record_ = handle.read()
             handle.close()
             for seqrecord in  SeqIO.parse(StringIO(record_), "gb") :
-                if len(record_) > max_length:
+                if len(seqrecord) > max_length:
                     if len(seqrecord.features) < 10:
                         print('Not enough features in gb file! skipping..')
                         continue
@@ -54,9 +68,9 @@ def query_same_species(species, outfolder, min_length):
         return 0
     return 1
 
-def find_full_mito(group, outfolder, length_threshold):
+def find_full_mito(group, outfolder, length_threshold, org_type='mitochondrion'):
     term = "(\""+ group +"\"[Organism] AND complete " +\
-                "genome[All Fields]) AND mitochondrion[filter]]"
+                "genome[All Fields]) AND "+ org_type +"[filter]]"
     handle = Entrez.esearch(db="nucleotide",term=term, idtype="acc")
     record = Entrez.read(handle)
     if record['IdList'] :
@@ -78,28 +92,31 @@ def find_full_mito(group, outfolder, length_threshold):
                     with open(os.path.join(outfolder, ncbi_code+'.fasta') , "w") as out:
                         out.write(record_)
                     print("output is written to " + os.path.join(outfolder,ncbi_code) + ".[gb,fasta]")
-                return 0
+                    return 0
     return 1
 
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--species', required=True, help='latin name')
-    parser.add_argument('--email', required=True)
+    parser.add_argument('--email', nargs='?', default="")
     parser.add_argument('--outfolder', nargs='?', default="")
-    parser.add_argument('-s', action='store_true', help='search for an exact species')
+    parser.add_argument('-t', choices=['mitochondrion','chloroplast'], default='mitochondrion', \
+                                  help='specify the type of organelle')
     parser.add_argument('--min_length', nargs='?', type=int  , default=0, \
                                   help='minimal appropriate length')
     args = parser.parse_args()    
     Entrez.email = args.email
     if not os.path.isdir(args.outfolder):
         os.mkdir(args.outfolder)
-    if args.s:
-        ret = query_same_species(args.species, args.outfolder, args.min_length)
-        if ret == 1:
-            print('No appropriate mitogenome found')
-        exit(ret)
-    for g in get_lineage(args.species):
-        if find_full_mito(g, args.outfolder, args.min_length) == 0:
-           exit(0) 
+    print('Looking for '+args.t+' for '+args.species)
+    ret = query_same_species(args.species, args.outfolder, args.min_length, args.t)
+    if ret == 0:
+        exit(0)
+    print('Mito for the same species is not found')
+    print('Looking among close species')
+    if ret == 1:
+        for g in get_lineage(args.species):
+            if find_full_mito(g, args.outfolder, args.min_length, args.t) == 0:
+                exit(0) 
     print("No appropriate mitogenome found")
-    exit(1)
+    exit(ret)
