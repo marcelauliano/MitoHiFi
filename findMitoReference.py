@@ -47,7 +47,7 @@ def query_same_species(species, outfolder, min_length, org_type='mitochondrion')
             record_ = handle.read()
             handle.close()
             for seqrecord in  SeqIO.parse(StringIO(record_), "gb") :
-                if len(record_) > max_length:
+                if len(seqrecord) > max_length:
                     if len(seqrecord.features) < 10:
                         print('Not enough features in gb file! skipping..')
                         continue
