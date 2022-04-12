@@ -25,13 +25,13 @@ With MitoHiFi v2.2 you can start from the raw Pacbio HiFi reads (flag **-r**) or
 
 MitoHifi v2.2 will:
 
-(i) extract mito reads and assemble them with hifiasm (flag **-r**), or find the mito contigs among assembled contigs (flag **-c**)    
+(i) extract mito reads and assemble them with hifiasm (flag **-r**), or find the mito contigs among assembled contigs (flag **-c**)<br />    
 
-(ii) indentify and separate NUMTS from real mitogenome contigs  
+(ii) indentify and separate NUMTS from real mitogenome contigs<br />  
 
-(iii) generate a circularized, non-redudant and annotated version of all the mitochondria variants present in your sample
+(iii) generate a circularized, non-redudant and annotated version of all the mitochondria variants present in your sample<br />
 
-(iv) choose a representative as the final mitochondria genome assembly
+(iv) choose a representative as the final mitochondria genome assembly<br />
 
 -----
 
@@ -77,9 +77,9 @@ cd MitoHifi
 docker build .
 ```
 
-We have wrapped up MitoHiFi v2.2 code into a singularity container. We recommned using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag **-r**
+We have wrapped up MitoHiFi v2.2 code into a singularity container. We recommend using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag **-r**
 
-MitoHiFi.v2.2 siungularity should be called as:
+MitoHiFi.v2.2 siungularity image should be run as:
 
 ```
 singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.2.sif  mitohifi.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb  -t 10 -o 2 
@@ -87,7 +87,7 @@ singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.2.sif
 
 Singluarity versions lower than 3.7 do not support spaces in the arguments, so if you want to pass several read datasets as in the example above use singularity version 3.7 or higher. 
 
-The script for generating the reference files is incorporated into the singularity image and can be called as follows:
+The script for quering reference .fasta and .gb files from NCBI is incorporated into the singularity image and can be called as follows:
 
 ```
 singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.2.sif  findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
@@ -149,7 +149,7 @@ optional arguments:
 
 ### Required arguments
 
-1-) To run this pipeline, first you need a closely-related mitochondria in FASTA and GenBank format. We have a script that can help you find this input. Giving the name of the species you are trying to assemble, the script will look for the mitochondria genome assembly for the most closely-related species in NCBI. You can set the parameter **-s** if you want to restrict the mitochondria search to the certain genus of your species, but this means the script may download partial mitochondrial sequences. Otherwise, without **-s**, the script will search for complete mitochondria genome assemblies only and as close as possible to your species.
+1-) To run this pipeline, first you need a close-related mitochondria in fasta and genbank format. We have a script that can help you fetch this data from NCBI database. Given the name of the species you are assembling, the script is going to look for the closest mitochondria it can find on NCBI. By default the script searches for an available mitochondria assembly of exactly same species. If it's not available the search goes on for a phylogenetically close candidate (based on NCBI taxonomy).
 
 Using the species in our test data as an example, you would do:
 
