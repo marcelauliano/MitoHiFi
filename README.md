@@ -215,7 +215,7 @@ optional arguments:
 
 ```
 
-### Running MitoHifi_v2 with test data
+### Running MitoHiFi_v2 with test data
 
 - Use your singularity container image or have all the dependencies in your path then,
 - In the exampleFiles folder, the fasta and .gb file for NC_016067.1 will be your **-f** and **-g** inputs, respectively. Remember you could have gotten those files with the script findMitoReference.py.
