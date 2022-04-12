@@ -218,21 +218,22 @@ optional arguments:
 ### Running MitoHifi_v2 with test data
 
 - Use your singularity container image or have all the dependencies in your path then,
-- Download the data from the exampleFiles folder. The fasta and .gb file for NC_016067.1 will be your **-f** and **-g** inputs, respectively. Remember you could have gotten those files with the script findMitoReference.py.
+- In the exampleFiles folder, the fasta and .gb file for NC_016067.1 will be your **-f** and **-g** inputs, respectively. Remember you could have gotten those files with the script findMitoReference.py.
 - Now run the test with the assembled contigs called test.fa
 
 ```
-'python mitohifi_v2.py -c exampleFiles/test.fa -f exampleFiles/NC_016067.1.fasta -g exampleFiles/NC_016067.1.gb -t 1 -o 5'
+'python mitohifi.py -c exampleFiles/test.fa -f exampleFiles/NC_016067.1.fasta -g exampleFiles/NC_016067.1.gb -t 1 -o 5'
 
  ```
  
  
  ### Outputs
  
-MitoHifi will produce a series of folders with the results. The main result will be in your working folder and it constitutes of:
+MitoHifi will produce a series of folders with the results. The main result will be in your working folder and they are:
 - final_mitogenome.fasta - the final mitochondria circularized and rotated to start at tRNA-Phe
 - final_mitogenome.gb - the final mitochondria annotated in genbank format.
-
+- contigs_stats.tsv - it will show you the statistics of your assembled mitos such as number of genes, size, if it was circularized or not, if the sequence has frameshifts and etc... 
+- 
 ## Further outputs
 
  Folders:
@@ -269,6 +270,14 @@ If you run the pipelie with **-r** you will have a further folder called **reads
 - gbk.HiFiMapped.bam.filtered.fasta - mapped reads filtered by size. We remove any reads that are larger than the size of the close-related mito as a rough way to filter out numpts
 - hifiasm.contigs.fasta - final hifiasm prim and alternate contigs concatenated. This is the file used to find your mitos.
 
+
+## New parameters for plants!!
+
+MitoHiFi is still not optmized to assemble a plant mitochondria or chloroplast. But if you have a contig you consider to be one of those, you can use MitoHiFi with the flag **-c** to circularize (if that is the case) and annotate it. To do it so, you also have to use the parameter **-a plant** when calling the main script mitohifi.py .
+
+Also, the script findMitoReference.py can search for a chloroplast instead of a mitochondria. Use flag **-t chloroplast** 
+
+
 ## Important parameter to change and test (-p)
 
 Mitohifi is going to pull possible mito contigs by blasting your contigs with the close-related mito. The Default parameter **-p** is going to chose any contig which has 50% or more of its length in the blast match. This is the default because with invertebrate taxa from the Darwin Tree of Life we have been seeing that the repetitive portion of the mitogenomes is not very conserved between some taxa. In these cases, a more stringent **-p** ends up excluding real mito sequences. Nevertheless, if you are working with more conserved taxa - such as mammals and other vertebrates - use higher -p (such as 80 or 90) for better results.
@@ -276,9 +285,11 @@ Mitohifi is going to pull possible mito contigs by blasting your contigs with th
 
 ### Citations ####
 
+When using MitoHifi, please cite our zenodo: 
 
+DOI: 10.5281/zenodo.5205678 https://zenodo.org/record/5205678#.YlVMIi8w1TY 
 
-When using MitoHifi, please cite this github page and
+and
 
 Please cite MitoFinder:
 
