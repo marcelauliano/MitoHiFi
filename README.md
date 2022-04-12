@@ -18,15 +18,15 @@ With MitoHiFi.v2.2 you can start from raw Pacbio HiFi reads (flag -r) or from as
 
 
 
-*The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straight forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in multiple-copy mitogenome-contigs. This pipeline was developed to finalise the assembly and annotation of the mitogenome. It will also dected different variants of the mitogenome present in your sample. At the end you are going to have all the variants assembled and annotated, and MitoHiFi.v2.2 is going to choose a final consensus sequence. In addtion, you will find an aligment of all the variants to facilitate your analysis of mitochondria heteroplasmy.*
+*The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straightforward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in multiple-copy mitogenome-contigs. This pipeline was developed to finalize the assembly and annotation of the mitogenome. It will also dected different variants of the mitogenome present in your sample. At the end you are going to have all the variants assembled and annotated, and MitoHiFi.v2.2 is going to choose a final consensus sequence. In addtion, you will find an aligment of all the variants to facilitate your analysis of mitochondria heteroplasmy.*
 
 
 
 MitoHifi v2.2 will:
 
-(i) extract mito reads and assemble them with hifiasm (flag -r), or find the mito contigs among assembled contigs (flag -c)    
-(ii) indentify and separate NUMTS from real mitocontigs  
-(iii) generate a circularized, non-redudant and annotated version of all the mitochondria sequences present in your sample	
+(i) extract mito reads and assemble them with hifiasm (flag -r), or find the mito contigs among assembled contigs (flag -c)
+(ii) indentify and separate NUMTS from real mitocontigs
+(iii) generate a circularized, non-redudant and annotated version of all the mitochondria sequences present in your sample
 (iv) choose a final consensus as the final mitochondria representative
 
 
@@ -72,17 +72,15 @@ cd MitoHifi
 docker build .
 ```
 
-We have wrapped up MitoHiFi.v2.2 code into a singularity container. We recommned using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag -r
+We have wrapped up MitoHiFi.v2.2 code into a singularity container. We recommend using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag -r
 
-MitoHiFi.v2.2 siungularity should be called as:
+MitoHiFi.v2.2 singularity image could be run as:
 
 ```
 singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.2.sif  mitohifi.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb  -t 10 -o 2 
 ```
 
-Singluarity versions lower than 3.7 do not support spaces in the arguments, so if you want to pass several read datasets as in the example above use singularity version 3.7 or higher. 
-
-The script for generating the reference files is incorporated into the singularity image and can be called as follows:
+The script for quering reference .fasta and .gb files from NCBI is incorporated into the singularity image and can be called as follows:
 
 ```
 singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.2.sif  findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
@@ -90,7 +88,7 @@ singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.2.sif
 
 ### Required arguments
 
-1-) To run this pipeline, first you need a close-related mitochondria in fasta and genbank format. We have a script that can help you find this input. Giving the name of the species you are assembling, the script is going to look for the closest mitochondria it can find on NCBI. You can give the parameter **-s** to the script if you would like to restrict your mitochondria search for species within your given genus, but this means the script can download partial mitochondrial sequences. Otherwise, without **-s**, the script is going to search for complete mitochondrias only and as close as possible to your species on interest.
+1-) To run this pipeline, first you need a close-related mitochondria in fasta and genbank format. We have a script that can help you fetch this data from NCBI database. Given the name of the species you are assembling, the script is going to look for the closest mitochondria it can find on NCBI. By default the script searches for an available mitochondria assembly of exactly same species. If it's not available the search goes on for a phylogenetically close candidate (based on NCBI taxonomy). 
 
 Using the species in our test data as an example, you would do:
 
