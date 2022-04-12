@@ -24,10 +24,10 @@ With MitoHiFi.v2.2 you can start from raw Pacbio HiFi reads (flag -r) or from as
 
 MitoHifi v2.2 will:
 
-(i) extract mito reads and assemble them with hifiasm (flag -r), or find the mito contigs among assembled contigs (flag -c)
-(ii) indentify and separate NUMTS from real mitocontigs
-(iii) generate a circularized, non-redudant and annotated version of all the mitochondria sequences present in your sample
-(iv) choose a final consensus as the final mitochondria representative
+(i) extract mito reads and assemble them with hifiasm (flag -r), or find the mito contigs among assembled contigs (flag -c)<br />
+(ii) indentify and separate NUMTS from real mitocontigs<br />
+(iii) generate a circularized, non-redudant and annotated version of all the mitochondria sequences present in your sample<br />
+(iv) choose a final consensus as the final mitochondria representative<br />
 
 
 -----
