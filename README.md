@@ -106,31 +106,39 @@ This command will output you NC_016067.1.fasta and NC_016067.1.gb that you will 
 2.1-) If you are starting from raw reads, your required arguments are:
 
 ```
-Usage: 'python mitohifi_v2.py -r "f1.fasta f2.fasta f3.fasta" -f reference.fasta -g reference.gb  -t <int> -o <int> '
+'singularity exec --bind /lustre/:/lustre/ mitohifi-v2.2.sif mitohifi.py -r "f1.fasta f2.fasta f3.fasta" -f reference.fasta -g reference.gb  -t <int> -o <int> '
 
-usage: mitohifi_v2.py (-r R | -c C) [-h] -f F -g G -t T [-p P] [-m M]
-                      [--circular-size CIRCULAR_SIZE]
-                      [--circular-offset CIRCULAR_OFFSET] [-o O]
+usage: MitoHiFi [-h] (-r <reads>.fasta | -c <contigs>.fasta) -f
+                <relatedMito>.fasta -g <relatedMito>.gbk -t <THREADS> [-d]
+                [-a {animal,plant}] [-p <PERC>] [-m <BLOOM FILTER>]
+                [--circular-size CIRCULAR_SIZE]
+                [--circular-offset CIRCULAR_OFFSET] [-v] [-o <GENETIC CODE>]
 
-Arguments:
-  -r R                  -r: Pacbio Hifi Reads from your species
-  -c C                  -c: Assemnbled fasta contigs/scaffolds to be searched
+required arguments:
+  -r <reads>.fasta      -r: Pacbio Hifi Reads from your species
+  -c <contigs>.fasta    -c: Assembled fasta contigs/scaffolds to be searched
                         to find mitogenome
-  -h, --help            Print this help message.
-  -f F                  -f: Close-related Mitogenome is fasta format
-  -g G                  -k: Close-related species Mitogenome in genebank
+  -f <relatedMito>.fasta
+                        -f: Close-related Mitogenome is fasta format
+  -g <relatedMito>.gbk  -k: Close-related species Mitogenome in genebank
                         format
-  -t T                  -t: Number of threads for different steps such as
-                        hifiams, minimap2, samtools and blast
-  -p P                  -p: Percentage of query in the blast match with close-
+  -t <THREADS>          -t: Number of threads for (i) hifiasm and (ii) the
+                        blast search
+
+optional arguments:
+  -d                    -d: debug mode to output additional info on log
+  -a {animal,plant}     -a: Choose between animal (default) or plant
+  -p <PERC>             -p: Percentage of query in the blast match with close-
                         related mito
-  -m M                  -m: Number of bits for HiFiasm bloom filter [it maps to -f in HiFiasm] (default = 0)
+  -m <BLOOM FILTER>     -m: Number of bits for HiFiasm bloom filter [it maps
+                        to -f in HiFiasm] (default = 0)
   --circular-size CIRCULAR_SIZE
                         Size to consider when checking for circularization
   --circular-offset CIRCULAR_OFFSET
                         Offset from start and finish to consider when looking
                         for circularization
-  -o O                  -o: Organism genetic code following NCBI table (for
+  -v, --version         show program's version number and exit
+  -o <GENETIC CODE>     -o: Organism genetic code following NCBI table (for
                         mitogenome annotation): 1. The Standard Code 2. The
                         Vertebrate MitochondrialCode 3. The Yeast
                         Mitochondrial Code 4. The Mold,Protozoan, and
@@ -154,30 +162,39 @@ Arguments:
 2.2-) If you are starting from assembled contigs, your required arguments are:
 
 ```
-Usage: 'python mitohifi_v2.py -c contigs.fasta -f reference.fasta -g reference.gb  -t <int> -o <int> '
+'singularity exec --bind /lustre/:/lustre/ mitohifi-v2.2.sif mitohifi.py -c contigs.fasta -f reference.fasta -g reference.gb  -t <int> -o <int> '
 
-usage: mitohifi_v2.py (-r R | -c C) [-h] -f F -g G -t T [-p P]
-                      [--circular-size CIRCULAR_SIZE]
-                      [--circular-offset CIRCULAR_OFFSET] [-o O]
+usage: MitoHiFi [-h] (-r <reads>.fasta | -c <contigs>.fasta) -f
+                <relatedMito>.fasta -g <relatedMito>.gbk -t <THREADS> [-d]
+                [-a {animal,plant}] [-p <PERC>] [-m <BLOOM FILTER>]
+                [--circular-size CIRCULAR_SIZE]
+                [--circular-offset CIRCULAR_OFFSET] [-v] [-o <GENETIC CODE>]
 
-Arguments:
-  -r R                  -r: Pacbio Hifi Reads from your species
-  -c C                  -c: Assemnbled fasta contigs/scaffolds to be searched
+required arguments:
+  -r <reads>.fasta      -r: Pacbio Hifi Reads from your species
+  -c <contigs>.fasta    -c: Assembled fasta contigs/scaffolds to be searched
                         to find mitogenome
-  -h, --help            Print this help message.
-  -f F                  -f: Close-related Mitogenome is fasta format
-  -g G                  -k: Close-related species Mitogenome in genebank
+  -f <relatedMito>.fasta
+                        -f: Close-related Mitogenome is fasta format
+  -g <relatedMito>.gbk  -k: Close-related species Mitogenome in genebank
                         format
-  -t T                  -t: Number of threads for different steps such as
-                        hifiams, minimap2, samtools and blast
-  -p P                  -p: Percentage of query in the blast match with close-
+  -t <THREADS>          -t: Number of threads for (i) hifiasm and (ii) the
+                        blast search
+
+optional arguments:
+  -d                    -d: debug mode to output additional info on log
+  -a {animal,plant}     -a: Choose between animal (default) or plant
+  -p <PERC>             -p: Percentage of query in the blast match with close-
                         related mito
+  -m <BLOOM FILTER>     -m: Number of bits for HiFiasm bloom filter [it maps
+                        to -f in HiFiasm] (default = 0)
   --circular-size CIRCULAR_SIZE
                         Size to consider when checking for circularization
   --circular-offset CIRCULAR_OFFSET
                         Offset from start and finish to consider when looking
                         for circularization
-  -o O                  -o: Organism genetic code following NCBI table (for
+  -v, --version         show program's version number and exit
+  -o <GENETIC CODE>     -o: Organism genetic code following NCBI table (for
                         mitogenome annotation): 1. The Standard Code 2. The
                         Vertebrate MitochondrialCode 3. The Yeast
                         Mitochondrial Code 4. The Mold,Protozoan, and
@@ -195,7 +212,6 @@ Arguments:
                         Mitochondrial Code 24. Pterobranchia Mitochondrial
                         Code 25. Candidate Division SR1 and Gracilibacteria
                         Code
-
 
 ```
 
