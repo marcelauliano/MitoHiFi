@@ -1,6 +1,6 @@
 # MitoHiFi 
 
------- This is v2 -------
+------ This is v2.2 -------
 
 MitoHiFi is a python pipeline distributed under the [License](LICENSE)
 
@@ -14,20 +14,20 @@ Find out more [Darwin Tree of Life data portal](https://portal.darwintreeoflife.
 
 ## <b>MitoHiFi</b> is a python workflow that assembles a species mitogenome from Pacbio HiFi reads.
 
-With Mitoifi.v2 you can start from raw Pacbio HiFi reads (flag -r) or from assembled contigs (flag -c). You will also going to need a close-related mitochondria sequence in fasta and gb format. We have an internal script that can download it for you from NCBI (findMitoReference.py).
+With MitoHiFi.v2.2 you can start from raw Pacbio HiFi reads (flag -r) or from assembled contigs (flag -c). You also need a close-related mitochondria sequence in fasta and gb format. We have an internal script that can download it for you from NCBI (findMitoReference.py).
 
 
 
-*The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straight forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in multiple-copy mitogenome-contigs. This pipeline was developed to finalise the assembly and annotation of the mitogenome. It will also dected different variants of the mitogenome present in your sample. At the end you are going to have all the variants assembled and annotated, and MitoHiFi.v2 is going to choose a final consensus sequence. In addtion, you will find an aligment of all the variants to facilitate your analysis of mitochondria heteroplasmy.*
+*The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straight forward. Because of the circular nature of the molecule, however, the mitocontig is usually assembled redundantly resulting in multiple-copy mitogenome-contigs. This pipeline was developed to finalise the assembly and annotation of the mitogenome. It will also dected different variants of the mitogenome present in your sample. At the end you are going to have all the variants assembled and annotated, and MitoHiFi.v2.2 is going to choose a final consensus sequence. In addtion, you will find an aligment of all the variants to facilitate your analysis of mitochondria heteroplasmy.*
 
 
 
-MitoHifi v2 will:
+MitoHifi v2.2 will:
 
 (i) extract mito reads and assemble them with hifiasm (flag -r), or find the mito contigs among assembled contigs (flag -c)    
-(ii) indentify and separate NUMTS from real mitochontigs  
+(ii) indentify and separate NUMTS from real mitocontigs  
 (iii) generate a circularized, non-redudant and annotated version of all the mitochondria sequences present in your sample	
-(iv) choose a final consensus as the final mitochondria
+(iv) choose a final consensus as the final mitochondria representative
 
 
 -----
@@ -36,7 +36,7 @@ MitoHifi v2 will:
 
 ### Installation
 
-There are two ways to install MitoHifi.v2 at the moment; (i) mannually - and then you will need to have all the dependencies installed in your PATH, or with (ii) a singularity image.
+There are two ways to install MitoHifi.v2.2; (i) with a singularity image (highly recommended) or (ii) manually - and then you will need to have all the dependencies installed in your PATH.
 
 ### Manual installation - Dependencies
 
@@ -48,13 +48,13 @@ MitoHifi.v2 was developed and tested with the following software versions:
 - Biopython version 1.78 
 - Pandas version 1.1.3 
 - MAFFT version 7.475 
-- HiFiasm 0.14-r312 
+- HiFiasm 0.16.1-r375 
 - CD-HIT version 4.8.1 
 - samtools version 1.7 
 - minimap version 2.17-r941  
 
 
-### Once dependencies are done, install MitoHiFi.v2 (Linux)
+### Once dependencies are done, install MitoHiFi.v2.2 (Linux)
 
 ```
 
@@ -67,16 +67,17 @@ git clone https://github.com/marcelauliano/MitoHiFi.git
 In order to build the Docker image:
 
 ```
+git clone https://github.com/marcelauliano/MitoHiFi.git
 cd MitoHifi
 docker build .
 ```
 
-We have wrapped up MitoHiFi.v2 code into a singularity container. We recommned using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag -r
+We have wrapped up MitoHiFi.v2.2 code into a singularity container. We recommned using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag -r
 
-MitoHiFi.v2 siungularity should be called as:
+MitoHiFi.v2.2 siungularity should be called as:
 
 ```
-singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.sif  mitohifi_v2.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb  -t 10 -o 2
+singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.2.sif  mitohifi.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb  -t 10 -o 2 
 ```
 
 Singluarity versions lower than 3.7 do not support spaces in the arguments, so if you want to pass several read datasets as in the example above use singularity version 3.7 or higher. 
@@ -84,7 +85,7 @@ Singluarity versions lower than 3.7 do not support spaces in the arguments, so i
 The script for generating the reference files is incorporated into the singularity image and can be called as follows:
 
 ```
-singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.sif  findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
+singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.2.sif  findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
 ```
 
 ### Required arguments
