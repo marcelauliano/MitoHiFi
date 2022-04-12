@@ -39,7 +39,7 @@ MitoHifi v2.2 will:
 
 ### Installation
 
-There are two ways to install MitoHifi v2.2:
+There are two ways to install MitoHiFi v2.2:
 
 (i) with a singularity image (highly recommended)
 
