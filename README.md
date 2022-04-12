@@ -233,7 +233,6 @@ MitoHifi will produce a series of folders with the results. The main result will
 - final_mitogenome.fasta - the final mitochondria circularized and rotated to start at tRNA-Phe
 - final_mitogenome.gb - the final mitochondria annotated in genbank format.
 - contigs_stats.tsv - it will show you the statistics of your assembled mitos such as number of genes, size, if it was circularized or not, if the sequence has frameshifts and etc... 
-- 
 ## Further outputs
 
  Folders:
