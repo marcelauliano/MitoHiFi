@@ -13,5 +13,5 @@ Find out more [Darwin Tree of Life data portal](https://portal.darwintreeoflife.
 --------------------------------------
 
 
-This is NOT the most updated version of MitoHifi. Please go to the master branch and download the latest one from there.
+This is NOT the most updated version of MitoHiFi. Please go to the master branch and download the latest one from there.
 
