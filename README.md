@@ -62,7 +62,7 @@ git clone https://github.com/marcelauliano/MitoHiFi.git
 
 ```
 
-### Running MitoHiFi.v2 from a Singularity image
+### Running MitoHiFi.v2.2 from a Singularity image
 
 In order to build the Docker image:
 
