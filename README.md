@@ -156,7 +156,7 @@ Using the species in our test data as an example, you would do:
 ```
 findMitoReference.py --species "Phalera bucephala" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000
 ```
-This command will give you NC_016067.1.fasta and NC_016067.1.gb that you can be used for flags **-f** and **-g** in the main pipeline.
+This command will give you NC_016067.1.fasta and NC_016067.1.gb that you can uese for flags **-f** and **-g** in the main pipeline.
 
 2-) Now, you need to decide if you want to run MitoHiFi v2.2 from:
 (i) raw reads, in which case the pipeline will map the reads (flag **-r**) to the reference genome of the closely-related species to pull out mito-reads and exclude possible NUMTS and then assemble them using Hifiasm, or 
