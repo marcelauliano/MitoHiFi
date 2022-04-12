@@ -5,14 +5,14 @@
 MitoHiFi is a python pipeline distributed under the [MIT License](LICENSE)
 
 
-MitoHifi was first developed to assemble the mitogenomes for a wide range of species in the Darwin Tree of Life Project (DToL) ![](dtol-logo-round-300x132.png)
+MitoHiFi was first developed to assemble the mitogenomes for a wide range of species in the Darwin Tree of Life Project (DToL) ![](dtol-logo-round-300x132.png)
 
 Find out more [Darwin Tree of Life data portal](https://portal.darwintreeoflife.org/)
 
 --------------------------------------
 
 
-## <b>MitoHiFi</b> is a python workflow that assembles the mitogenome from Pacbio HiFi reads.
+## <b>MitoHiFi</b> is a python workflow that assembles mitogenomes from Pacbio HiFi reads.
 
 With MitoHiFi v2.2 you can start from the raw Pacbio HiFi reads (flag **-r**) or from the assembled contigs (flag **-c**). You also need a reference mitochondria sequence in FASTA and [GenBank format](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html). We provide an internal script (findMitoReference.py) that can be used to find and download the most closely-related reference genome for your species from NCBI.
 
