@@ -23,7 +23,7 @@ With MitoHiFi v2.2 you can start from the raw Pacbio HiFi reads (flag **-r**) or
 
 
 
-MitoHifi v2.2 will:
+MitoHiFi v2.2 will:
 
 (i) extract mito reads and assemble them with hifiasm (flag **-r**), or find the mito contigs among assembled contigs (flag **-c**)<br />    
 
