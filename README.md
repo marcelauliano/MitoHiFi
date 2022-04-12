@@ -271,11 +271,13 @@ If you run the pipelie with **-r** you will have a further folder called **reads
 - hifiasm.contigs.fasta - final hifiasm prim and alternate contigs concatenated. This is the file used to find your mitos.
 
 
-## New parameters for plants!!
+## New parameter for plants!!
 
-MitoHiFi is still not optmized to assemble a plant mitochondria or chloroplast. But if you have a contig you consider to be one of those, you can use MitoHiFi with the flag **-c** to circularize (if that is the case) and annotate it. To do it so, you also have to use the parameter **-a plant** when calling the main script mitohifi.py .
+MitoHiFi is still not optmized to assemble a plant mitochondria or chloroplast. But if you have a contig you consider to be one of those, you can use MitoHiFi with the flag **-c** to finalize your organelle! It will circularize (if that is the case) and annotate, and output statistics for you. To do this, you need to use the parameter **-a plant** when calling the main script mitohifi.py .
 
-Also, the script findMitoReference.py can search for a chloroplast instead of a mitochondria. Use flag **-t chloroplast** 
+Also, the script findMitoReference.py can now search for a chloroplast instead of a mitochondria. Use flag **-t chloroplast** 
+
+A final point on this: we are working hard to get it to automatically assemble plant mitos and chloroplasts. It will be released here as soon as it is ready. Please email us if you want to know more =) 
 
 
 ## Important parameter to change and test (-p)
