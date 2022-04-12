@@ -14,9 +14,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
     '''
 
-
-
-import sys, re
+import os, sys, re
 
 try:
     import gzip
@@ -44,7 +42,7 @@ def filterFasta(inStream, outPath, minLength=None, idList=None,
 
 def filterLengthIdList(inStream, outPath, format, minLength=None, 
                        idList=None, regex=False, neg=False, log=sys.stderr):
-    log.write("".join(("isNeg? ", str(neg))))
+    #log.write("".join(("isNeg? ", str(neg))))
     if not idList is None:
         if regex:
             idRes = [re.compile(x) for x in idList]

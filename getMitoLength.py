@@ -1,21 +1,3 @@
-#!/usr/bin/env python
-
-
-'''
-    Copyright 2021 Joāo Ferreira Nunes
-    This script is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    '''
-
-
 def get_mito_length(mito_file):
     """
     Returns the length of a mitogenome
@@ -33,6 +15,26 @@ def get_mito_length(mito_file):
     if not mito_len:
         raise Exception("Could not find the length of the mitogenome. Check if it is in proper FASTA format")
     return mito_len
+
+def get_mito_genes(mito_file):
+    """
+    Returns the number of genes from a mitogenome
+
+    Keyword arguments:
+    mito_file -- the input mitogenome GENBANK file
+    """
+    from Bio import SeqIO
+
+    num_sequences = len(list(SeqIO.parse(mito_file, "gb")))
+    if num_sequences > 1:
+        raise Exception("failed because mitogenome file has more than one sequence. {} sequences were found".format(str(num_sequences)))
+    num_genes = 0 
+    for index, record in enumerate(SeqIO.parse(mito_file, "gb")):
+        for feature in record.features:
+            #if feature.type == 'gene':
+            if feature.type in ['CDS', 'tRNA', 'rRNA']: # if either protein coding gene, tRNA or rRNA
+                num_genes += 1
+    return num_genes
 
 def main():
     import argparse 

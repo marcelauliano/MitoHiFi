@@ -31,15 +31,15 @@ RUN apt-get -qq -y update \
     && apt-get -qq -y install wget \
     && apt-get -qq -y install libz-dev \
     && rm -rf /var/lib/apt/lists/* \
-    && wget https://github.com/chhylp123/hifiasm/archive/refs/tags/0.14.2.tar.gz \
-    && tar -xzvf 0.14.2.tar.gz \
-    && cd hifiasm-0.14.2 && make
+    && wget https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
+    && tar -xzvf 0.16.1.tar.gz \
+    && cd hifiasm-0.16.1 && make
 
 ENV PATH /bin/MitoFinder/:${PATH}
-ENV PATH /bin/hifiasm-0.14.2/:${PATH}
+ENV PATH /bin/hifiasm-0.16.1/:${PATH}
 
-COPY mitohifi_v2.py /bin/
-RUN echo "#!/usr/bin/env python" | cat - /bin/mitohifi_v2.py | tee /bin/mitohifi_v2.py
+COPY mitohifi.py /bin/
+RUN echo "#!/usr/bin/env python" | cat - /bin/mitohifi.py | tee /bin/mitohifi.py
 COPY gfa2fa /bin/
 COPY alignContigs.py /bin/
 COPY circularizationCheck.py /bin/
@@ -49,9 +49,13 @@ COPY getMitoLength.py /bin/
 COPY getReprContig.py /bin/
 COPY parse_blast.py /bin/
 COPY rotation.py /bin/
+COPY fetch.py /bin/
 COPY findMitoReference.py /bin/
-COPY findFrameShits.py /bin/
+COPY findFrameShifts.py /bin/
+COPY parallel_annotation.py /bin/
+RUN echo "#!/usr/bin/env python" | cat - /bin/findFrameShifts.py | tee /bin/findFrameShifts.py
 COPY fixContigHeaders.py /bin/
+RUN echo "#!/usr/bin/env python" | cat - /bin/fixContigHeaders.py | tee /bin/fixContigHeaders.py
 
 RUN chmod -R 755 /bin
 CMD ["/bin/bash"]

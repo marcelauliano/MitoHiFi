@@ -1,22 +1,5 @@
 #!/usr/bin/env python
 
-
-'''
-    Copyright 2021 Joāo Ferreira Nunes
-    This script is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    '''
-
-
-
 from argparse import ArgumentParser
 import os
 from Bio import SeqIO
@@ -25,7 +8,40 @@ import subprocess
 from collections import deque
 import itertools
 
+def get_trna_pos(path):
+    """Gets the position for each tRNA in an input file
+
+    Args:
+        path (str): input file to be processed
+
+    Returns:
+        dict: Positions for each tRNA gene found
+    """
+
+    trnas = {}
+    with open(path) as f:
+        for _, record in enumerate(SeqIO.parse(path, "genbank")):
+            for trna in record.features:
+                if trna.type == 'gene' and 'product' in trna.qualifiers and \
+                    'tRNA' in trna.qualifiers['product'][0]:
+                    tRNA_name = trna.qualifiers['product'][0]
+                    tRNA_start = str(int(trna.location.start))
+                    tRNA_strand = str(trna.location.strand)
+                    trnas[tRNA_name] = [tRNA_start, tRNA_strand]
+    if len(trnas) > 0:
+        return trnas
+    return None
+
 def get_phe_pos(path):
+    """Gets the position of the tRNA-Phe gene
+
+    Args:
+        path (str): path of input genbank file
+
+    Returns:
+        tuple: Start position of tRNA-Phe, Strand
+    """
+
     with open(path) as f:
         for _, record in enumerate(SeqIO.parse(path, "genbank")):
             for fea in record.features:
@@ -35,26 +51,50 @@ def get_phe_pos(path):
     return None, None    
                 
 def make_rc(path, rc_path):
+    """Creates a reverse complement.
+     
+    Args:
+        path (str): input FASTA file 
+        rc_path (str): new FASTA file created (reverse complement of input) 
+    
+    Returns: 
+        None
+    """
     record = SeqIO.read(path, "fasta")
     rc_record = record.reverse_complement(id=record.id + "_rc")
     with open(rc_path, 'w') as f:
         SeqIO.write(rc_record, f, 'fasta')
 
 def annotate(workdir, path, ref_gb, contig_id, o_code, max_contig_size, threads):
+    """Annotate reverse complemented genome.
+    """
+
     cur = os.path.abspath(os.getcwd())
     out_id = contig_id + "_RC.annotation"
     if workdir:
         os.chdir(workdir)
     command = "mitofinder --max-contig-size {} -j {} -a {} -r {} -o {} -p {}".format(max_contig_size, out_id, path, ref_gb, o_code, threads) 
-    #command = ' '.join(['mitofinder -j', out_id, '-a', path, '-r', ref_gb, '-o', o_code])
-    print("Running mitofinder for RC: ", command)
-    subprocess.call(command, shell=True)
+    mitofinder_cmd = ["mitofinder", "--new-genes", "--max-contig-size", str(max_contig_size),
+                    "-j", out_id, "-a", path, "-r", ref_gb, "-o", o_code, "-p", str(threads),
+                    "--circular-size", "8000"] 
+    subprocess.run(mitofinder_cmd, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
     os.chdir(cur)
     return os.path.join(workdir, out_id, \
                         out_id + '_MitoFinder_mitfi_Final_Results', \
                         out_id + '_mtDNA_contig.gb')
 
 def rotate(genome, start, contig_id):
+    """Creates new genome file (suffix .mitogenome.rotated.fa) after rotating it.
+
+    Args:
+        genome (str): input genome file
+        start (int): position at which rotate the input genome
+        contig_id (str): identifier representing the original contig 
+    
+    Returns:
+        None
+    """
+
     record = SeqIO.read(genome, "fasta")
     d = deque(record.seq)
     d.rotate(-(start+1))
