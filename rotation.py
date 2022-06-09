@@ -127,7 +127,9 @@ if __name__ == '__main__':
         start, strand = get_phe_pos(new_gb)
         genome = rc
     print('Final rotation...')
-    rotate(genome, start)
+    for record in SeqIO.parse(args.mito, "fasta"):
+        contig_id = record.id
+    rotate(genome, start, contig_id)
     print(' '.join(['Rotated to tRNA-Phe genome is at ', \
             os.path.join(os.path.dirname(genome), 'mitogenome.rotated.fa')]))
     if new_gb:
