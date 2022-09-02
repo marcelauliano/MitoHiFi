@@ -1,5 +1,7 @@
 from Bio import SeqIO
 import os 
+import logging
+import sys
 
 def get_num_seqs(in_fasta):
     """Gets the number of sequences in a FASTA file.
@@ -22,20 +24,34 @@ def get_ref_tRNA():
     Returns: 
         str: reference tRNA
     """
-
+    
+    FORMAT='%(asctime)s [%(levelname)s] %(message)s'
+    logging.basicConfig(level=logging.DEBUG, stream=sys.stdout,
+                        format=FORMAT, datefmt='%Y-%m-%d %H:%M:%S')
+    
     tRNAs = {}
     for curr_file in os.listdir('.'):
         if curr_file.endswith('.trnas'):
+            curr_seq_tRNAs = set()
             with open(curr_file, "r") as infile:
                 for line in infile:
-                    tRNA = line.split("\t")[0]
+                    tRNA = line.split("\t")[0][:4] #skip tRNA number if it exists
+                    # adds tRNA to shared tRNA dict if it does not exist yet
                     if tRNA not in tRNAs:
                         tRNAs[tRNA] = 1
-                    else:
+                        curr_seq_tRNAs.add(tRNA)
+                    # it only adds one to tRNA count if it has not been counted
+                    # in the local .trna file yet
+                    elif tRNA not in curr_seq_tRNAs:
                         tRNAs[tRNA] += 1
+                        curr_seq_tRNAs.add(tRNA)
+    
+    #logging.info(f"tRNAs: {tRNAs}") # debug
+    #return tRNAs
+
     # if any contig has a tRNA-Phe, use it as the reference gene for rotation
-    if 'tRNA-Phe' in tRNAs:
-        reference_tRNA = 'tRNA-Phe'
+    if 'trnF' in tRNAs:
+        reference_tRNA = 'trnF'
     else:
         reference_tRNA = max(tRNAs, key=tRNAs.get)
     return reference_tRNA

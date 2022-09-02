@@ -22,7 +22,7 @@ def get_circularization_info(seq_id):
             else:
                 return True
 
-def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, debug=False):
+def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.35, debug=False):
     
     def get_frameshift_info(seq_id):
         """Retrieves information of frameshifts from *.individual.stats file
@@ -93,7 +93,7 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
         for seq in seqs:
             if seq[1] <= rel_mito_upper_lim and seq[4] == True:
                 repr_contig, repr_contig_cluster = seq[0], seq[3]
-                warnings.warn("Warning: representative contig contains frameshifts")
+                warnings.warn("Warning: representative contig contains frameshifts", stacklevel=2)
                 break
 
     # If the second condition is not met, then we search for a contig whose size is less than or
@@ -102,7 +102,7 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
         for seq in seqs:
             if seq[1] <= rel_mito_upper_lim and seq[2] == "No frameshift found":
                 repr_contig, repr_contig_cluster = seq[0], seq[3]
-                warnings.warn("Warning: representative contig wasn't circularized")
+                warnings.warn("Warning: representative contig wasn't circularized", stacklevel=2)
                 break
 
     # If the third condition is not met, then we search for a contig which has no frameshifts and
@@ -111,7 +111,7 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
         for seq in seqs:
             if seq[2] == "No frameshift found" and seq[4] == True:
                 repr_contig, repr_contig_cluster = seq[0], seq[3]
-                warnings.warn("Warning: representative contig may be too large")
+                warnings.warn("Warning: representative contig may be too large", stacklevel=2)
                 break
 
     # If the fourth condition is not met, then we search for a contig whose size is less than or
@@ -120,7 +120,7 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
         for seq in seqs:
             if seq[1] <= rel_mito_upper_lim:
                 repr_contig, repr_contig_cluster = seq[0], seq[3]
-                warnings.warn(f"Warning: representative wasn't circularized and it has frameshifts")
+                warnings.warn(f"Warning: representative wasn't circularized and it has frameshifts", stacklevel=2)
                 break
 
     # If the fifth condition is not met, then we search for a contig which was circularized            
@@ -128,7 +128,7 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
         for seq in seqs:
             if seq[4] == True:
                 repr_contig, repr_contig_cluster = seq[0], seq[3]
-                warnings.warn(f"Warning: representative has frameshifts and it may be too large")
+                warnings.warn(f"Warning: representative has frameshifts and it may be too large", stacklevel=2)
                 break
 
     # If the sixtieth condition is not met, then we search for a contig which has no frameshifts            
@@ -136,13 +136,13 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
         for seq in seqs:
             if seq[2] == "No frameshift found":
                 repr_contig, repr_contig_cluster = seq[0], seq[3]
-                warnings.warn(f"Warning: representative wasn't circularized and it may be too large")
+                warnings.warn(f"Warning: representative wasn't circularized and it may be too large", stacklevel=2)
                 break
 
     # If none condition is met, we return the smallest contig available            
     if not repr_contig:
         repr_contig, repr_contig_cluster = seqs[-1][0], seqs[-1][3]
-        warnings.warn("Warning: representative contig contains frameshifts, wasn't circularized and it may be too large")
+        warnings.warn("Warning: representative contig contains frameshifts, wasn't circularized and it may be too large", stacklevel=2)
 
     return (repr_contig, repr_contig_cluster)   
 

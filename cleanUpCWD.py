@@ -36,7 +36,7 @@ def clean_up_work_dir(contigs_list):
             shutil.move(f, "contigs_circularization")
 
     # moving files related to the process of choosing the representative final mitogenome (using CDHIT)
-    final_choice_files = ["all_mitogenomes.rotated.aligned.fa", "all_mitogenomes.rotated.fa", "cdhit.out", "cdhit.out.clstr"]
+    final_choice_files = ["all_mitogenomes.rotated.aligned.aln", "all_mitogenomes.rotated.fa", "cdhit.out", "cdhit.out.clstr"]
     if not os.path.isdir("final_mitogenome_choice"):
         os.mkdir("final_mitogenome_choice")
     for f in final_choice_files:

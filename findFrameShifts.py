@@ -1,6 +1,7 @@
 from Bio import SeqIO
 import re
 import sys
+import logging 
 
 def find_frameshifts(in_gb):
     frameshift_genes = set()
@@ -14,6 +15,20 @@ def find_frameshifts(in_gb):
                     frameshift_genes.add(gene_name)
     return frameshift_genes 
 
+def find_frameshifts_mitos(in_proteins_fasta):
+    """Takes a multifasta protein file and returns information on proteins that contain frameshifts. """
+
+
+    frameshift_genes = []
+    for record in SeqIO.parse(in_proteins_fasta, "fasta"):
+        seq = str(record.seq)
+        description = record.description
+        gene_name = description.split(";")[-1].strip()
+        if re.search("[A-Z]\*[A-Z]", seq):
+            print("Gene {} contains frameshift".format(gene_name))
+            frameshift_genes.append(gene_name)
+    return frameshift_genes 
+
 def get_gb_stats(in_gb):
     for record in SeqIO.parse(in_gb, "gb"):
         gb_len = len(record.seq)
@@ -22,6 +37,38 @@ def get_gb_stats(in_gb):
             if feature.type == 'gene':
                 num_genes += 1
     return (str(gb_len), str(num_genes))
+
+
+def get_mitos_stats(in_gff, in_fasta):
+    """Takes in a GFF file produced by MITOS and returns annotation statistics."""
+    
+    logging.info(f"started get_mitos_stats()") # debug
+    logging.info(f"in_gff: {in_gff} | in_fasta: {in_fasta}") # debug
+
+
+    for record in SeqIO.parse(in_fasta, "fasta"):
+        seq_len = len(record.seq)
+    
+    logging.info(f"seq_len: {seq_len}") # debug
+
+    protein_coding_genes = []
+    ncRNA_genes = []
+
+    with open(in_gff, "r") as f:
+        for line in f.readlines():
+            feat_type = line.split()[2]
+            if feat_type == "gene":
+                feat_name = line.split()[-1].split(";")[-1].replace("gene_id=", "")
+                protein_coding_genes.append(feat_name) # debug
+            elif feat_type == "ncRNA_gene":
+                feat_name = line.split()[-1].split(";")[-1].replace("gene_id=", "")
+                ncRNA_genes.append(feat_name)
+    
+    logging.info(f"protein_coding_genes: {protein_coding_genes}") # debug
+    logging.info(f"ncRNA_genes: {ncRNA_genes}") # debug
+
+    num_genes = len(protein_coding_genes) + len(ncRNA_genes)
+    return (seq_len, num_genes)
 
 def main():
     frameshifts_found = find_frameshifts(sys.argv[1])
