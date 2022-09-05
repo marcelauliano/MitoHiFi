@@ -68,13 +68,34 @@ All above dependencies (except MitoFinder) can be installed using [conda](https:
 conda env create -n mitohifi_env -f mitohifi_env.yml 
 ```
 
+#### 2.1.1 Installing MitoFinder 
+
 Due to incompatibility of python versions, MitoFinder needs to be manually installed following its official instructions. After that, the user must add MitoFinder to PATH:  
 
 ```
 export PATH=</path/to/MitoFinder>:${PATH}
 ```
 
-where `</path/to/MitoFinder>` needs to be replaced with the path where MitoFinder was installed. 
+where `</path/to/MitoFinder>` needs to be replaced with the path where MitoFinder was installed.
+
+#### 2.1.2 Installing MITOS2 
+
+Alternatively, the user may choose to use MITOS2 for annotation instead of MitoFinder. If that's the case, it needs to install MITOS2 and its dependencies. The dependencies may be installed using a YAML environment shared along with MitoHiFi's codebase (`mitos_env.yml`) 
+
+```
+conda env create -n mitos_env -f mitos_env.yml 
+```
+
+Once the environment is created, all dependencies will have been installed. So the user just needs to install MITOS2: 
+
+```
+# create copy of MITOS directory
+git clone https://gitlab.com/Bernt/MITOS.git
+# move to recently created copy
+cd MITOS
+# activate MITOS2 branch so that it runs MITOS2 (not MITOS1) version
+git checkout origin/mitos2
+```
 
 **Once all dependencies are installed, install MitoHiFi v2.3 (Linux)**
 
@@ -94,7 +115,7 @@ docker build .
 
 We have wrapped up MitoHiFi v2.3 code into a singularity container. We recommend using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag **-r**
 
-MitoHiFi.v2.3 siungularity image should be run as:
+MitoHiFi.v2.3 singularity image should be run as:
 
 ```
 singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.3.sif  mitohifi.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb  -t 10 -o 2 
@@ -174,7 +195,6 @@ optional arguments:
 ```
 
 ## 4. Running MitoHiFi
-
 1-) To run MitoHiFi, first you need a close-related mitochondria in fasta and genbank format. We have a script that can help you fetch this data from NCBI database. Given the name of the species you are assembling, the script is going to look for the closest mitochondria it can find on NCBI. By default the script searches for an available mitochondria assembly of exactly same species. If it's not available the search goes on for a phylogenetically close candidate (based on NCBI taxonomy).
 
 Using the species in our test data as an example, you would do:
@@ -207,9 +227,30 @@ This command will give you NC_016067.1.fasta and NC_016067.1.gb that you can use
 - Now run the test with the assembled contigs called test.fa
 
 ```
-'python mitohifi.py -c exampleFiles/test.fa -f exampleFiles/NC_016067.1.fasta -g exampleFiles/NC_016067.1.gb -t 1 -o 5'
+python mitohifi.py -c exampleFiles/test.fa -f exampleFiles/NC_016067.1.fasta -g exampleFiles/NC_016067.1.gb -t 1 -o 5
  ```
- 
+
+### 4.2 Running MitoHiFi using MITOS2 for annotation  
+By default MitoHiFi will use MitoFinder to annotate genes. Alternatively, the user may choose to annotate with MITOS2 by using the `--mitos` option. Of course, the user needs to make sure MITOS2 is properly installed and its dependencies are added to the PATH. If you chose to use the conda environment (`mitos_env`) provided here, you can activate the environment by running:  
+
+```
+conda activate mitos_env
+```
+
+Then, you must create three symbolic links in the current working directory:  
+
+```
+ln -s /path/to/MITOS/
+ln -s /path/to/MITOS/runmitos.py
+ln -s /path/to/mitos_env/bin/python2
+```
+
+Now you are ready to run MitoHiFi with the `--mitos` option:  
+
+```
+python mitohifi.py -c exampleFiles/test.fa -f exampleFiles/NC_016067.1.fasta -g exampleFiles/NC_016067.1.gb -t 1 -o 5 --mitos
+```
+
 ## 5. Output files
 ### 5.1 Main Outputs  
 
@@ -258,15 +299,15 @@ Columns descriptions of <b>parsed_blast.txt</b> and <b>parsed_blast_all.txt</b>:
   - gbk.HiFiMapped.bam.filtered.fasta - mapped reads filtered by size. We remove any reads that are larger than the size of the close-related mito as a rough way to filter out numpts
   - hifiasm.contigs.fasta - final hifiasm primary and alternate contigs concatenated. This is the file used to find your mitos.
 
-## 6. New parameter for plants!!
+## 6. Parameter for plants!!
 
 MitoHiFi is still not optmized to assemble a plant mitochondria or chloroplast. But if you have a contig you consider to be one of those, you can use MitoHiFi with the flag **-c** to finalize your organelle! It will circularize (if that is the case) and annotate, and output statistics for you. To do this, you need to use the parameter **-a plant** when calling the main script mitohifi.py .
 
 Also, the script findMitoReference.py can now search for a chloroplast instead of a mitochondria. Use flag **-t chloroplast** 
 
-## 7. Important parameter to change and test (-p)
+## 7. Important parameter to change and test (`-p`)
 
-Mitohifi is going to pull possible mito contigs by blasting your contigs with the closely-related mito reference genome. The Default parameter **-p** is going to chose any contig which has 50% or more of its length in the blast match. This is the default because with invertebrate taxa from the Darwin Tree of Life project we have been seeing that the repetitive portion of the mitogenomes is not very conserved between some taxa. In these cases, a more stringent **-p** ends up excluding real mito sequences. Nevertheless, if you are working with more conserved taxa - such as mammals and other vertebrates - use higher **-p** (such as 80 or 90) for better results.
+Mitohifi is going to pull possible mito contigs by blasting your contigs with the closely-related mito reference genome. The Default parameter `-p` is going to chose any contig which has 50% or more of its length in the blast match. This is the default because with invertebrate taxa from the Darwin Tree of Life project we have been seeing that the repetitive portion of the mitogenomes is not very conserved between some taxa. In these cases, a more stringent `-p` ends up excluding real mito sequences. Nevertheless, if you are working with more conserved taxa - such as mammals and other vertebrates - use higher `-p` (such as 80 or 90) for better results.
 
 ## 8. Citations
 
