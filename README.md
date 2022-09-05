@@ -12,8 +12,8 @@ Find out more [Darwin Tree of Life data portal](https://portal.darwintreeoflife.
 
 --------------------------------------
 
-
-## <b>MitoHiFi</b> is a python workflow that assembles mitogenomes from Pacbio HiFi reads.
+## 1. Background
+**MitoHiFi is a python workflow that assembles mitogenomes from Pacbio HiFi reads.**
 
 With MitoHiFi v2.3 you can start from the raw Pacbio HiFi reads (flag **-r**) or from the assembled contigs (flag **-c**). You also need a reference mitochondria sequence in FASTA and [GenBank format](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html). We provide an internal script (findMitoReference.py) that can be used to find and download the most closely-related reference genome for your species from NCBI.
 
@@ -35,15 +35,15 @@ MitoHiFi v2.3 will:
 
 -----
 
-## Installation
+## 2. Installation
 
 There are two ways to install MitoHiFi v2.3:
 
-(i) with a singularity image (highly recommended)
+(i) manually - and then you will need to have all the dependencies installed in your PATH.  
 
-(ii) manually - and then you will need to have all the dependencies installed in your PATH.
+(ii) with a singularity image (highly recommended)
 
-### Manual installation - Dependencies
+### 2.1 Manual installation - Dependencies
 
 All the software listed bellow have to be installed and exported to your PATH. 
 MitoHifi v2.3 was developed and tested with the following software versions:
@@ -62,13 +62,13 @@ MitoHifi v2.3 was developed and tested with the following software versions:
 - samtools version 1.7 
 - minimap version 2.17-r941  
 
-All above dependencies (except MitoFinder) can be installed using conda, and we share a YML file to facilitate their installation. The user can create a conda environment named `mitohifi_env` with all dependencies installed by running:  
+All above dependencies (except MitoFinder) can be installed using [conda](https://conda.io/projects/conda/en/latest/index.html), and we share a YML file to facilitate their installation. The user can create a conda environment named `mitohifi_env` with all dependencies installed by running:  
 
 ```
 conda env create -n mitohifi_env -f mitohifi_env.yml 
 ```
 
-Due to incompatible python versions, MitoFinder needs to be manually installed following its official instructions. After that, the user must add MitoFinder to PATH:  
+Due to incompatibility of python versions, MitoFinder needs to be manually installed following its official instructions. After that, the user must add MitoFinder to PATH:  
 
 ```
 export PATH=</path/to/MitoFinder>:${PATH}
@@ -82,7 +82,7 @@ where `</path/to/MitoFinder>` needs to be replaced with the path where MitoFinde
 git clone https://github.com/marcelauliano/MitoHiFi.git
 ```
 
-### Running MitoHiFi v2.2 from a Singularity image
+### 2.2 Running MitoHiFi v2.2 from a Singularity image
 
 In order to build the Docker image:
 
@@ -108,7 +108,7 @@ The script for quering reference .fasta and .gb files from NCBI is incorporated 
 singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.3.sif  findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
 ```
 
-## Parameter list
+## 3. Parameter list
 
 ```
 usage: MitoHiFi [-h] (-r <reads>.fasta | -c <contigs>.fasta) -f
@@ -173,7 +173,7 @@ optional arguments:
                         Code 
 ```
 
-## Required arguments
+## 4. Running MitoHiFi
 
 1-) To run MitoHiFi, first you need a close-related mitochondria in fasta and genbank format. We have a script that can help you fetch this data from NCBI database. Given the name of the species you are assembling, the script is going to look for the closest mitochondria it can find on NCBI. By default the script searches for an available mitochondria assembly of exactly same species. If it's not available the search goes on for a phylogenetically close candidate (based on NCBI taxonomy).
 
@@ -200,7 +200,7 @@ This command will give you NC_016067.1.fasta and NC_016067.1.gb that you can use
 'singularity exec --bind /lustre/:/lustre/ mitohifi-v2.3.sif mitohifi.py -c contigs.fasta -f reference.fasta -g reference.gb -t <int> -o <int>'
 ```
 
-### Running MitoHiFi with test data
+### 4.1 Running MitoHiFi with test data
 
 - Use your singularity container image or have all the dependencies in your path then,
 - In the exampleFiles folder, the fasta and .gb file for NC_016067.1 will be your **-f** and **-g** inputs, respectively. Remember you could have gotten those files with the script findMitoReference.py.
@@ -210,8 +210,8 @@ This command will give you NC_016067.1.fasta and NC_016067.1.gb that you can use
 'python mitohifi.py -c exampleFiles/test.fa -f exampleFiles/NC_016067.1.fasta -g exampleFiles/NC_016067.1.gb -t 1 -o 5'
  ```
  
-## Output files
-### Main Outputs  
+## 5. Output files
+### 5.1 Main Outputs  
 
 MitoHifi will produce a series of folders with the results. The main results will be in your working folder and they are:
 - final_mitogenome.fasta - the final mitochondria circularized and rotated to start at tRNA-Phe
@@ -221,7 +221,7 @@ MitoHifi will produce a series of folders with the results. The main results wil
 - contigs_stats.tsv - it will show you the statistics of your assembled mitos such as the number of genes, size, whether it was circularized or not, if the sequence has frameshifts and etc...
 - contigs_annotations.png - it will show the predicted genes of your assembled mitos  
 
-### Further outputs
+### 5.2 Further outputs
 
 * Folder **contigs_filtering** will contain three outputs:
  
@@ -244,7 +244,6 @@ Columns descriptions of <b>parsed_blast.txt</b> and <b>parsed_blast_all.txt</b>:
 
 * Folder **potential_contigs** will contain a folder for each contig present in parsed_blast.txt. Within each contig folder you will find the circularized and annotated mitosequence for that contig.
 
-
 * Folder **final_mitogenome_choice** will contain a few files, the most important one is
 
   - all_mitogenomes.rotated.aligned.fa - this is an aligment of all the mithocondrial sequences assembled by the pipeline. It is possible you will find heteroplasmy in your sample, in which case you will have more than one version of the final mito presented. The pipeline chooses a final representative by a majority rule, using cdhit-est to cluster sequenvces at a 80% identitty and chosing the largest one in that cluster as the final. If you want to study heteroplasmy of your sample, please investigate the *all_mitogenomes.rotated.aligned.fa* file further, and all the results in the **potential_contigs** folder.
@@ -259,18 +258,17 @@ Columns descriptions of <b>parsed_blast.txt</b> and <b>parsed_blast_all.txt</b>:
   - gbk.HiFiMapped.bam.filtered.fasta - mapped reads filtered by size. We remove any reads that are larger than the size of the close-related mito as a rough way to filter out numpts
   - hifiasm.contigs.fasta - final hifiasm primary and alternate contigs concatenated. This is the file used to find your mitos.
 
-## New parameter for plants!!
+## 6. New parameter for plants!!
 
 MitoHiFi is still not optmized to assemble a plant mitochondria or chloroplast. But if you have a contig you consider to be one of those, you can use MitoHiFi with the flag **-c** to finalize your organelle! It will circularize (if that is the case) and annotate, and output statistics for you. To do this, you need to use the parameter **-a plant** when calling the main script mitohifi.py .
 
 Also, the script findMitoReference.py can now search for a chloroplast instead of a mitochondria. Use flag **-t chloroplast** 
 
-## Important parameter to change and test (-p)
+## 7. Important parameter to change and test (-p)
 
 Mitohifi is going to pull possible mito contigs by blasting your contigs with the closely-related mito reference genome. The Default parameter **-p** is going to chose any contig which has 50% or more of its length in the blast match. This is the default because with invertebrate taxa from the Darwin Tree of Life project we have been seeing that the repetitive portion of the mitogenomes is not very conserved between some taxa. In these cases, a more stringent **-p** ends up excluding real mito sequences. Nevertheless, if you are working with more conserved taxa - such as mammals and other vertebrates - use higher **-p** (such as 80 or 90) for better results.
 
-
-## Citations
+## 8. Citations
 
 When using MitoHifi, please cite our zenodo: 
 
