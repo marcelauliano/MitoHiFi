@@ -12,6 +12,7 @@ from Bio import SeqIO
 import sys
 import os
 import cleanUpCWD
+from compareGenesLists import compare_genes_dicts
 import fetch
 import fetch_mitos
 import filterfasta
@@ -21,6 +22,7 @@ import functools
 import rotation
 import getMitoLength
 import getReprContig
+from getGenesList import get_genes_list
 from parallel_annotation import process_contig, process_contig_02
 from parallel_annotation_mitos import process_contig_mitos, process_contig_02_mitos
 import shlex
@@ -400,6 +402,23 @@ The pipeline has stopped !! You need to run further scripts to check if you have
         "length(bp)", "number_of_genes", "was_circular\n"]))
         f.write("\t".join(["final_mitogenome", all_frameshifts, final_annotation,
         str(contig_len), str(num_genes), str(is_circ)+"\n"]))
+    
+    # compare list of genes from related mito and final mitogenome
+    related_mito_annotation = args.g
+    related_mito_genes = get_genes_list(related_mito_annotation, "genbank")
+    print(f"related_mito_genes: {related_mito_genes}") #debug
+    if final_annotation.endswith(".gff"):
+        final_mito_genes = get_genes_list(final_annotation, "gff")
+    elif final_annotation.endswith(".gb"):
+        final_mito_genes = get_genes_list(final_annotation, "genbank")
+    print(f"final_mito_genes: {final_mito_genes}") #debug
+    
+    shared, final_mito_specific, related_mito_specific = compare_genes_dicts(final_mito_genes, related_mito_genes, True)
+
+    with open("shared_genes.tsv", "w") as f:
+        f.write("\t".join(["contig_id", "shared_genes", "unique_to_contig", "unique_to_relatedMito\n"]))
+        f.write("\t".join(["final_mitogenome", str(shared), str(final_mito_specific), str(related_mito_specific)]))
+        
     ## Iterate over each contig and print its info (ID, framshifts and genbank file used 
     ## to search for the frameshifts)
     
