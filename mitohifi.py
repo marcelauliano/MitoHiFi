@@ -417,7 +417,7 @@ The pipeline has stopped !! You need to run further scripts to check if you have
 
     with open("shared_genes.tsv", "w") as f:
         f.write("\t".join(["contig_id", "shared_genes", "unique_to_contig", "unique_to_relatedMito\n"]))
-        f.write("\t".join(["final_mitogenome", str(shared), str(final_mito_specific), str(related_mito_specific)]))
+        f.write("\t".join(["final_mitogenome", str(shared), str(final_mito_specific), str(related_mito_specific) + "\n"]))
         
     ## Iterate over each contig and print its info (ID, framshifts and genbank file used 
     ## to search for the frameshifts)
@@ -436,6 +436,32 @@ The pipeline has stopped !! You need to run further scripts to check if you have
             with open(contig_stats, "r") as infile:
                 shutil.copyfileobj(infile, outfile)
     
+    # add comparison of genes for all potential contigs
+    with open("contigs_stats.tsv", "r") as f:
+        next(f) # skips first line of `contigs_stats.tsv`
+        next(f) # skips second line of `contigs_stats.tsv`
+        next(f) # skips third line of `contigs_stats.tsv`
+        for line in f:
+            contig_id = line.split()[0]
+            contig_annotation = ""
+            if args.mitos:
+                for curr_file in os.listdir(f"{contig_id}.annotation"):
+                    if curr_file.endswith('.rotated.gff'):
+                        contig_annotation = os.path.join(f"{contig_id}.annotation", curr_file)
+                #contig_annotation = os.path.join(f"{contig_id}.annotation", "result.rotated.gff")
+                if contig_annotation:
+                    contig_genes = get_genes_list(contig_annotation, "gff")
+                    print(f"{contig_id} list of genes: {contig_genes}")
+            else:
+                contig_annotation = f"{contig_id}.mitogenome.rotated.gb"
+                contig_genes = get_genes_list(contig_annotation, "genbank")
+                print(f"{contig_id} list of genes: {contig_genes}")
+            
+            shared, contig_specific, related_mito_specific = compare_genes_dicts(contig_genes, related_mito_genes, True)
+
+            with open("shared_genes.tsv", "a") as f2:
+                f2.write("\t".join([contig_id, str(shared), str(contig_specific), str(related_mito_specific) + "\n"]))
+
     # creating annotation plots
     step += 1
     logging.info(f"{step}. Building annotation plots for all contigs")
