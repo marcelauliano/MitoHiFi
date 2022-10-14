@@ -29,7 +29,11 @@ def get_clean_gene(in_gene):
         else:
             gene_clean = "trn" + amino_code
     elif in_gene.lower().startswith("nad"):
-        gene_clean = in_gene.lower().replace("nad", "nd")    
+        gene_clean = in_gene.lower().replace("nad", "nd")
+    elif in_gene.lower().startswith("16s"):
+        gene_clean = "rrnl"
+    elif in_gene.lower().startswith("12s"):
+        gene_clean = "rrns"
     else:
         gene_clean = in_gene.replace("-", "").lower()
 
