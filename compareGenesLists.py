@@ -24,22 +24,30 @@ def get_clean_gene(in_gene):
     Takes a raw gene name and returns its clean format.
     """
     if in_gene.lower().startswith("trn"):
-        if in_gene[-1].isdigit(): # if last character is digit, than it represents the copy number and we want to get rid of it
+        # if last character is digit, than it represents the copy number and we want to get rid of it
+        if in_gene[-1].isdigit(): 
             in_gene = in_gene[:-1]
-        gene_clean = in_gene.replace("tRNA-", "trn")
+        
+        gene_clean = in_gene.replace("tRNA-", "trn") # set trn as standard for tRNA genes
+        # turn three letter coded aminoacids into one letter code
         amino_code = gene_clean[3:]
         if len(amino_code) == 3:
             gene_clean = "trn" + seq1(gene_clean[3:])
         else:
             gene_clean = "trn" + amino_code
+    # NAD and ND are synonyms
     elif in_gene.lower().startswith("nad"):
         gene_clean = in_gene.lower().replace("nad", "nd")
+    # CYTB and COB are synonyms
     elif in_gene.lower() == "cytb":
         gene_clean = "cob"
+    # 16S and rrnL are synonyms
     elif in_gene.lower().startswith("16s"):
         gene_clean = "rrnl"
+    # 12S and rrnS are synonyms
     elif in_gene.lower().startswith("12s"):
         gene_clean = "rrns"
+    # for all other genes, remove hiphens and turn to lower case
     else:
         gene_clean = in_gene.replace("-", "").lower()
 
