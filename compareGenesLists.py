@@ -10,6 +10,8 @@ def get_genes_counts(genes_list):
     
     genes_count = {}
     for gene in genes_list:
+        if gene.lower().startswith("trn") and gene[-1].isdigit():
+            gene = gene[:-1]
         if gene not in genes_count:
             genes_count[gene] = 1
         else:
@@ -22,6 +24,8 @@ def get_clean_gene(in_gene):
     Takes a raw gene name and returns its clean format.
     """
     if in_gene.lower().startswith("trn"):
+        if in_gene[-1].isdigit(): # if last character is digit, than it represents the copy number and we want to get rid of it
+            in_gene = in_gene[:-1]
         gene_clean = in_gene.replace("tRNA-", "trn")
         amino_code = gene_clean[3:]
         if len(amino_code) == 3:
@@ -30,6 +34,8 @@ def get_clean_gene(in_gene):
             gene_clean = "trn" + amino_code
     elif in_gene.lower().startswith("nad"):
         gene_clean = in_gene.lower().replace("nad", "nd")
+    elif in_gene.lower() == "cytb":
+        gene_clean = "cob"
     elif in_gene.lower().startswith("16s"):
         gene_clean = "rrnl"
     elif in_gene.lower().startswith("12s"):
@@ -57,14 +63,14 @@ def compare_genes_dicts(genes1, genes2, alphabetically_sorted=False):
         gene2_clean = get_clean_gene(gene2)
         genes2_counts_clean[gene2_clean] = n
     
-   # print("### genes1_counts:")
-   # print(genes1_counts)
-   # print("### genes1_counts_clean:")
-   # print(genes1_counts_clean)
-   # print("### genes2_counts")
-   # print(genes2_counts)
-   # print("### genes2_counts_clean:")
-   # print(genes2_counts_clean)
+    #print("### genes1_counts:")
+    #print(genes1_counts)
+    #print("### genes1_counts_clean:")
+    #print(genes1_counts_clean)
+    #print("### genes2_counts")
+    #print(genes2_counts)
+    #print("### genes2_counts_clean:")
+    #print(genes2_counts_clean)
     
     shared_genes = {}
     genes1_specific_genes = {}
