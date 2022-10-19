@@ -133,7 +133,9 @@ def main():
         logging.info(" ".join(hifiasm_cmd))
         with open("hifiasm.log", "w") as hifiasm_log_f:
             subprocess.run(hifiasm_cmd, stderr=subprocess.STDOUT, stdout=hifiasm_log_f)       
-        
+
+        f1 = None
+        f2 = None
         try:
             f1 = open("gbk.HiFiMapped.bam.filtered.assembled.p_ctg.gfa")
             f2 = open("gbk.HiFiMapped.bam.filtered.assembled.a_ctg.gfa")
@@ -141,8 +143,10 @@ def main():
             sys.exit("""No gbk.HiFiMapped.bam.filtered.assembled.[a/p]_ctg.gfa file(s).
             An error may have occurred when assembling reads with HiFiasm.""")
         finally:
-            f1.close()
-            f2.close()
+            if f1:
+                f1.close()
+            if f2:
+                f2.close()
 
         gfa2fa_script = os.path.join(os.path.dirname(os.path.realpath(__file__)),"gfa2fa") # gets path to gfa2fa script
         
