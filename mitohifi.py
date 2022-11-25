@@ -13,6 +13,7 @@ import sys
 import os
 import cleanUpCWD
 from compareGenesLists import compare_genes_dicts
+from createCoveragePlot import map_potential_contigs, get_contigs_to_map, get_contigs_headers, split_mapping_by_contig, create_coverage_plot
 import fetch
 import fetch_mitos
 import filterfasta
@@ -50,7 +51,7 @@ def main():
     optional.add_argument("-a", help="-a: Choose between animal (default) or plant", default="animal", choices=["animal", "plant", "fungi"])
     optional.add_argument("-p", help="-p: Percentage of query in the blast match with close-related mito", type=int, default=50, metavar='<PERC>')
     optional.add_argument("-m", help="-m: Number of bits for HiFiasm bloom filter [it maps to -f in HiFiasm] (default = 0)", type=int, default=0, metavar='<BLOOM FILTER>')
-    optional.add_argument("--max-read-len", help="Maximum lenght of read relative to related mito (default = 1.5x related mito length)", type=float, default=1.5)
+    optional.add_argument("--max-read-len", help="Maximum lenght of read relative to related mito (default = 1.0x related mito length)", type=float, default=1.0)
     optional.add_argument("--mitos", help="Use MITOS2 for annotation (opposed to default MitoFinder", action="store_true")
     optional.add_argument('--circular-size', help='Size to consider when checking for circularization', type=int, default=220)
     optional.add_argument('--circular-offset', help='Offset from start and finish to consider when looking for circularization', type=int, default=40)
@@ -367,7 +368,7 @@ The pipeline has stopped !! You need to run further scripts to check if you have
     
     shutil.copy(repr_contig_fasta, final_fasta)
     shutil.copy(repr_contig_annotation, final_annotation)
-    
+     
     #repr_contig_get_gb = ["mitofinder", "--new-genes", "--max-contig-size",
     #                    str(max_contig_size), "-j", "final_mitogenome.annotation",
     #                    "-a", repr_contig_fasta, "-r", args.g, "-o", args.o, "-p", str(args.p),
@@ -507,58 +508,27 @@ The pipeline has stopped !! You need to run further scripts to check if you have
     ## concatenating all annotation plots into single final plot
     plot_annotation.merge_images(annotation_plots, "contigs_annotations.png")
 
-    # creating coverage plot 
+    # creating coverage plot (v02)
     if args.r:
         step += 1
-        logging.info(f"{step}. Building coverage distribution for final_mitogenome.fasta")
+        logging.info(f"{step}. Building coverage distribution for each potential contig")
         
-        # mapping reads against final mito
-        minimap_cmd = ["minimap2", "-t", str(args.t), "--secondary=no", "-ax", "map-hifi", "final_mitogenome.fasta"] + shlex.split(args.r) 
-        samtools_cmd = ["samtools", "view", "-@", str(args.t), "-b", "-F4", "-F", "0x800", "-q", str(args.covMap), "-o", "HiFi-vs-final_mitogenome.bam"] 
-        logging.info(f"{step}.1 Mapping HiFi reads against final_mitogenome.fasta:")
-        logging.info(" ".join(minimap_cmd) + " | " + " ".join(samtools_cmd))        
-        minimap = subprocess.Popen(minimap_cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-        #mapped_reads_f = open("HiFi-vs-final_mitogenome.bam", "w")
-        subprocess.run(samtools_cmd, stderr=subprocess.STDOUT, stdin=minimap.stdout)
-        minimap.wait()
-        minimap.stdout.close()
-        
-        # sorting and creating index for the mapping file
-        try:
-            f = open("HiFi-vs-final_mitogenome.bam")
-        except FileNotFoundError:
-            sys.exit("""No HiFi-vs-final_mitogenome.bam file.
-            An error may have occurred when mapping reads to final_mitogenome.fasta""")
-        finally:
-            f.close()
-        
-        sort_cmd = ["samtools", "sort", "-@", str(args.t), "HiFi-vs-final_mitogenome.bam", "-o", "HiFi-vs-final_mitogenome.sorted.bam"]
-        subprocess.run(sort_cmd, stderr=subprocess.STDOUT)
-        try:
-            f = open("HiFi-vs-final_mitogenome.sorted.bam")
-        except FileNotFoundError:
-            sys.exit("""No HiFi-vs-final_mitogenome.sorted.bam file.
-            An error may have occurred when sorting the HiFi-vs-final_mitogenome.bam file""")
-        finally:
-            f.close()
-        index_cmd = ["samtools", "index", "HiFi-vs-final_mitogenome.sorted.bam"]
-        subprocess.run(index_cmd, stderr=subprocess.STDOUT)
-        try:
-            f = open("HiFi-vs-final_mitogenome.sorted.bam.bai")
-        except FileNotFoundError:
-            sys.exit("""No HiFi-vs-final_mitogenome.sorted.bam.bai file.
-            An error may have occurred when indexing the HiFi-vs-final_mitogenome.sorted.bam file""")
-        finally:
-            f.close()
-        
+        reads = shlex.split(args.r)
+        contigs_to_map = get_contigs_to_map()
+        logging.info(f"contigs_to_map: {contigs_to_map}") 
+        logging.info(f"{step}.1 Mapping HiFi reads against potential contigs:")
+        contigs_mapping = map_potential_contigs(reads, contigs_to_map, args.t, args.covMap)
+        logging.info(f"HiFi reads mapping done. Output file: {contigs_mapping}")
+        contigs_headers = get_contigs_headers("all_potential_contigs.fa")
+        mapped_contigs = split_mapping_by_contig(contigs_mapping, contigs_headers, threads=args.t)
+        print(f"Splitting mapping file done. Individual mapped contigs: {mapped_contigs}")
+
         # creating coverage plot
         logging.info(f"{step}.2 Creating coverage plot...")
-        genome_filename = plot_coverage.make_genome_file("final_mitogenome.fasta") 
-        genome_windows_filename = plot_coverage.make_genome_windows(genome_filename, args.winSize)
-        windows_depth_filename = plot_coverage.get_windows_depth(genome_windows_filename, "HiFi-vs-final_mitogenome.bam")
-        plot_coverage.plot_coverage(windows_depth_filename, args.winSize)
-        plot_coverage.move_intermediate_files(["HiFi-vs-final_mitogenome.bam", "HiFi-vs-final_mitogenome.sorted.bam",
-            "HiFi-vs-final_mitogenome.sorted.bam.bai", genome_filename, genome_windows_filename, windows_depth_filename])
+        coverage_plot_filename = create_coverage_plot(mapped_contigs, args.winSize, repr_contig=repr_contig_id)
+        print("Coverage plots created.")
+        #plot_coverage.move_intermediate_files(["HiFi-vs-final_mitogenome.bam", "HiFi-vs-final_mitogenome.sorted.bam",
+        #    "HiFi-vs-final_mitogenome.sorted.bam.bai", genome_filename, genome_windows_filename, windows_depth_filename])
 
     # cleaning up working directory 
     cleanUpCWD.clean_up_work_dir(contigs_ids)

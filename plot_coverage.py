@@ -9,25 +9,34 @@ import shutil
 import shlex
 import logging
 
-def make_genome_file(in_fasta):
+def make_genome_file(contig_id):
     
+    contig_fasta = f"{contig_id}.mitogenome.rotated.fa"
+
     try:
         c = 0 # count number of seqs
-        for record in SeqIO.parse(in_fasta, "fasta"):
-            mito_len = len(record)
-            mito_id = record.id
+        for record in SeqIO.parse(contig_fasta, "fasta"):
+            contig_len = len(record)
+            contig_header = record.id
             c += 1
         
         if c > 1:
-            raise ValueError("More than one sequence in final_mitogenome.fasta")
+            raise ValueError(f"More than one sequence in {contig_fasta}")
     
     except ValueError:
         sys.exit(1)
+    
+    genome_file = f"{contig_id}.genome.txt"
+    with open(genome_file, "w") as f:
+        f.write("\t".join([contig_header, str(contig_len)]))
+    
+    try:
+        with open(genome_file, "r") as f:
+            pass
+    except FileNotFoundError:
+        sys.exit(f"No {genome_file} created.")
 
-    with open("final_mitogenome.genome.txt", "w") as f:
-        f.write("\t".join([mito_id, str(mito_len)]))
-
-    return "final_mitogenome.genome.txt" 
+    return f"{contig_id}.genome.txt" 
 
 def make_genome_windows(genome_file, winSize):
 
@@ -56,7 +65,7 @@ def move_intermediate_files(files_list):
         shutil.move(f, os.path.join(os.getcwd(), "final_mitogenome_coverage"))
         
 
-def plot_coverage(depth_file, winSize):
+def plot_coverage(contig_id, depth_file, winSize, isFinalMito=False):
 
   df = pd.read_csv(depth_file, sep="\t", names=['sequence', 'start', 'end', 'depth'])  
   df1 = df.astype({'start': 'int', 'end': 'int', 'depth': 'float'})
@@ -68,8 +77,13 @@ def plot_coverage(depth_file, winSize):
   ax.bar(x=df2['position'], height=df2['depth'], width=winSize)
   ax.set_xlabel('Genome position (bp)')
   ax.set_ylabel('Coverage depth')
+  if isFinalMito:
+    ax.set_title("final_mitogenome")
+  else:
+    ax.set_title(contig_id)
 
-  plt.savefig("final_mitogenome.coverage.png")
+  plt.savefig(f"{contig_id}.coverage.png")
+  return f"{contig_id}.coverage.png"
 
 def main():
 
