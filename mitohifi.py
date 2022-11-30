@@ -13,7 +13,7 @@ import sys
 import os
 import cleanUpCWD
 from compareGenesLists import compare_genes_dicts
-from createCoveragePlot import map_potential_contigs, get_contigs_to_map, get_contigs_headers, split_mapping_by_contig, create_coverage_plot
+from createCoveragePlot import map_potential_contigs, map_final_mito, get_contigs_to_map, get_contigs_headers, split_mapping_by_contig, create_coverage_plot
 import fetch
 import fetch_mitos
 import filterfasta
@@ -529,6 +529,15 @@ The pipeline has stopped !! You need to run further scripts to check if you have
         print("Coverage plots created.")
         #plot_coverage.move_intermediate_files(["HiFi-vs-final_mitogenome.bam", "HiFi-vs-final_mitogenome.sorted.bam",
         #    "HiFi-vs-final_mitogenome.sorted.bam.bai", genome_filename, genome_windows_filename, windows_depth_filename])
+        
+        step += 1
+        logging.info(f"{step}. Building coverage distribution for final mitogenome")
+        logging.info(f"{step}.1 Mapping HiFi reads against final_mitogenome.fasta:")
+        mapping_filename = map_final_mito(reads, args.t, args.covMap)
+        logging.info(f"HiFi reads mapping done. Output file: {mapping_filename}")
+        logging.info(f"{step}.2 Creating coverage plot...")
+        coverage_plot_filename = create_coverage_plot([repr_contig_id], args.winSize, repr_contig=repr_contig_id, is_final_mito=True)
+        logging.info(f"Coverage plot for final_mitogenome created...")
 
     # cleaning up working directory 
     cleanUpCWD.clean_up_work_dir(contigs_ids)

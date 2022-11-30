@@ -6,6 +6,7 @@ import subprocess
 import argparse
 import alignContigs
 import plot_coverage
+import plot_coverage_final_mito
 import PIL
 import numpy as np
 
@@ -125,6 +126,65 @@ def map_potential_contigs(in_reads, contigs, threads=1, covMap=20):
     
     return "HiFi-vs-potential_contigs.sorted.bam"
 
+def map_final_mito(in_reads, threads=1, covMap=20): 
+    """
+    Args:
+        in_reads (list): reads file to be mapped against contigs
+        threads (int): number of threads to be used for computation
+        covMap (int): minimum mapping quality to filter reads when building final coverage plot
+    Return:
+        (str) Filename of the sorted mapping file in BAM format
+    """
+
+    try:
+        with open("final_mitogenome.fasta") as f:
+            pass
+    except FileNotFoundError:
+        sys.exit("""No final_mitogenome.fasta file.
+        An error may have occurred when choosing the representative contig.""")
+    
+    # map reads 
+    minimap_cmd = ["minimap2", "-t", str(threads), "--secondary=no", "-ax", "map-pb", "final_mitogenome.fasta"] + in_reads
+    samtools_cmd = ["samtools", "view", "-@", str(threads), "-b", "-F4", "-F", "0x800", "-q", str(covMap), "-o", "HiFi-vs-final_mitogenome.bam"]
+    logging.info("Reads mapping:")
+    logging.info(" ".join(minimap_cmd) + " | " + " ".join(samtools_cmd))
+    minimap = subprocess.Popen(minimap_cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    subprocess.run(samtools_cmd, stderr=subprocess.STDOUT, stdin=minimap.stdout)
+    minimap.wait()
+    minimap.stdout.close()
+
+    # sorting and creating index for the mapping file
+    try:
+        with open("HiFi-vs-final_mitogenome.bam") as f:
+            pass
+    except FileNotFoundError:
+        sys.exit("""No HiFi-vs-final_mitogenome.bam file.
+        An error may have occurred when mapping reads to final mitogenome""")
+    
+    sort_cmd = ["samtools", "sort", "-@", str(threads), "HiFi-vs-final_mitogenome.bam", "-o", "HiFi-vs-final_mitogenome.sorted.bam"]
+    logging.info("Sorting mapping file:")
+    logging.info(" ".join(sort_cmd))
+    subprocess.run(sort_cmd, stderr=subprocess.STDOUT)
+    try:
+        with open("HiFi-vs-final_mitogenome.sorted.bam") as f:
+            pass
+    except FileNotFoundError:
+        sys.exit("""No HiFi-vs-final_mitogenome.sorted.bam file.
+        An error may have occurred when sorting the HiFi-vs-final_mitogenome.bam file""")
+    
+    index_cmd = ["samtools", "index", "HiFi-vs-final_mitogenome.sorted.bam"]
+    logging.info("Indexing sorted mapping file:")
+    logging.info(" ".join(index_cmd))
+    subprocess.run(index_cmd, stderr=subprocess.STDOUT)
+    try:
+        with open("HiFi-vs-final_mitogenome.sorted.bam.bai") as f:
+            pass
+    except FileNotFoundError:
+        sys.exit("""No HiFi-vs-final_mitogenome.sorted.bam.bai file.
+        An error may have occurred when indexing the HiFi-vs-final_mitogenome.sorted.bam file""")
+    
+    return "HiFi-vs-final_mitogenome.sorted.bam"
+
 def split_mapping_by_contig(all_contigs_mapping, contigs_headers, threads=1):
     """
     Takes a mapping file with reads mapped to a multifasta file
@@ -184,26 +244,37 @@ def merge_images(img_list, out_file):
     imgs_comb = PIL.Image.fromarray(imgs_comb)
     imgs_comb.save(out_file)
 
-def create_coverage_plot(mapped_contigs, winSize, repr_contig):
-     
+def create_coverage_plot(mapped_contigs, winSize, repr_contig, is_final_mito=False):
+
     print("create_coverage_plot function started:") #debug
     coverage_plots = []
     for contig_id in mapped_contigs:
-        genome_filename = plot_coverage.make_genome_file(contig_id)
+        if is_final_mito:
+            genome_filename = plot_coverage_final_mito.make_genome_file(contig_id)
+        else:
+            genome_filename = plot_coverage.make_genome_file(contig_id)
         print(f"genome_filename: {genome_filename}") #debug
         genome_windows_filename = plot_coverage.make_genome_windows(genome_filename, winSize)
         print(f"genome_windows_filename: {genome_windows_filename}") #debug
-        windows_depth_filename = plot_coverage.get_windows_depth(genome_windows_filename, f"{contig_id}.bam")
-        print(f"windows_depth_filename: {windows_depth_filename}") #debug
-        if contig_id == repr_contig:
-            coverage_plot_filename = plot_coverage.plot_coverage(contig_id, windows_depth_filename, winSize, isFinalMito=True)
+        if is_final_mito:
+            windows_depth_filename = plot_coverage_final_mito.get_windows_depth(genome_windows_filename, "HiFi-vs-final_mitogenome.bam")
         else:
-            coverage_plot_filename = plot_coverage.plot_coverage(contig_id, windows_depth_filename, winSize)
+            windows_depth_filename = plot_coverage.get_windows_depth(genome_windows_filename, f"{contig_id}.bam")
+        print(f"filename: {windows_depth_filename}") #debug
+        if is_final_mito:
+            coverage_plot_filename = plot_coverage_final_mito.plot_coverage("final_mitogenome", windows_depth_filename, winSize, isFinalMito=True)
+            return "final_mitogenome.coverage.png" 
+        else:
+            if contig_id == repr_contig:
+                coverage_plot_filename = plot_coverage.plot_coverage(contig_id, windows_depth_filename, winSize, isFinalMito=True)
+            else:
+                coverage_plot_filename = plot_coverage.plot_coverage(contig_id, windows_depth_filename, winSize)
         print(f"coverage_plot_filename: {coverage_plot_filename}") #debug
         coverage_plots.append(coverage_plot_filename)
 
         print(f"coverage_plots: {coverage_plots}")
-
+        
+        ### potential identation problem
         merge_images(coverage_plots, "coverage_plot.png")
         try:
             with open("coverage_plot.png", "r") as f:

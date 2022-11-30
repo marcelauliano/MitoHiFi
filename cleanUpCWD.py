@@ -60,6 +60,15 @@ def clean_up_work_dir(contigs_list):
         if os.path.isfile(f):
             shutil.move(f, os.path.join(os.getcwd(), contigs_selection_folder))
 
+    # move files from mapping step of the coverage map
+    if not os.path.isdir("coverage_mapping"):
+        os.mkdir("coverage_mapping")
+    for curr_file in os.listdir('.'):
+        if ".bam" in curr_file:
+            shutil.move(curr_file, os.path.join(os.getcwd(), "coverage_mapping"))
+        elif curr_file == "final_mitogenome.genome.txt":
+            os.remove(curr_file)
+
 def main():
     contigs_list = []
     for curr_file in os.listdir('.'):
