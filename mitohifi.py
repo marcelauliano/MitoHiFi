@@ -348,7 +348,7 @@ The pipeline has stopped !! You need to run further scripts to check if you have
 
     step += 1
     logging.info(f"{step}. Now we will choose the most representative contig" + "\n")
-    repr_contig_id, repr_contig_cluster = getReprContig.get_repr_contig("all_mitogenomes.rotated.fa", rel_mito_len, args.t, args.d)
+    repr_contig_id, repr_contig_cluster = getReprContig.get_repr_contig("all_mitogenomes.rotated.fa", rel_mito_len, rel_mito_num_genes, args.t, args.d)
     logging.info(f"Representative contig is {repr_contig_id} that belongs to {repr_contig_cluster}. This contig will be our final mitogenome. See all contigs and clusters in cdhit.out.clstr")
     
     # create copies for final mitogenome (repr contigs) at both 
