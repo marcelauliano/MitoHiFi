@@ -24,6 +24,7 @@ import rotation
 import getMitoLength
 import getReprContig
 from getGenesList import get_genes_list
+from gfa2fa import gfa2fa
 from parallel_annotation import process_contig, process_contig_02
 from parallel_annotation_mitos import process_contig_mitos, process_contig_02_mitos
 import shlex
@@ -154,14 +155,11 @@ def main():
         finally:
             f1.close()
             f2.close()
+        
+        # convert Hifiasm assemblies (primary and alternate) from GFA to FASTA format
+        gfa2fa("gbk.HiFiMapped.bam.filtered.assembled.p_ctg.gfa", "gbk.HiFiMapped.bam.filtered.assembled.p_ctg.fa")
+        gfa2fa("gbk.HiFiMapped.bam.filtered.assembled.a_ctg.gfa", "gbk.HiFiMapped.bam.filtered.assembled.a_ctg.fa")
 
-        gfa2fa_script = os.path.join(os.path.dirname(os.path.realpath(__file__)),"gfa2fa") # gets path to gfa2fa script
-        
-        with open("gbk.HiFiMapped.bam.filtered.assembled.p_ctg.fa", "w") as p_ctg_f:
-            subprocess.run([gfa2fa_script, "gbk.HiFiMapped.bam.filtered.assembled.p_ctg.gfa"], stdout=p_ctg_f)
-        with open("gbk.HiFiMapped.bam.filtered.assembled.a_ctg.fa", "w") as a_ctg_f:
-            subprocess.run([gfa2fa_script, "gbk.HiFiMapped.bam.filtered.assembled.a_ctg.gfa"], stdout=a_ctg_f)
-        
         with open("hifiasm.contigs.fasta", "w") as hifiasm_f:
             subprocess.run(["cat", "gbk.HiFiMapped.bam.filtered.assembled.p_ctg.fa", "gbk.HiFiMapped.bam.filtered.assembled.a_ctg.fa"], stdout=hifiasm_f)
         
