@@ -511,11 +511,11 @@ The pipeline has stopped !! You need to run further scripts to check if you have
         step += 1
         logging.info(f"{step}. Building coverage distribution for each potential contig")
         
-        reads = shlex.split(args.r)
+        #reads = shlex.split(args.r)
         contigs_to_map = get_contigs_to_map()
         logging.info(f"contigs_to_map: {contigs_to_map}") 
-        logging.info(f"{step}.1 Mapping HiFi reads against potential contigs:")
-        contigs_mapping = map_potential_contigs(reads, contigs_to_map, args.t, args.covMap)
+        logging.info(f"{step}.1 Mapping HiFi (filtered) reads against potential contigs:")
+        contigs_mapping = map_potential_contigs("gbk.HiFiMapped.bam.fasta", contigs_to_map, args.t, args.covMap)
         logging.info(f"HiFi reads mapping done. Output file: {contigs_mapping}")
         contigs_headers = get_contigs_headers("all_potential_contigs.fa")
         mapped_contigs = split_mapping_by_contig(contigs_mapping, contigs_headers, threads=args.t)
@@ -530,8 +530,8 @@ The pipeline has stopped !! You need to run further scripts to check if you have
         
         step += 1
         logging.info(f"{step}. Building coverage distribution for final mitogenome")
-        logging.info(f"{step}.1 Mapping HiFi reads against final_mitogenome.fasta:")
-        mapping_filename = map_final_mito(reads, args.t, args.covMap)
+        logging.info(f"{step}.1 Mapping HiFi (filtered) reads against final_mitogenome.fasta:")
+        mapping_filename = map_final_mito("gbk.HiFiMapped.bam.fasta", args.t, args.covMap)
         logging.info(f"HiFi reads mapping done. Output file: {mapping_filename}")
         logging.info(f"{step}.2 Creating coverage plot...")
         coverage_plot_filename = create_coverage_plot([repr_contig_id], args.winSize, repr_contig=repr_contig_id, is_final_mito=True)
