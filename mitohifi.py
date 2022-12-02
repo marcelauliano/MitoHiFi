@@ -405,12 +405,12 @@ The pipeline has stopped !! You need to run further scripts to check if you have
     # compare list of genes from related mito and final mitogenome
     related_mito_annotation = args.g
     related_mito_genes = get_genes_list(related_mito_annotation, "genbank")
-    print(f"related_mito_genes: {related_mito_genes}") #debug
+    #print(f"related_mito_genes: {related_mito_genes}") #debug
     if final_annotation.endswith(".gff"):
         final_mito_genes = get_genes_list(final_annotation, "gff")
     elif final_annotation.endswith(".gb"):
         final_mito_genes = get_genes_list(final_annotation, "genbank")
-    print(f"final_mito_genes: {final_mito_genes}") #debug
+    #print(f"final_mito_genes: {final_mito_genes}") #debug
     
     shared, final_mito_specific, related_mito_specific = compare_genes_dicts(final_mito_genes, related_mito_genes, True)
 
@@ -519,12 +519,12 @@ The pipeline has stopped !! You need to run further scripts to check if you have
         logging.info(f"HiFi reads mapping done. Output file: {contigs_mapping}")
         contigs_headers = get_contigs_headers("all_potential_contigs.fa")
         mapped_contigs = split_mapping_by_contig(contigs_mapping, contigs_headers, threads=args.t)
-        print(f"Splitting mapping file done. Individual mapped contigs: {mapped_contigs}")
+        logging.info(f"Splitting mapping file done. Individual mapped contigs: {mapped_contigs}")
 
         # creating coverage plot
         logging.info(f"{step}.2 Creating coverage plot...")
         coverage_plot_filename = create_coverage_plot(mapped_contigs, args.winSize, repr_contig=repr_contig_id)
-        print("Coverage plots created.")
+        logging.info("Coverage plots created.")
         #plot_coverage.move_intermediate_files(["HiFi-vs-final_mitogenome.bam", "HiFi-vs-final_mitogenome.sorted.bam",
         #    "HiFi-vs-final_mitogenome.sorted.bam.bai", genome_filename, genome_windows_filename, windows_depth_filename])
         

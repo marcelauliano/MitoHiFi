@@ -246,21 +246,21 @@ def merge_images(img_list, out_file):
 
 def create_coverage_plot(mapped_contigs, winSize, repr_contig, is_final_mito=False):
 
-    print("create_coverage_plot function started:") #debug
+    #print("create_coverage_plot function started:") #debug
     coverage_plots = []
     for contig_id in mapped_contigs:
         if is_final_mito:
             genome_filename = plot_coverage_final_mito.make_genome_file(contig_id)
         else:
             genome_filename = plot_coverage.make_genome_file(contig_id)
-        print(f"genome_filename: {genome_filename}") #debug
+        #print(f"genome_filename: {genome_filename}") #debug
         genome_windows_filename = plot_coverage.make_genome_windows(genome_filename, winSize)
-        print(f"genome_windows_filename: {genome_windows_filename}") #debug
+        #print(f"genome_windows_filename: {genome_windows_filename}") #debug
         if is_final_mito:
             windows_depth_filename = plot_coverage_final_mito.get_windows_depth(genome_windows_filename, "HiFi-vs-final_mitogenome.bam")
         else:
             windows_depth_filename = plot_coverage.get_windows_depth(genome_windows_filename, f"{contig_id}.bam")
-        print(f"filename: {windows_depth_filename}") #debug
+        #print(f"filename: {windows_depth_filename}") #debug
         if is_final_mito:
             coverage_plot_filename = plot_coverage_final_mito.plot_coverage("final_mitogenome", windows_depth_filename, winSize, isFinalMito=True)
             return "final_mitogenome.coverage.png" 
@@ -269,10 +269,10 @@ def create_coverage_plot(mapped_contigs, winSize, repr_contig, is_final_mito=Fal
                 coverage_plot_filename = plot_coverage.plot_coverage(contig_id, windows_depth_filename, winSize, isFinalMito=True)
             else:
                 coverage_plot_filename = plot_coverage.plot_coverage(contig_id, windows_depth_filename, winSize)
-        print(f"coverage_plot_filename: {coverage_plot_filename}") #debug
+        #print(f"coverage_plot_filename: {coverage_plot_filename}") #debug
         coverage_plots.append(coverage_plot_filename)
 
-        print(f"coverage_plots: {coverage_plots}")
+        #print(f"coverage_plots: {coverage_plots}")
         
         ### potential identation problem
         merge_images(coverage_plots, "coverage_plot.png")
