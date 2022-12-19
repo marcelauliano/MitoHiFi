@@ -9,7 +9,7 @@ on:
 env:
   REGISTRY: ghcr.io
   ORGANISATION: marcelauliano
-  IMAGE_NAME: doc-test
+  IMAGE_NAME: MitoHiFi
 
 permissions:
   contents: write
