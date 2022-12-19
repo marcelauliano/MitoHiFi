@@ -43,7 +43,7 @@ There are two ways to install MitoHiFi v3.0.0:
 
 (i) manually - and then you will need to have all the dependencies installed in your PATH.  
 
-(ii) with a docker image so you can run if with a singularity (highly recommended) 
+(ii) with a docker image so you can run it with a singularity (highly recommended).
 
 ### 2.1 Manual installation - Dependencies
 
