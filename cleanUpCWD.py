@@ -36,7 +36,7 @@ def clean_up_work_dir(contigs_list):
             shutil.move(f, "contigs_circularization")
 
     # moving files related to the process of choosing the representative final mitogenome (using CDHIT)
-    final_choice_files = ["all_mitogenomes.rotated.aligned.fa", "all_mitogenomes.rotated.fa", "cdhit.out", "cdhit.out.clstr"]
+    final_choice_files = ["all_mitogenomes.rotated.aligned.aln", "all_mitogenomes.rotated.fa", "cdhit.out", "cdhit.out.clstr"]
     if not os.path.isdir("final_mitogenome_choice"):
         os.mkdir("final_mitogenome_choice")
     for f in final_choice_files:
@@ -59,6 +59,15 @@ def clean_up_work_dir(contigs_list):
     for f in contigs_selection_files:
         if os.path.isfile(f):
             shutil.move(f, os.path.join(os.getcwd(), contigs_selection_folder))
+
+    # move files from mapping step of the coverage map
+    if not os.path.isdir("coverage_mapping"):
+        os.mkdir("coverage_mapping")
+    for curr_file in os.listdir('.'):
+        if ".bam" in curr_file:
+            shutil.move(curr_file, os.path.join(os.getcwd(), "coverage_mapping"))
+        elif curr_file == "final_mitogenome.genome.txt":
+            os.remove(curr_file)
 
 def main():
     contigs_list = []

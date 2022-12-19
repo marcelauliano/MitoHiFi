@@ -49,13 +49,13 @@ def parse_blast(query_perc=50, min_query_perc=80, max_query_len=5):
     n_times = (result['s_length'] * max_query_len)
     result1 = result[(result['leng_query'] < n_times)].sort_values(by='%q_in_match', ascending=False)
 
-    # if the lenght of the query is 80% smaller than the length of the subject, drop it. It's unlikely you will have a complete mitogenome.
+    # if the lenght of the query is perc smaller than the length of the subject, drop it. It's unlikely you will have a complete mitogenome.
     slen=result1['s_length']
     result1['perc'] = result1["leng_query"]*100/(result1["s_length"])
     ac=result1[result1['perc'] > min_query_perc].sort_values(by='%q_in_match')
 
-    # if the % of the query in the blast match is smaller than 70%, drop it
-    #ac[(ac['%q_in_match'] > 60)].sort_values(by='%q_in_match', ascending=False)
+    
+    #Output all blast matches to parsed_blast_all.txt independent of perc
     ac[(ac['%q_in_match'] > 0)].sort_values(by='%q_in_match', ascending=False).to_csv("parsed_blast_all.txt", index=False, sep="\t")
     ac[(ac['%q_in_match'] > query_perc)].sort_values(by='%q_in_match', ascending=False).to_csv("parsed_blast.txt", index=False, sep="\t")
 

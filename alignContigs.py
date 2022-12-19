@@ -17,7 +17,7 @@ def concatenate_contigs(contigs_list, out_file="all_mitogenomes.rotated.fa"):
 
     return out_file
 
-def mafft_align(multifasta_file, threads='1', out_file="all_mitogenomes.rotated.aligned.fa", clustal_format=False):
+def mafft_align(multifasta_file, threads='1', out_file="all_mitogenomes.rotated.aligned.aln", clustal_format=False):
     if clustal_format:
         #logging.info("MAFFT output will be in clustal format")
         mafft = "mafft --quiet --clustalout --thread {} {} > {}".format(threads, multifasta_file, out_file)

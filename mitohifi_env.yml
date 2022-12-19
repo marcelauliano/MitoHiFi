@@ -1,0 +1,18 @@
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.7
+  - samtools=1.11
+  - cd-hit
+  - minimap2=2.19
+  - hifiasm
+  - mafft
+  - biopython
+  - matplotlib
+  - dna_features_viewer
+  - pandas
+  - bedtools
+  - pillow
+  - bcbio-gff

@@ -25,7 +25,7 @@ def get_trna_pos(path):
                 if trna.type == 'gene' and 'product' in trna.qualifiers and \
                     'tRNA' in trna.qualifiers['product'][0]:
                     tRNA_name = trna.qualifiers['product'][0]
-                    tRNA_start = str(int(trna.location.start))
+                    tRNA_start = str(int(trna.location.start + 1)) # add 1 because Biopython location is zero-based
                     tRNA_strand = str(trna.location.strand)
                     trnas[tRNA_name] = [tRNA_start, tRNA_strand]
     if len(trnas) > 0:
@@ -129,6 +129,7 @@ if __name__ == '__main__':
     print('Final rotation...')
     for record in SeqIO.parse(args.mito, "fasta"):
         contig_id = record.id
+    
     rotate(genome, start, contig_id)
     print(' '.join(['Rotated to tRNA-Phe genome is at ', \
             os.path.join(os.path.dirname(genome), 'mitogenome.rotated.fa')]))

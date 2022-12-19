@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 '''
-    Copyright 2021 Ksenia Krasheninnikova
+    Copyright 2022 Ksenia Krasheninnikova
     This script is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -33,42 +33,7 @@ def get_lineage(species):
     for e in records[0]["Lineage"].split(' ')[::-1]:
         yield e
 
-def query_same_species(species, outfolder, min_length, org_type='mitochondrion'):
-    term = "(\""+ species +"\"[Organism] AND complete " +\
-                "genome[All Fields]) AND "+ org_type +"[filter]]"
-    handle = Entrez.esearch(db="nucleotide",term=term, idtype="acc")
-    record = Entrez.read(handle)
-    rs = {}
-    max_length = min_length
-    max_id = "" 
-    if record['IdList'] :
-        for ncbi_code in record['IdList']:
-            handle = Entrez.efetch(db="nucleotide", id=ncbi_code, rettype="gb", retmode="text")
-            record_ = handle.read()
-            handle.close()
-            for seqrecord in  SeqIO.parse(StringIO(record_), "gb") :
-                if len(seqrecord) > max_length:
-                    if len(seqrecord.features) < 10:
-                        print('Not enough features in gb file! skipping..')
-                        continue
-                    rs[ncbi_code] = record_
-                    max_length = len(seqrecord)
-                    max_id = ncbi_code
-    if max_id:
-        ncbi_code = max_id
-        with open(os.path.join(outfolder, ncbi_code+'.gb') , "w") as out:
-            out.write(rs[ncbi_code].format("fasta"))
-        handle = Entrez.efetch(db="nucleotide", id=ncbi_code, rettype="fasta", \
-                                                                        retmode="text")
-        record_ = handle.read()
-        handle.close()
-        with open(os.path.join(outfolder, ncbi_code+'.fasta') , "w") as out:
-            out.write(record_.format("genbank"))
-        print("output is written to " + os.path.join(outfolder,ncbi_code) + ".[gb,fasta]")
-        return 0
-    return 1
-
-def find_full_mito(group, outfolder, length_threshold, org_type='mitochondrion'):
+def find_full_mito(group, outfolder, length_threshold, considered, org_type='mitochondrion', n=1):
     term = "(\""+ group +"\"[Organism] AND complete " +\
                 "genome[All Fields]) AND "+ org_type +"[filter]]"
     handle = Entrez.esearch(db="nucleotide",term=term, idtype="acc")
@@ -79,9 +44,12 @@ def find_full_mito(group, outfolder, length_threshold, org_type='mitochondrion')
             record_ = handle.read()
             handle.close()            
             for seqrecord in  SeqIO.parse(StringIO(record_), "gb") :
+                if seqrecord.id in considered:
+                    continue
+                considered.add(seqrecord.id)
                 if len(seqrecord) > length_threshold:
                     if len(seqrecord.features) < 10:
-                        print('Not enough features in gb file! skipping..')
+                        print('Not enough features in gb file! skipping ' + seqrecord.id)
                         continue
                     with open(os.path.join(outfolder, ncbi_code+'.gb') , "w") as out:
                         out.write(record_)
@@ -92,31 +60,36 @@ def find_full_mito(group, outfolder, length_threshold, org_type='mitochondrion')
                     with open(os.path.join(outfolder, ncbi_code+'.fasta') , "w") as out:
                         out.write(record_)
                     print("output is written to " + os.path.join(outfolder,ncbi_code) + ".[gb,fasta]")
-                    return 0
-    return 1
+                    n -= 1
+                    if n == 0:
+                        return considered, n
+    return considered, n
 
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--species', required=True, help='latin name')
     parser.add_argument('--email', nargs='?', default="")
     parser.add_argument('--outfolder', nargs='?', default="")
-    parser.add_argument('-t', choices=['mitochondrion','chloroplast'], default='mitochondrion', \
+    parser.add_argument('--type', choices=['mitochondrion','chloroplast'], default='mitochondrion', \
                                   help='specify the type of organelle')
-    parser.add_argument('--min_length', nargs='?', type=int  , default=0, \
+    parser.add_argument('--min_length', nargs='?', type=int, default=0, \
                                   help='minimal appropriate length')
+    parser.add_argument('-n', nargs='?',  type=int, default=1, \
+                                  help='Number of genomes to report. Reported in order of identification')
     args = parser.parse_args()    
+    n = args.n
+    if n < 1:
+        print('Number of genomes to report must be at least 1 (default)')
+        exit(1)
     Entrez.email = args.email
     if not os.path.isdir(args.outfolder):
         os.mkdir(args.outfolder)
-    print('Looking for '+args.t+' for '+args.species)
-    ret = query_same_species(args.species, args.outfolder, args.min_length, args.t)
-    if ret == 0:
-        exit(0)
-    print('Mito for the same species is not found')
-    print('Looking among close species')
-    if ret == 1:
-        for g in get_lineage(args.species):
-            if find_full_mito(g, args.outfolder, args.min_length, args.t) == 0:
-                exit(0) 
-    print("No appropriate mitogenome found")
-    exit(ret)
+    print('Looking for ' + args.type +' for ' + args.species)
+    considered = set()
+    for g in [args.species] + list(get_lineage(args.species)):
+        if n > 0:
+            print('Looking for an appropriate organelle among ' + g)
+            considered, n = find_full_mito(g, args.outfolder, args.min_length, considered, args.type, n)
+    if n == args.n:            
+        print("No appropriate mitogenome found")
+

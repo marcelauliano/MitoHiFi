@@ -22,7 +22,7 @@ def get_circularization_info(seq_id):
             else:
                 return True
 
-def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, debug=False):
+def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_num_genes, rel_mito_perc=0.35, debug=False):
     
     def get_frameshift_info(seq_id):
         """Retrieves information of frameshifts from *.individual.stats file
@@ -38,6 +38,22 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
             for line in f:
                 frameshift_info = line.split("\t")[1]
         return frameshift_info
+    
+    def get_number_of_genes_diff(seq_id, rel_mito_num_genes):
+        """Retrieves the number of genes from *.individual.stats file
+
+        Args:
+            seq_id (str): identifier of the target sequence (contig)
+            rel_mito_num_genes (int): number of genes in related mito
+        
+        Returns:
+            int: number of genes present on target sequence
+        """
+        with open(f"{seq_id}.individual.stats", "r") as f:
+            for line in f:
+                num_genes = int(line.split("\t")[4])
+                num_genes_diff = abs(rel_mito_num_genes - num_genes)
+            return num_genes_diff
 
     FORMAT='[%(asctime)s %(levelname)s] %(message)s'
     if debug: # If in debug mode
@@ -68,12 +84,14 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
                 seq_len = int(line.split()[1].replace("nt,", ""))
                 seq_frameshifts = get_frameshift_info(seq_id)
                 seq_circ = get_circularization_info(seq_id)
+                seq_num_genes_diff = get_number_of_genes_diff(seq_id, rel_mito_num_genes)
                 # appends sequence information (as a list) to the `seqs` list
-                seqs.append([seq_id, seq_len, seq_frameshifts, curr_cluster, seq_circ])
+                seqs.append([seq_id, seq_len, seq_frameshifts, curr_cluster, seq_circ, seq_num_genes_diff])
 
-    # Sorts (descending order) sequences based on second item of list,
-    # which represents the sequence lengths
-    seqs.sort(key=lambda x: x[1], reverse=True)
+    # Sorts sequences based on the difference between
+    # the number of genes of contigs and the related mito
+    # (with contigs with lower differences placed first)
+    seqs.sort(key=lambda x: x[5])
     logging.debug(f"Sorted seqs list: {seqs}")
 
     # Now we'll define the representative contig
@@ -93,7 +111,7 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
         for seq in seqs:
             if seq[1] <= rel_mito_upper_lim and seq[4] == True:
                 repr_contig, repr_contig_cluster = seq[0], seq[3]
-                warnings.warn("Warning: representative contig contains frameshifts")
+                warnings.warn("Warning: representative contig contains frameshifts", stacklevel=2)
                 break
 
     # If the second condition is not met, then we search for a contig whose size is less than or
@@ -102,7 +120,7 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
         for seq in seqs:
             if seq[1] <= rel_mito_upper_lim and seq[2] == "No frameshift found":
                 repr_contig, repr_contig_cluster = seq[0], seq[3]
-                warnings.warn("Warning: representative contig wasn't circularized")
+                warnings.warn("Warning: representative contig wasn't circularized", stacklevel=2)
                 break
 
     # If the third condition is not met, then we search for a contig which has no frameshifts and
@@ -111,7 +129,7 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
         for seq in seqs:
             if seq[2] == "No frameshift found" and seq[4] == True:
                 repr_contig, repr_contig_cluster = seq[0], seq[3]
-                warnings.warn("Warning: representative contig may be too large")
+                warnings.warn("Warning: representative contig may be too large", stacklevel=2)
                 break
 
     # If the fourth condition is not met, then we search for a contig whose size is less than or
@@ -120,7 +138,7 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
         for seq in seqs:
             if seq[1] <= rel_mito_upper_lim:
                 repr_contig, repr_contig_cluster = seq[0], seq[3]
-                warnings.warn(f"Warning: representative wasn't circularized and it has frameshifts")
+                warnings.warn(f"Warning: representative wasn't circularized and it has frameshifts", stacklevel=2)
                 break
 
     # If the fifth condition is not met, then we search for a contig which was circularized            
@@ -128,7 +146,7 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
         for seq in seqs:
             if seq[4] == True:
                 repr_contig, repr_contig_cluster = seq[0], seq[3]
-                warnings.warn(f"Warning: representative has frameshifts and it may be too large")
+                warnings.warn(f"Warning: representative has frameshifts and it may be too large", stacklevel=2)
                 break
 
     # If the sixtieth condition is not met, then we search for a contig which has no frameshifts            
@@ -136,17 +154,17 @@ def get_repr_contig_info(cdhit_clstr_file, rel_mito_len, rel_mito_perc=0.10, deb
         for seq in seqs:
             if seq[2] == "No frameshift found":
                 repr_contig, repr_contig_cluster = seq[0], seq[3]
-                warnings.warn(f"Warning: representative wasn't circularized and it may be too large")
+                warnings.warn(f"Warning: representative wasn't circularized and it may be too large", stacklevel=2)
                 break
 
-    # If none condition is met, we return the smallest contig available            
+    # If none condition is met, we return the contig with lowest difference in the number of genes regarding the related mito            
     if not repr_contig:
-        repr_contig, repr_contig_cluster = seqs[-1][0], seqs[-1][3]
-        warnings.warn("Warning: representative contig contains frameshifts, wasn't circularized and it may be too large")
+        repr_contig, repr_contig_cluster = seqs[0][0], seqs[0][3]
+        warnings.warn("Warning: representative contig contains frameshifts, wasn't circularized and it may be too large", stacklevel=2)
 
     return (repr_contig, repr_contig_cluster)   
 
-def get_repr_contig(contigs_fasta, rel_mito_len, threads="1", debug=False):
+def get_repr_contig(contigs_fasta, rel_mito_len, rel_mito_num_genes, threads="1", debug=False):
     """Gets representative contig from a multifasta file
 
     Args:
@@ -164,7 +182,7 @@ def get_repr_contig(contigs_fasta, rel_mito_len, threads="1", debug=False):
     cdhit_cmd = ["cd-hit-est", "-i", contigs_fasta, "-d", "0", "-c", c_threshold, "-n", wordsize, "-o", cdhit_out, "-T", str(threads), "-M", "0"]
     subprocess.run(cdhit_cmd, shell=False, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
 
-    repr_contig_id, repr_contig_cluster = get_repr_contig_info(cdhit_out_clstr, rel_mito_len, debug=debug)
+    repr_contig_id, repr_contig_cluster = get_repr_contig_info(cdhit_out_clstr, rel_mito_len, rel_mito_num_genes, debug=debug)
     return (repr_contig_id, repr_contig_cluster)
 
 if __name__ == "__main__":
