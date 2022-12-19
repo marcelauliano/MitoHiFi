@@ -57,7 +57,7 @@ def main():
     optional.add_argument('--circular-size', help='Size to consider when checking for circularization', type=int, default=220)
     optional.add_argument('--circular-offset', help='Offset from start and finish to consider when looking for circularization', type=int, default=40)
     optional.add_argument('-winSize', help='Size of windows to calculate coverage over the final_mitogenom', type=int, default=300)
-    optional.add_argument('-covMap', help='Minimum mapping quality to filter reads when building final coverage plot', type=int, default=20)
+    optional.add_argument('-covMap', help='Minimum mapping quality to filter reads when building final coverage plot', type=int, default=0)
     optional.add_argument('-v', '--version', action='version', version='%(prog)s ' + __version__)
     optional.add_argument("-o", help="""-o: Organism genetic code following NCBI table (for mitogenome annotation):
     1. The Standard Code 2. The Vertebrate MitochondrialCode 3. The Yeast Mitochondrial Code 
