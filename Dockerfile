@@ -30,7 +30,7 @@ RUN apt-get -qq -y update \
     && pip3 install biopython \
     && pip3 install pandas \
     && pip3 install entrezpy \
-    && pip install mitos \
+#    && pip install mitos \
     && python -m pip install --upgrade pip \
     && python -m pip install --upgrade Pillow \
     && apt-get -qq -y install automake autoconf \
