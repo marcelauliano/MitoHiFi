@@ -14,7 +14,7 @@ LABEL about.license_file="https://github.com/marcelauliano/MitoHiFi/blob/master/
 LABEL about.tags="mitogenome, MT, organelle"
 
 # Maintainer
-MAINTAINER Marcela Uliano-Silva mu2@sanger.ac.uk and Ksenia Krasheninnikova kk16@sanger.ac.uk
+MAINTAINER Marcela mu2@sanger.ac.uk and Ksenia Krasheninnikova kk16@sanger.ac.uk
 
 
 ENV DEBIAN_FRONTEND=noninteractive
