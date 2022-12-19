@@ -145,7 +145,9 @@ def main():
         logging.info(" ".join(hifiasm_cmd))
         with open("hifiasm.log", "w") as hifiasm_log_f:
             subprocess.run(hifiasm_cmd, stderr=subprocess.STDOUT, stdout=hifiasm_log_f)       
-        
+
+        f1 = None
+        f2 = None
         try:
             f1 = open("gbk.HiFiMapped.bam.filtered.assembled.p_ctg.gfa")
             f2 = open("gbk.HiFiMapped.bam.filtered.assembled.a_ctg.gfa")
