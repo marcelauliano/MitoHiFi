@@ -299,4 +299,4 @@ And for tRNAs annotation:
  
  For more information on python code and pipeline: mu2@sanger.ac.uk and jf18@sanger.ac.uk
  
- Questions on the Singularity: mu2@sanger.ac.uk
+ Questions on the Singularity: Marcela Uliano mu2@sanger.ac.uk
