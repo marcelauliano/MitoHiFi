@@ -5,7 +5,7 @@ FROM ubuntu:18.04
 LABEL base_image="ubuntu:18.04"
 LABEL version="1"
 LABEL software="MitoHiFi"
-LABEL software.version="2.2"
+LABEL software.version="3.0"
 LABEL about.summary="a python workflow that assembles a species mitogenome from Pacbio HiFi reads."
 LABEL about.home="https://github.com/marcelauliano/MitoHiFi"
 LABEL about.documentation="https://github.com/marcelauliano/MitoHiFi"
@@ -14,7 +14,7 @@ LABEL about.license_file="https://github.com/marcelauliano/MitoHiFi/blob/master/
 LABEL about.tags="mitogenome, MT, organelle"
 
 # Maintainer
-MAINTAINER Ksenia Krasheninnikova kk16@sanger.ac.uk
+MAINTAINER Marcela Uliano-Silva mu2@sanger.ac.uk
 
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -53,7 +53,7 @@ RUN apt-get -qq -y update \
     && cd hifiasm-0.16.1 && make 
 
 RUN cd /bin/ \
-    && git clone https://github.com/marcelauliano/MitoHiFi.git --branch v2.2
+    && git clone https://github.com/marcelauliano/MitoHiFi.git --branch v3.0.0
 
 ENV PATH /bin/MitoFinder/:${PATH}
 ENV PATH /bin/hifiasm-0.16.1/:${PATH}
