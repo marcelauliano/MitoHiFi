@@ -56,7 +56,7 @@ RUN apt-get -qq -y update \
     && cd hifiasm-0.16.1 && make 
 
 RUN cd /bin/ \
-    && git clone https://github.com/marcelauliano/MitoHiFi.git --branch v3.0.0
+    && git clone https://github.com/marcelauliano/MitoHiFi.git
 
 ENV PATH /bin/MitoFinder/:${PATH}
 ENV PATH /bin/hifiasm-0.16.1/:${PATH}
