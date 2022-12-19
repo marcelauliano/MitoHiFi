@@ -86,7 +86,7 @@ where `</path/to/MitoFinder>` needs to be replaced with the path where MitoFinde
 git clone https://github.com/marcelauliano/MitoHiFi.git
 ```
 
-### 2.2 Running MitoHiFi v3.0.0 from a Singularity image
+### 2.2 Running MitoHiFi v3.0.0 from a Singularity with a Docker image
 
 
 We have wrapped up MitoHiFi v3.0.0 code into a singularity container. We recommend using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag **-r**
@@ -186,13 +186,13 @@ This command will give you NC_016067.1.fasta and NC_016067.1.gb that you can use
 2.1-) If you are starting from raw reads, **-r** flag is required to provide the raw PacBio HiFi reads. Here is an example:
 
 ```
-'singularity exec --bind /lustre/:/lustre/ mitohifi-v2.3.sif mitohifi.py -r "f1.fasta f2.fasta f3.fasta" -f reference.fasta -g reference.gb -t <int> -o <int>'
+'singularity exec --bind /software/:/software/ docker://ghcr.io/marcelauliano/MitoHiFi:main mitohifi.py -r "f1.fasta f2.fasta f3.fasta" -f reference.fasta -g reference.gb -t <int> -o <int>'
  ```
 
 2.2-) If you are starting from assembled contigs, **-c** flag is required to provide the FASTA file for assembled contigs. Here is an example:
 
 ```
-'singularity exec --bind /lustre/:/lustre/ mitohifi-v2.3.sif mitohifi.py -c contigs.fasta -f reference.fasta -g reference.gb -t <int> -o <int>'
+'singularity exec --bind /software/:/software/ docker://ghcr.io/marcelauliano/MitoHiFi:main mitohifi.py -c contigs.fasta -f reference.fasta -g reference.gb -t <int> -o <int>'
 ```
 
 ### 4.1 Running MitoHiFi with test data
@@ -213,8 +213,10 @@ MitoHifi will produce a series of folders with the results. The main results wil
 - final_mitogenome.gb - the final mitochondria annotated in GenBank format.  
 - final_mitogenome.coverage.png - the sequencing coverage throughout the final mitogenome  
 - final_mitogenome.annotation.png - the predicted genes throughout the final mitogenome
+- contigs_annotations.png - annotation plots for all potential contigs
+- coverage_plot.png - reads coverage plot of filtered reads mapped to all potential contigs
 - contigs_stats.tsv - it will show you the statistics of your assembled mitos such as the number of genes, size, whether it was circularized or not, if the sequence has frameshifts and etc...
-- contigs_annotations.png - it will show the predicted genes of your assembled mitos  
+- shared_genes.tsv - show comparison of annotation between close-related mitogenome and all potential contigs assembled
 
 ### 5.2 Further outputs
 
@@ -244,6 +246,10 @@ Columns descriptions of <b>parsed_blast.txt</b> and <b>parsed_blast_all.txt</b>:
   - all_mitogenomes.rotated.aligned.fa - this is an aligment of all the mithocondrial sequences assembled by the pipeline. It is possible you will find heteroplasmy in your sample, in which case you will have more than one version of the final mito presented. The pipeline chooses a final representative by a majority rule, using cdhit-est to cluster sequenvces at a 80% identitty and chosing the largest one in that cluster as the final. If you want to study heteroplasmy of your sample, please investigate the *all_mitogenomes.rotated.aligned.fa* file further, and all the results in the **potential_contigs** folder.
 
 * Folder **final_mitogenome_coverage** will contain a few files, the most important are:  
+  - HiFi-vs-final_mitogenome.sorted.bam - contains mapping information of HiFi reads against the final mitogenome 
+  - final_mitogenome.genome.300.mean.depth - contains the average mapping coverage over a 300 bp window of the final_mitogenome (used to build the `final_mitogenome.coverage.png` plot)
+
+* Folder **coverage_mapping** will contain a few files, the most important are:  
   - HiFi-vs-final_mitogenome.sorted.bam - contains mapping information of HiFi reads against the final mitogenome 
   - final_mitogenome.genome.300.mean.depth - contains the average mapping coverage over a 300 bp window of the final_mitogenome (used to build the `final_mitogenome.coverage.png` plot)
 
