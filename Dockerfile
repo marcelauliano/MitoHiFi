@@ -31,6 +31,8 @@ RUN apt-get -qq -y update \
     && pip3 install pandas \
     && pip3 install entrezpy \
     && pip install mitos \
+    && python -m pip install --upgrade pip \
+    && python -m pip install --upgrade Pillow \
     && apt-get -qq -y install automake autoconf \
     && apt -qq -y install default-jre \ 
     && apt-get -qq -y install build-essential \
