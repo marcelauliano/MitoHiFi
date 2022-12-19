@@ -64,7 +64,7 @@ MitoHifi v2.3 was developed and tested with the following software versions:
 - samtools version 1.7 
 - minimap version 2.17-r941
 - [MITOS](https://pypi.org/project/mitos/) 
-- [dna_features_viewer](https://pypi.org/project/dna-features-viewer/) 
+
 
 All above dependencies (except MitoFinder) can be installed using [conda](https://conda.io/projects/conda/en/latest/index.html), and we share a YML file to facilitate their installation. The user can create a conda environment named `mitohifi_env` with all dependencies installed by running:  
 
@@ -245,18 +245,15 @@ Columns descriptions of <b>parsed_blast.txt</b> and <b>parsed_blast_all.txt</b>:
 
   - all_mitogenomes.rotated.aligned.fa - this is an aligment of all the mithocondrial sequences assembled by the pipeline. It is possible you will find heteroplasmy in your sample, in which case you will have more than one version of the final mito presented. The pipeline chooses a final representative by a majority rule, using cdhit-est to cluster sequenvces at a 80% identitty and chosing the largest one in that cluster as the final. If you want to study heteroplasmy of your sample, please investigate the *all_mitogenomes.rotated.aligned.fa* file further, and all the results in the **potential_contigs** folder.
 
-* Folder **final_mitogenome_coverage** will contain a few files, the most important are:  
-  - HiFi-vs-final_mitogenome.sorted.bam - contains mapping information of HiFi reads against the final mitogenome 
-  - final_mitogenome.genome.300.mean.depth - contains the average mapping coverage over a 300 bp window of the final_mitogenome (used to build the `final_mitogenome.coverage.png` plot)
 
-* Folder **coverage_mapping** will contain a few files, the most important are:  
-  - HiFi-vs-final_mitogenome.sorted.bam - contains mapping information of HiFi reads against the final mitogenome 
-  - final_mitogenome.genome.300.mean.depth - contains the average mapping coverage over a 300 bp window of the final_mitogenome (used to build the `final_mitogenome.coverage.png` plot)
+* Folder **coverage_mapping** will contain bam files for a quick inspection on IGV-like softwares, the most important are:  
+  - HiFi-vs-final_mitogenome.sorted.bam - contains mapping information of filtered HiFi reads against the final mitogenome 
+  - HiFi-vs-potential_contigs.sorted.bam - contains mapping information of HiFi reads against all potential contigs
 
 * If you run the pipeline with flag **-r** you will have a further folder called **reads_mapping_and_assembly** which will contain
 
   - gbk.HiFiMapped.bam.fasta - all reads that mapped to the closely-related mito
-  - gbk.HiFiMapped.bam.filtered.fasta - mapped reads filtered by size. We remove any reads that are larger than the size of the close-related mito as a rough way to filter out numpts
+  - gbk.HiFiMapped.bam.filtered.fasta - mapped reads filtered by size. We remove any reads that are larger than the size of the close-related mito (or as specified by **--max-read-len** ) as a rough way to filter out numpts
   - hifiasm.contigs.fasta - final hifiasm primary and alternate contigs concatenated. This is the file used to find your mitos.
 
 ## 6. New parameter for plants!!
@@ -265,9 +262,19 @@ MitoHiFi is still not optmized to assemble a plant mitochondria or chloroplast. 
 
 Also, the script findMitoReference.py can now search for a chloroplast instead of a mitochondria. Use flag **-t chloroplast** 
 
-## 7. Important parameter to change and test (-p)
+## 7. Important parameter to change and test 
+
+### 7.1 (-p)
 
 Mitohifi is going to pull possible mito contigs by blasting your contigs with the closely-related mito reference genome. The Default parameter **-p** is going to chose any contig which has 50% or more of its length in the blast match. This is the default because with invertebrate taxa from the Darwin Tree of Life project we have been seeing that the repetitive portion of the mitogenomes is not very conserved between some taxa. In these cases, a more stringent **-p** ends up excluding real mito sequences. Nevertheless, if you are working with more conserved taxa - such as mammals and other vertebrates - use higher **-p** (such as 80 or 90) for better results.
+
+### 7.2. Annotation run with MITOS
+
+The default annotator for MitoHiFi is MitoFinder, but the user can annotate with MITOS by flagging **--mitos** while starting a MitoHiFi run.
+
+### 7.3 Plots
+
+The user can change **-winSize** and **-covMap** parameters to tun the final coverage plots. 
 
 ## 8. Citations
 
