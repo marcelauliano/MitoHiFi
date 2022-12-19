@@ -1,6 +1,6 @@
 # MitoHiFi 
 
------- This is v2.3 -------
+------ This is v3.0.0 -------
 
 MitoHiFi is a python pipeline distributed under the [MIT License](LICENSE)
 
@@ -15,7 +15,7 @@ Find out more [Darwin Tree of Life data portal](https://portal.darwintreeoflife.
 ## 1. Background
 **MitoHiFi is a python workflow that assembles mitogenomes from Pacbio HiFi reads.**
 
-With MitoHiFi v2.3 you can start from the raw Pacbio HiFi reads (flag **-r**) or from the assembled contigs (flag **-c**). You also need a reference mitochondria sequence in FASTA and [GenBank format](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html). We provide an internal script (findMitoReference.py) that can be used to find and download the most closely-related reference genome for your species from NCBI.
+With MitoHiFi v3.0.0 you can start from the raw Pacbio HiFi reads (flag **-r**) or from the assembled contigs (flag **-c**). You also need a reference mitochondria sequence in FASTA and [GenBank format](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html). We provide an internal script (findMitoReference.py) that can be used to find and download the most closely-related reference genome for your species from NCBI.
 
 
 
@@ -23,7 +23,7 @@ With MitoHiFi v2.3 you can start from the raw Pacbio HiFi reads (flag **-r**) or
 
 
 
-MitoHiFi v2.3 will:
+MitoHiFi v3.0.0 will:
 
 (i) extract mito reads and assemble them with hifiasm (flag **-r**), or find the mito contigs among assembled contigs (flag **-c**)<br />    
 
@@ -33,15 +33,17 @@ MitoHiFi v2.3 will:
 
 (iv) choose a representative as the final mitochondria genome assembly<br />
 
+(iv) plot annotation image and a reads coverage plot (if started with **-r**)
+
 -----
 
 ## 2. Installation
 
-There are two ways to install MitoHiFi v2.3:
+There are two ways to install MitoHiFi v3.0.0:
 
 (i) manually - and then you will need to have all the dependencies installed in your PATH.  
 
-(ii) with a singularity image (highly recommended)
+(ii) with a docker image so you can run if with a singularity (highly recommended) 
 
 ### 2.1 Manual installation - Dependencies
 
@@ -60,7 +62,9 @@ MitoHifi v2.3 was developed and tested with the following software versions:
 - HiFiasm 0.16.1-r375 
 - CD-HIT version 4.8.1 
 - samtools version 1.7 
-- minimap version 2.17-r941  
+- minimap version 2.17-r941
+- [MITOS](https://pypi.org/project/mitos/) 
+- [dna_features_viewer](https://pypi.org/project/dna-features-viewer/) 
 
 All above dependencies (except MitoFinder) can be installed using [conda](https://conda.io/projects/conda/en/latest/index.html), and we share a YML file to facilitate their installation. The user can create a conda environment named `mitohifi_env` with all dependencies installed by running:  
 
@@ -82,30 +86,21 @@ where `</path/to/MitoFinder>` needs to be replaced with the path where MitoFinde
 git clone https://github.com/marcelauliano/MitoHiFi.git
 ```
 
-### 2.2 Running MitoHiFi v2.2 from a Singularity image
+### 2.2 Running MitoHiFi v3.0.0 from a Singularity image
 
-In order to build the Docker image:
 
-```
-git clone https://github.com/marcelauliano/MitoHiFi.git
-cd MitoHifi
-docker build .
-```
+We have wrapped up MitoHiFi v3.0.0 code into a singularity container. We recommend using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag **-r**
 
-We have wrapped up MitoHiFi v2.3 code into a singularity container. We recommend using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag **-r**
-
-MitoHiFi.v2.3 siungularity image should be run as:
+MitoHiFi.v3.0.0 siungularity image should be run as:
 
 ```
-singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.3.sif  mitohifi.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb  -t 10 -o 2 
+singularity exec --bind /software/:/software/ docker://ghcr.io/marcelauliano/MitoHiFi:main mitohifi.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb -t 10 -o 2 
 ```
-
-Singluarity versions lower than 3.7 do not support spaces in the arguments, so if you want to pass several read datasets as in the example above use singularity version 3.7 or higher. 
 
 The script for quering reference .fasta and .gb files from NCBI is incorporated into the singularity image and can be called as follows:
 
 ```
-singularity exec --bind /path/on/disk/to/data/:/data/ /path/to/mitohifi-v2.3.sif  findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
+singularity exec --bind /software/:/software/ docker://ghcr.io/marcelauliano/MitoHiFi:main findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
 ```
 
 ## 3. Parameter list
@@ -140,7 +135,7 @@ optional arguments:
                         to -f in HiFiasm] (default = 0)
   --max-read-len MAX_READ_LEN
                         Maximum lenght of read relative to related mito
-                        (default = 1.5x related mito length)
+                        (default = 1.0x related mito length)
   --mitos               Use MITOS2 for annotation (opposed to default
                         MitoFinder
   --circular-size CIRCULAR_SIZE
@@ -170,7 +165,7 @@ optional arguments:
                         obliquus Mitochondrial Code 23. Thraustochytrium
                         Mitochondrial Code 24. Pterobranchia Mitochondrial
                         Code 25. Candidate Division SR1 and Gracilibacteria
-                        Code 
+                        Code
 ```
 
 ## 4. Running MitoHiFi
