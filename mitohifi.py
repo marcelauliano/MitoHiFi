@@ -35,7 +35,7 @@ import plot_annotation
 
 def main():
     
-    __version__ = '2.4'
+    __version__ = '3.0.0'
     start_time = time.time()
 
     parser = argparse.ArgumentParser(prog='MitoHiFi')
