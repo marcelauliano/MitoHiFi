@@ -21,7 +21,8 @@ RUN apt-get -qq -y update \
     python3-pip \
     python3-dev \
     git \
-    libz-dev
+    libz-dev \
+    libopenjp2-7
 
 RUN umask 022
 
@@ -35,13 +36,13 @@ RUN curl -L https://github.com/lh3/minimap2/releases/download/v2.24/minimap2-2.2
     | tar -jxvf - \
     && mv ./minimap2-2.24_x64-linux/minimap2 /bin/
 
+WORKDIR /bin
+
 RUN git clone https://github.com/RemiAllio/MitoFinder.git \
     && cd MitoFinder \
     && ./install.sh
 
 RUN rm -rf /var/lib/apt/lists/*
-
-WORKDIR /bin
 
 RUN git clone https://github.com/marcelauliano/MitoHiFi.git
 
@@ -58,6 +59,10 @@ RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/findFrameShifts.py | \
                 tee /bin/MitoHiFi/findFrameShifts.py
 RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/fixContigHeaders.py | \
                 tee /bin/MitoHiFi/fixContigHeaders.py
+
+RUN mkdir /bin/wrappers
+
+COPY mitos_wrapper.sh /bin/wrappers/runmitos.py
 
 RUN chmod -R 755 /bin
 
@@ -81,14 +86,17 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
 RUN printf '\nyes\n\n' | bash Miniconda3-latest-Linux-x86_64.sh
 
-ARG CONDA_DIR=/home/mu/miniconda3
+ENV CONDA_DIR=/home/mu/miniconda3
 
 RUN echo ". $CONDA_DIR/etc/profile.d/conda.sh" >> ~/.bashrc
 
 ENV PATH /bin/MitoFinder/:${PATH}
 ENV PATH /bin/hifiasm-0.16.1/:${PATH}
 ENV PATH /bin/MitoHiFi/:${PATH}
+ENV PATH /bin/wrappers:${PATH}
 
-RUN which mitohifi.py
-
-RUN $CONDA_DIR/bin/conda create -n mitos_env -c bioconda -y mitos
+RUN $CONDA_DIR/bin/conda install -n base conda-libmamba-solver
+COPY mitos_wrapper.sh /bin/wrappers/runmitos.py
+RUN $CONDA_DIR/bin/conda create -n mitos_env --experimental-solver=libmamba -c bioconda -y mitos
+COPY mitofinder_wrapper.sh /bin/wrappers/mitofinder
+RUN $CONDA_DIR/bin/conda create -n mitofinder -experimental-solver=libmamba -c bioconda mitofinder
