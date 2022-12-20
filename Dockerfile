@@ -54,7 +54,7 @@ RUN wget https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
     && tar -xzvf 0.16.1.tar.gz \
     && cd hifiasm-0.16.1 && make
 
-RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/mitohifi.py | \
+RUN echo "#!/usr/bin/env python3" | cat - /bin/MitoHiFi/mitohifi.py | \
                 tee /bin/MitoHiFi/mitohifi.py
 RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/findFrameShifts.py | \
                 tee /bin/MitoHiFi/findFrameShifts.py
@@ -89,7 +89,7 @@ ENV PATH /bin/wrappers:${PATH}
 RUN $CONDA_DIR/bin/conda install -n base conda-libmamba-solver
 RUN $CONDA_DIR/bin/conda create -n mitos_env --experimental-solver=libmamba -c bioconda -y mitos
 
-RUN $CONDA_DIR/envs/mitos_env/bin/pip3 install biopython \
+RUN pip3 install biopython \
     pandas \
     Pillow \
     matplotlib \
