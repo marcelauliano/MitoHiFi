@@ -22,7 +22,8 @@ RUN apt-get -qq -y update \
     python3-dev \
     git \
     libz-dev \
-    libopenjp2-7
+    libopenjp2-7 \
+    libtiff5
 
 RUN umask 022
 
