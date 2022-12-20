@@ -39,45 +39,50 @@ RUN apt-get -qq -y update \
     && cd /bin/ \
     && apt-get -qq -y install libz-dev \
     && rm -rf /var/lib/apt/lists/* \
-# Install miniconda
-RUN useradd -m blobtoolkit
-
-USER blobtoolkit
-
-WORKDIR /tmp
-
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-
-RUN printf '\nyes\n\n' | bash Miniconda3-latest-Linux-x86_64.sh
-
-ARG CONDA_DIR=/home/blobtoolkit/miniconda3
-
-RUN echo ". $CONDA_DIR/etc/profile.d/conda.sh" >> ~/.bashrc
-
-RUN $CONDA_DIR/bin/conda install mamba -n base -c conda-forge
-
-RUN wget https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
+    && wget https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
     && wget -P ~/.local/lib https://bootstrap.pypa.io/pip/2.7/get-pip.py \
     && python2 ~/.local/lib/get-pip.py \
     && python2 -m pip install biopython==1.70 \
     && tar -xzvf 0.16.1.tar.gz \
     && cd hifiasm-0.16.1 && make
+    
+COPY ./MitoHiFi/mitohifi.py /bin/
+RUN echo "#!/usr/bin/env python" | cat - /bin/mitohifi.py | tee /bin/mitohifi.py
+COPY ./MitoHiFi/gfa2fa /bin/
+COPY ./MitoHiFi/alignContigs.py /bin/
+COPY ./MitoHiFi/circularizationCheck.py /bin/
+COPY ./MitoHiFi/cleanUpCWD.py /bin/
+COPY ./MitoHiFi/filterfasta.py /bin/
+COPY ./MitoHiFi/getMitoLength.py /bin/
+COPY ./MitoHiFi/getReprContig.backup.py /bin/
+COPY ./MitoHiFi/getReprContig.py /bin/
+COPY ./MitoHiFi/parse_blast.py /bin/
+COPY ./MitoHiFi/rotate.py /bin/
+COPY ./MitoHiFi/rotation.py /bin/
+COPY ./MitoHiFi/findMitoReference.py /bin/
+COPY ./MitoHiFi/createCoveragePlot.py /bin/
+COPY ./MitoHiFi/compareGenesLists.py /bin/
+COPY ./MitoHiFi/rotation_mitos.py /bin/
+COPY ./MitoHiFi/rotate_genbank.py /bin/
+COPY ./MitoHiFi/reverse_complement.py /bin/
+COPY ./MitoHiFi/plot_coverage.py /bin/
+COPY ./MitoHiFi/plot_coverage_final_mito.py /bin/
+COPY ./MitoHiFi/plot_annotation.py /bin/
+COPY ./MitoHiFi/plot_annotation.GFF.py /bin/
+COPY ./MitoHiFi/parse_blast.py /bin/
+COPY ./MitoHiFi/parallel_annotation.py /bin/
+COPY ./MitoHiFi/make_genome.py /bin/
+COPY ./MitoHiFi/gff_to_gbk.py /bin/
+COPY ./MitoHiFi/get_mitos_stats.py /bin/
+COPY ./MitoHiFi/getGenesList.py /bin/
+COPY ./MitoHiFi/get_depth.py /bin/
+COPY ./MitoHiFi/fix_MitoFinder_headers.py /bin/
+COPY ./MitoHiFi/fix_improper_gff.py /bin/
+COPY ./MitoHiFi/fixContigHeaders.py /bin/
+COPY ./MitoHiFi/findFrameShifts.py /bin/
 
-
-RUN cd /bin/ \
-    && git clone https://github.com/marcelauliano/MitoHiFi.git
-
-ENV PATH /bin/MitoFinder/:${PATH}
-ENV PATH /bin/hifiasm-0.16.1/:${PATH}
-ENV PATH /bin/MitoHiFi/:${PATH}
-
-RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/mitohifi.py | \
-		tee /bin/MitoHiFi/mitohifi.py
-RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/findFrameShifts.py | \
-		tee /bin/MitoHiFi/findFrameShifts.py
-RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/fixContigHeaders.py | \
-		tee /bin/MitoHiFi/fixContigHeaders.py
+COPY ./MitoHiFi/fetch.py /bin/
+COPY ./MitoHiFi/fetch_mitos.py /bin/
 
 RUN chmod -R 755 /bin
-
-RUN conda activate mitos
+CMD ["/bin/bash"]
