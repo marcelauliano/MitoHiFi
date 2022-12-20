@@ -71,16 +71,6 @@ RUN useradd -m mu
 
 USER mu
 
-RUN pip3 --no-cache-dir install --upgrade pip
-
-RUN pip3 install biopython \
-    pandas \
-    Pillow \
-    matplotlib \
-    entrezpy \
-    dna_features_viewer \
-    bcbio-gff
-
 WORKDIR /tmp
 
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -98,3 +88,12 @@ ENV PATH /bin/wrappers:${PATH}
 
 RUN $CONDA_DIR/bin/conda install -n base conda-libmamba-solver
 RUN $CONDA_DIR/bin/conda create -n mitos_env --experimental-solver=libmamba -c bioconda -y mitos
+
+RUN $CONDA_DIR/envs/mitos_env/bin/pip3 install biopython \
+    pandas \
+    Pillow \
+    matplotlib \
+    entrezpy \
+    dna_features_viewer \
+    bcbio-gff
+  
