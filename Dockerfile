@@ -43,7 +43,23 @@ RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /bin
 
-RUN git clone https://github.com/marcelauliano/MitoHiFi.git [github.com]
+RUN git clone https://github.com/marcelauliano/MitoHiFi.git
+
+RUN wget https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
+    && wget -P ~/.local/lib https://bootstrap.pypa.io/pip/2.7/get-pip.py \
+    && python2 ~/.local/lib/get-pip.py \
+    && python2 -m pip install biopython==1.70 \
+    && tar -xzvf 0.16.1.tar.gz \
+    && cd hifiasm-0.16.1 && make
+
+RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/mitohifi.py | \
+                tee /bin/MitoHiFi/mitohifi.py
+RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/findFrameShifts.py | \
+                tee /bin/MitoHiFi/findFrameShifts.py
+RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/fixContigHeaders.py | \
+                tee /bin/MitoHiFi/fixContigHeaders.py
+
+RUN chmod -R 755 /bin
 
 RUN useradd -m mu
 
@@ -69,4 +85,10 @@ ARG CONDA_DIR=/home/mu/miniconda3
 
 RUN echo ". $CONDA_DIR/etc/profile.d/conda.sh" >> ~/.bashrc
 
-RUN $CONDA_DIR/bin/conda install mamba -n base -c conda-forge
+ENV PATH /bin/MitoFinder/:${PATH}
+ENV PATH /bin/hifiasm-0.16.1/:${PATH}
+ENV PATH /bin/MitoHiFi/:${PATH}
+
+RUN which mitohifi.py
+
+RUN $CONDA_DIR/bin/conda create -n mitos_env -c bioconda -y mitos
