@@ -78,7 +78,7 @@ RUN pip3 install biopython \
     Pillow \
     matplotlib \
     entrezpy \
-    dna-features-viewer \
+    dna_features_viewer \
     bcbio-gff
 
 WORKDIR /tmp
