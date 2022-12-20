@@ -40,15 +40,20 @@ RUN apt-get -qq -y update \
     && apt-get -qq -y install libz-dev \
     && rm -rf /var/lib/apt/lists/* \
 # Install miniconda
-ENV CONDA_DIR /opt/conda
-RUN echo $CONDA_DIR
-RUN ls /opt/conda
-RUN ls /opt/conda/bin
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
-     /bin/bash ~/miniconda.sh -b -p /opt/conda
+RUN useradd -m blobtoolkit
 
-# Put conda in path so we can use conda activate
-ENV PATH=$CONDA_DIR/bin:$PATH
+USER blobtoolkit
+
+WORKDIR /tmp
+
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+RUN printf '\nyes\n\n' | bash Miniconda3-latest-Linux-x86_64.sh
+
+ARG CONDA_DIR=/home/blobtoolkit/miniconda3
+
+RUN echo ". $CONDA_DIR/etc/profile.d/conda.sh" >> ~/.bashrc
+
 RUN $CONDA_DIR/bin/conda install mamba -n base -c conda-forge
 
 RUN wget https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
