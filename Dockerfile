@@ -96,7 +96,4 @@ ENV PATH /bin/MitoHiFi/:${PATH}
 ENV PATH /bin/wrappers:${PATH}
 
 RUN $CONDA_DIR/bin/conda install -n base conda-libmamba-solver
-COPY mitos_wrapper.sh /bin/wrappers/runmitos.py
 RUN $CONDA_DIR/bin/conda create -n mitos_env --experimental-solver=libmamba -c bioconda -y mitos
-COPY mitofinder_wrapper.sh /bin/wrappers/mitofinder
-RUN $CONDA_DIR/bin/conda create -n mitofinder -experimental-solver=libmamba -c bioconda mitofinder
