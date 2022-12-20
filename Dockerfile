@@ -89,9 +89,9 @@ ENV PATH /bin/wrappers:${PATH}
 RUN $CONDA_DIR/bin/conda install -n base conda-libmamba-solver
 RUN $CONDA_DIR/bin/conda create -n mitos_env --experimental-solver=libmamba -c bioconda -y mitos
 
-RUN pip3 --no-cache-dir install --upgrade pip
 
-RUN pip3 install biopython \
+
+RUN $CONDA_DIR/bin pip3 install biopython \
     pandas \
     Pillow \
     matplotlib \
