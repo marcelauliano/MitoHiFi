@@ -50,7 +50,7 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
 RUN printf '\nyes\n\n' | bash Miniconda3-latest-Linux-x86_64.sh
 
-ARG CONDA_DIR=/home/blobtoolkit/miniconda3
+ARG CONDA_DIR=/home/mu/miniconda3
 
 RUN echo ". $CONDA_DIR/etc/profile.d/conda.sh" >> ~/.bashrc
 
@@ -78,6 +78,45 @@ RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/findFrameShifts.py | \
 RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/fixContigHeaders.py | \
                 tee /bin/MitoHiFi/fixContigHeaders.py
 
-RUN chmod -R 755 /bin
+COPY ./MitoHiFi/mitohifi.py /bin/
+RUN echo "#!/usr/bin/env python" | cat - /bin/mitohifi.py | tee /bin/mitohifi.py
+COPY ./MitoHiFi/gfa2fa /bin/
+COPY ./MitoHiFi/alignContigs.py /bin/
+COPY ./MitoHiFi/circularizationCheck.py /bin/
+COPY ./MitoHiFi/cleanUpCWD.py /bin/
+COPY ./MitoHiFi/filterfasta.py /bin/
+COPY ./MitoHiFi/getMitoLength.py /bin/
+COPY ./MitoHiFi/getReprContig.backup.py /bin/
+COPY ./MitoHiFi/getReprContig.py /bin/
+COPY ./MitoHiFi/parse_blast.py /bin/
+COPY ./MitoHiFi/rotate.py /bin/
+COPY ./MitoHiFi/rotation.py /bin/
+COPY ./MitoHiFi/findMitoReference.py /bin/
+COPY ./MitoHiFi/createCoveragePlot.py /bin/
+COPY ./MitoHiFi/compareGenesLists.py /bin/
+COPY ./MitoHiFi/rotation_mitos.py /bin/
+COPY ./MitoHiFi/rotate_genbank.py /bin/
+COPY ./MitoHiFi/reverse_complement.py /bin/
+COPY ./MitoHiFi/plot_coverage.py /bin/
+COPY ./MitoHiFi/plot_coverage_final_mito.py /bin/
+COPY ./MitoHiFi/plot_annotation.py /bin/
+COPY ./MitoHiFi/plot_annotation.GFF.py /bin/
+COPY ./MitoHiFi/parse_blast.py /bin/
+COPY ./MitoHiFi/parallel_annotation.py /bin/
+COPY ./MitoHiFi/make_genome.py /bin/
+COPY ./MitoHiFi/gff_to_gbk.py /bin/
+COPY ./MitoHiFi/get_mitos_stats.py /bin/
+COPY ./MitoHiFi/getGenesList.py /bin/
+COPY ./MitoHiFi/get_depth.py /bin/
+COPY ./MitoHiFi/fix_MitoFinder_headers.py /bin/
+COPY ./MitoHiFi/fix_improper_gff.py /bin/
+COPY ./MitoHiFi/fixContigHeaders.py /bin/
+COPY ./MitoHiFi/findFrameShifts.py /bin/
 
+COPY ./MitoHiFi/fetch.py /bin/
+COPY ./MitoHiFi/fetch_mitos.py /bin/
+
+
+RUN chmod -R 755 /bin
+CMD ["/bin/bash"]
 RUN conda activate mitos
