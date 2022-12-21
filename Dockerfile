@@ -53,12 +53,14 @@ RUN git clone https://github.com/marcelauliano/MitoHiFi.git \
     dna_features_viewer \
     bcbio-gff
 
-RUN wget https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
-    && wget -P ~/.local/lib https://bootstrap.pypa.io/pip/2.7/get-pip.py \
-    && python2 ~/.local/lib/get-pip.py \
-    && python2 -m pip install biopython==1.70 \
-    && tar -xzvf 0.16.1.tar.gz \
-    && cd hifiasm-0.16.1 && make
+# /opt/hifiasm-0.16.1
+RUN curl -L https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
+    | tar -xzvf - \
+    && cd hifiasm-0.16.1 \
+    && make \
+    && wget -P /usr/local/src https://bootstrap.pypa.io/pip/2.7/get-pip.py \
+    && python2 /usr/local/src/get-pip.py \
+    && python2 -m pip --no-cache-dir install biopython==1.70
 
 # /opt/conda
 RUN wget -P /usr/local/src https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
@@ -80,6 +82,6 @@ WORKDIR /tmp
 ENV PATH /opt/minimap2-2.24_x64-linux/:${PATH}
 ENV PATH /opt/MitoFinder/:${PATH}
 ENV PATH /opt/MitoHiFi/:${PATH}
-ENV PATH /bin/hifiasm-0.16.1/:${PATH}
+ENV PATH /opt/hifiasm-0.16.1/:${PATH}
 ENV PATH /opt/conda/envs/mitos_env/bin/clean/:${PATH}
 
