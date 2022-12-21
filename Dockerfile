@@ -74,7 +74,7 @@ RUN /opt/conda/bin/conda create -n mitos_env --experimental-solver=libmamba -c b
     && sed -i "/runmitos\.py/s#python2\", \"#/opt/conda/envs/mitos_env//bin#" /opt/MitoHiFi/parallel_annotation_mitos.py
 
 RUN useradd -m mu
-
+RUN chown -R mu:mu /opt/MitoFinder/
 USER mu
 
 WORKDIR /tmp
