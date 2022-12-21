@@ -15,6 +15,7 @@ RUN apt-get -qq -y update \
     git \
     infernal \
     libopenjp2-7 \
+    libtiff5 \
     libz-dev \
     mafft \
     ncbi-blast+ \
