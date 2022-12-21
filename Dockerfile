@@ -84,7 +84,7 @@ RUN $CONDA_DIR/bin/conda clean -a
 
 # MitoFinder adjustments to make conda version work
 RUN touch /opt/conda/envs/mitofinder_env/bin/install.sh.ok
-COPY ./Mitofinder.config /opt/conda/envs/mitofinder_env/bin/
+COPY /Mitofinder.config /opt/conda/envs/mitofinder_env/bin/
 RUN cp -r /opt/MitoFinder/mitfi/ /opt/conda/envs/mitofinder_env/bin/
 
 RUN mkdir -p /opt/databases
