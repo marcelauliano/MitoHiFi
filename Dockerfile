@@ -23,7 +23,9 @@ RUN apt-get -qq -y update \
     git \
     libz-dev \
     libopenjp2-7 \
-    libtiff5
+    libtiff5 \
+    && apt-get -y clean \
+    && rm -rf /var/lib/apt/lists/* /var/tmp/*
 
 RUN umask 022
 
@@ -42,8 +44,6 @@ WORKDIR /bin
 RUN git clone https://github.com/RemiAllio/MitoFinder.git \
     && cd MitoFinder \
     && ./install.sh
-
-RUN rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/marcelauliano/MitoHiFi.git
 
