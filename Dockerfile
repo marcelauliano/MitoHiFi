@@ -27,12 +27,6 @@ RUN apt-get -qq -y update \
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/*
 
-RUN umask 022
-
-WORKDIR /usr/local/bin
-
-RUN ln -s /usr/bin/python3 python
-
 WORKDIR /opt
 
 # /opt/minimap2-2.24_x64-linux
