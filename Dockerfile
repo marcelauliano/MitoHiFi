@@ -33,17 +33,18 @@ WORKDIR /usr/local/bin
 
 RUN ln -s /usr/bin/python3 python
 
-WORKDIR /tmp
+WORKDIR /opt
 
+# /opt/minimap2-2.24_x64-linux
 RUN curl -L https://github.com/lh3/minimap2/releases/download/v2.24/minimap2-2.24_x64-linux.tar.bz2 \
-    | tar -jxvf - \
-    && mv ./minimap2-2.24_x64-linux/minimap2 /bin/
+    | tar -jxvf -
 
-WORKDIR /bin
-
+# /opt/MitoFinder
 RUN git clone https://github.com/RemiAllio/MitoFinder.git \
     && cd MitoFinder \
     && ./install.sh
+
+WORKDIR /bin
 
 RUN git clone https://github.com/marcelauliano/MitoHiFi.git
 
@@ -81,7 +82,8 @@ ENV CONDA_DIR=/home/mu/miniconda3
 
 RUN echo ". $CONDA_DIR/etc/profile.d/conda.sh" >> ~/.bashrc
 
-ENV PATH /bin/MitoFinder/:${PATH}
+ENV PATH /opt/minimap2-2.24_x64-linux/:${PATH}
+ENV PATH /opt/MitoFinder/:${PATH}
 ENV PATH /bin/hifiasm-0.16.1/:${PATH}
 ENV PATH /bin/MitoHiFi/:${PATH}
 ENV PATH /bin/wrappers:${PATH}
