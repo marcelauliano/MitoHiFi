@@ -70,11 +70,18 @@ RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/findFrameShifts.py | \
 RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/fixContigHeaders.py | \
                 tee /bin/MitoHiFi/fixContigHeaders.py
 
-RUN mkdir /bin/wrappers
-
-COPY mitos_wrapper.sh /bin/wrappers/runmitos.py
-
 RUN chmod -R 755 /bin
+
+# /opt/conda
+RUN wget -P /usr/local/src https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+    && bash /usr/local/src/Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda \
+    && /opt/conda/bin/conda install -n base conda-libmamba-solver
+
+# /opt/conda/envs/mitos_env
+RUN /opt/conda/bin/conda create -n mitos_env --experimental-solver=libmamba -c bioconda -y mitos \
+    && mkdir /opt/conda/envs/mitos_env/bin/clean \
+    && ln -s ../runmitos.py /opt/conda/envs/mitos_env/bin/clean/runmitos.py \
+    && sed -i "/runmitos\.py/s#python2\", \"#/opt/conda/envs/mitos_env//bin#" /opt/MitoHiFi/parallel_annotation_mitos.py
 
 RUN useradd -m mu
 
@@ -82,20 +89,9 @@ USER mu
 
 WORKDIR /tmp
 
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-
-RUN printf '\nyes\n\n' | bash Miniconda3-latest-Linux-x86_64.sh
-
-ENV CONDA_DIR=/home/mu/miniconda3
-
-RUN echo ". $CONDA_DIR/etc/profile.d/conda.sh" >> ~/.bashrc
-
 ENV PATH /opt/minimap2-2.24_x64-linux/:${PATH}
 ENV PATH /opt/MitoFinder/:${PATH}
 ENV PATH /bin/hifiasm-0.16.1/:${PATH}
 ENV PATH /bin/MitoHiFi/:${PATH}
-ENV PATH /bin/wrappers:${PATH}
-
-RUN $CONDA_DIR/bin/conda install -n base conda-libmamba-solver
-RUN $CONDA_DIR/bin/conda create -n mitos_env --experimental-solver=libmamba -c bioconda -y mitos
+ENV PATH /opt/conda/envs/mitos_env/bin/clean/:${PATH}
 
