@@ -47,6 +47,14 @@ RUN git clone https://github.com/RemiAllio/MitoFinder.git \
 WORKDIR /bin
 
 RUN git clone https://github.com/marcelauliano/MitoHiFi.git
+    && pip3 --no-cache-dir install --upgrade pip \
+    && pip3 --no-cache-dir install biopython \
+    pandas \
+    Pillow \
+    matplotlib \
+    entrezpy \
+    dna_features_viewer \
+    bcbio-gff
 
 RUN wget https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
     && wget -P ~/.local/lib https://bootstrap.pypa.io/pip/2.7/get-pip.py \
@@ -91,13 +99,3 @@ ENV PATH /bin/wrappers:${PATH}
 RUN $CONDA_DIR/bin/conda install -n base conda-libmamba-solver
 RUN $CONDA_DIR/bin/conda create -n mitos_env --experimental-solver=libmamba -c bioconda -y mitos
 
-
-
-RUN $CONDA_DIR/bin pip3 install biopython \
-    pandas \
-    Pillow \
-    matplotlib \
-    entrezpy \
-    dna_features_viewer \
-    bcbio-gff
-  
