@@ -1,8 +1,8 @@
 #!/bin/bash
 
 (
-eval "$($CONDA_DIR/bin/conda shell.bash hook)"
+eval "$(/opt/conda/bin/conda shell.bash hook)"
 conda activate mitofinder_env &&
-PYTHONPATH= /home/mu/miniconda3/envs/mitofinder_env/bin/mitofinder "$@"
+/opt/MitoFinder/mitofinder "$@"
 conda deactivate
 )
