@@ -44,9 +44,12 @@ RUN git clone https://github.com/RemiAllio/MitoFinder.git \
     && cd MitoFinder \
     && ./install.sh
 
-WORKDIR /bin
-
-RUN git clone https://github.com/marcelauliano/MitoHiFi.git
+# /opt/MitoHiFi
+RUN git clone https://github.com/marcelauliano/MitoHiFi.git \
+    && cd MitoHiFi \
+    && chmod +x *.py \
+    && sed -i '1i#!/usr/bin/env python3' mitohifi.py findFrameShifts.py fixContigHeaders.py \
+    && sed -i '1 s/python\>/python3/' *.py \
     && pip3 --no-cache-dir install --upgrade pip \
     && pip3 --no-cache-dir install biopython \
     pandas \
@@ -62,15 +65,6 @@ RUN wget https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
     && python2 -m pip install biopython==1.70 \
     && tar -xzvf 0.16.1.tar.gz \
     && cd hifiasm-0.16.1 && make
-
-RUN echo "#!/usr/bin/env python3" | cat - /bin/MitoHiFi/mitohifi.py | \
-                tee /bin/MitoHiFi/mitohifi.py
-RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/findFrameShifts.py | \
-                tee /bin/MitoHiFi/findFrameShifts.py
-RUN echo "#!/usr/bin/env python" | cat - /bin/MitoHiFi/fixContigHeaders.py | \
-                tee /bin/MitoHiFi/fixContigHeaders.py
-
-RUN chmod -R 755 /bin
 
 # /opt/conda
 RUN wget -P /usr/local/src https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
@@ -91,7 +85,7 @@ WORKDIR /tmp
 
 ENV PATH /opt/minimap2-2.24_x64-linux/:${PATH}
 ENV PATH /opt/MitoFinder/:${PATH}
+ENV PATH /opt/MitoHiFi/:${PATH}
 ENV PATH /bin/hifiasm-0.16.1/:${PATH}
-ENV PATH /bin/MitoHiFi/:${PATH}
 ENV PATH /opt/conda/envs/mitos_env/bin/clean/:${PATH}
 
