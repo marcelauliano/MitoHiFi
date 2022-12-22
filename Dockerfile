@@ -108,12 +108,8 @@ ENV PATH /opt/wrappers:/opt/hifiasm-0.16.1/:/opt/MitoHiFi/:/opt/minimap2-2.24_x6
 
 USER root
 
-RUN chmod 755 /opt/MitoFinder/*
+RUN chmod 777 /opt/MitoFinder/*
 
-RUN chmod 755 /opt/conda/envs/mitofinder_env/bin/mitfi/*
+RUN chmod 777 /opt/conda/envs/mitofinder_env/bin/mitfi/*
 
 USER mu
-
-RUN chmod 755 /opt/MitoFinder/*
-
-RUN chmod 755 /opt/conda/envs/mitofinder_env/bin/mitfi/*
