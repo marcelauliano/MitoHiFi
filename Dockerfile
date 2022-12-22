@@ -103,6 +103,4 @@ USER root
 
 RUN chmod 755 /opt/MitoFinder/*
 
-RUN chmod a+x /opt/conda/envs/mitofinder_env/bin/mitfi/
-
 USER mu
