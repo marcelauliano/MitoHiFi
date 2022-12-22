@@ -3,6 +3,6 @@
 (
 eval "$(/opt/conda/bin/conda shell.bash hook)"
 conda activate mitofinder_env &&
-mitofinder "$@"
+/opt/MitoFinder/mitofinder "$@"
 conda deactivate
 )
