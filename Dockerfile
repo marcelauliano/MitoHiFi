@@ -78,7 +78,7 @@ RUN wget -P /usr/local/src https://repo.anaconda.com/miniconda/Miniconda3-latest
 
 RUN $CONDA_DIR/bin/conda create -n mitos_env --experimental-solver=libmamba -c bioconda -y mitos
 
-RUN $CONDA_DIR/bin/conda create -n mitofinder_env --experimental-solver=libmamba -c bioconda -c conda-forge -y mitofinder
+RUN $CONDA_DIR/bin/conda create -n mitofinder_env --experimental-solver=libmamba -c bioconda -c conda-forge -y mitofinder -c infernal
 
 RUN $CONDA_DIR/bin/conda clean -a
 
