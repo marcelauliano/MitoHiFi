@@ -64,6 +64,8 @@ RUN git clone https://github.com/RemiAllio/MitoFinder.git \
     && ./install.sh \
     && sed -i 's/\/usr\/bin\/python/\/usr\/bin\/env python/' mitofinder
 
+RUN chmod -R 755 /opt/MitoFinder
+
 RUN mkdir -p /opt/wrappers
 
 COPY mitos_wrapper.sh /opt/wrappers/runmitos.py
