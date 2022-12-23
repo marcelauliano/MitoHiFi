@@ -89,18 +89,8 @@ WORKDIR /opt/databases
 RUN curl -L https://zenodo.org/record/4284483/files/refseq89m.tar.bz2?download=1 | tar -jxvf - \
     && curl -L https://zenodo.org/record/4284483/files/refseq89f.tar.bz2?download=1 | tar -jxvf -
 
-RUN useradd -m mu
-
-USER mu
-
 WORKDIR /tmp
 
 ENV CONDA_DIR=/opt/conda
 
 ENV PATH /opt/wrappers:/opt/hifiasm-0.16.1/:/opt/MitoHiFi/:/opt/MitoFinder/:/opt/minimap2-2.24_x64-linux/:${PATH}
-
-USER root
-
-RUN chmod 755 /opt/MitoFinder/*
-
-USER mu
