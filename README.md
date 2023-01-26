@@ -94,13 +94,13 @@ We have wrapped up MitoHiFi v3.0.0 code into a singularity container. We recomme
 MitoHiFi.v3.0.0 siungularity image should be run as:
 
 ```
-singularity exec --bind /software/:/software/ docker://ghcr.io/marcelauliano/MitoHiFi:main mitohifi.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb -t 10 -o 2 
+ singularity exec --bind /lustre/:/lustre/ docker://ghcr.io/marcelauliano/mitohifi:master mitohifi.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb -t 10 -o 2 
 ```
 
 The script for quering reference .fasta and .gb files from NCBI is incorporated into the singularity image and can be called as follows:
 
 ```
-singularity exec --bind /software/:/software/ docker://ghcr.io/marcelauliano/MitoHiFi:main findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
+ singularity exec --bind /lustre/:/lustre/ docker://ghcr.io/marcelauliano/mitohifi:master mitohifi.py findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
 ```
 
 ## 3. Parameter list
