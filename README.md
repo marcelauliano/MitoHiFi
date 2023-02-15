@@ -100,7 +100,7 @@ MitoHiFi.v3.0.0 siungularity image should be run as:
 The script for quering reference .fasta and .gb files from NCBI is incorporated into the singularity image and can be called as follows:
 
 ```
- singularity exec --bind /lustre/:/lustre/ docker://ghcr.io/marcelauliano/mitohifi:master mitohifi.py findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
+ singularity exec --bind /lustre/:/lustre/ docker://ghcr.io/marcelauliano/mitohifi:master findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
 ```
 
 ## 3. Parameter list
