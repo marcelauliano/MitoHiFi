@@ -1,5 +1,6 @@
 from Bio import SeqIO
 import os 
+import logging
 
 def get_num_seqs(in_fasta):
     """Gets the number of sequences in a FASTA file.
@@ -24,6 +25,7 @@ def get_ref_tRNA():
     """
 
     tRNAs = {}
+    logging.info("DEBUG - os.listdir: {0}".format(os.listdir('.')))
     for curr_file in os.listdir('.'):
         if curr_file.endswith('.trnas'):
             with open(curr_file, "r") as infile:

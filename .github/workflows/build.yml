@@ -1,0 +1,36 @@
+name: build
+on:
+  push:
+  pull_request:
+jobs:
+  build:
+    name: ${{ matrix.entry.name }}
+    # Note the ubuntu-18.04 is deprecated.
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on: ubuntu-18.04
+    container:
+      # https://hub.docker.com/r/biocontainers/mitohifi
+      image: docker.io/biocontainers/mitohifi:${{ matrix.entry.container || '2.2_cv1' }}
+      options: --user root
+    strategy:
+      fail-fast: false
+      matrix:
+        entry:
+          - { name: 'Test reads', test_reads: true }
+          - { name: 'Test contigs', test_contigs: true }
+    steps:
+      - name: Remove MitoHifi installed in the Docker container.
+        run: rm -rf /bin/MitoFinder
+      - uses: actions/checkout@v3
+      - run: python --version
+      - run: chmod 755 gfa2fa
+      - name: Test reads case.
+        run: |
+          python ../mitohifi.py -r ./ilDeiPorc1.reads.small.fa -f ./MW539688.1.fasta -g ./MW539688.1.gb -t "$(nproc --all)" -o 2
+        working-directory: exampleFiles
+        if: ${{ matrix.entry.test_reads }}
+      - name: Test contigs case.
+        run: |
+          python ../mitohifi.py -c ./test.fa -f ./NC_016067.1.fasta -g ./NC_016067.1.gb -t "$(nproc --all)" -o 2
+        working-directory: exampleFiles
+        if: ${{ matrix.entry.test_contigs }}
