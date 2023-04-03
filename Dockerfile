@@ -62,13 +62,11 @@ RUN git clone https://github.com/RemiAllio/MitoFinder.git \
     && cd MitoFinder \
     && ./install.sh \
     && sed -i 's/\/usr\/bin\/python/\/usr\/bin\/env python/' mitofinder
+RUN chmod -R 755 /opt/MitoFinder
 
 RUN git clone https://github.com/weizhongli/cdhit.git [github.com] \
     && cd cdhit \
-    && sed -i 's/MAX_SEQ=500000/MAX_SEQ=10000000/' Makefile \
-    && make \
-
-RUN chmod -R 755 /opt/MitoFinder
+    && make MAX_SEQ=10000000 \
 
 RUN mkdir -p /opt/wrappers
 
