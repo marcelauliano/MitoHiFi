@@ -23,12 +23,6 @@ RUN apt-get -qq -y update \
     samtools \
     wget \
     vim \
-    && wget -qO- https://github.com/weizhongli/cdhit/archive/V4.8.1.tar.gz | tar -xzvf - \
-    && cd cdhit-4.8.1 \
-    && sed -i 's/MAX_SEQ=500000/MAX_SEQ=10000000/' Makefile \
-    && make \
-    && ln -s /opt/cdhit-4.8.1/cd-hit /usr/local/src/cd-hit \
-    && ln -s /opt/cdhit-4.8.1/cd-hit-est /usr/local/src/cd-hit-est \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt
@@ -68,6 +62,11 @@ RUN git clone https://github.com/RemiAllio/MitoFinder.git \
     && cd MitoFinder \
     && ./install.sh \
     && sed -i 's/\/usr\/bin\/python/\/usr\/bin\/env python/' mitofinder
+
+RUN git clone https://github.com/weizhongli/cdhit.git [github.com] \
+    && cd cdhit \
+    && sed -i 's/MAX_SEQ=500000/MAX_SEQ=10000000/' Makefile \
+    && make \
 
 RUN chmod -R 755 /opt/MitoFinder
 
