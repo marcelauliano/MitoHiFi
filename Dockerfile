@@ -22,8 +22,6 @@ RUN apt-get -qq -y update \
     && cd cdhit-4.8.1 \
     && sed -i 's/MAX_SEQ=500000/MAX_SEQ=10000000/' Makefile \
     && make \
-    && ln -s /opt/cdhit-4.8.1/cd-hit /usr/local/bin/cd-hit \
-    && ln -s /opt/cdhit-4.8.1/cd-hit-est /usr/local/bin/cd-hit-est \
     python3-dev \
     python3-pip \
     samtools \
