@@ -25,6 +25,12 @@ RUN apt-get -qq -y update \
     vim \
     && rm -rf /var/lib/apt/lists/*
 
+RUN wget -qO- https://github.com/weizhongli/cdhit/archive/V4.8.1.tar.gz | tar -xzvf - \
+    && cd cdhit-4.8.1 \
+    && sed -i 's/MAX_SEQ=500000/MAX_SEQ=10000000/' Makefile \
+    && make \
+    && ln -s /opt/cdhit-4.8.1/cd-hit /usr/local/bin/cd-hit
+
 WORKDIR /opt
 
 # /opt/minimap2-2.24_x64-linux
@@ -47,10 +53,6 @@ RUN git clone https://github.com/marcelauliano/MitoHiFi.git \
     entrezpy \
     dna_features_viewer \
     bcbio-gff
-    
-RUN git clone https://github.com/weizhongli/cdhit.git [github.com] \
-&& cd cdhit \
-&& make MAX_SEQ=10000000
 
 # /opt/hifiasm-0.16.1
 RUN curl -L https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
