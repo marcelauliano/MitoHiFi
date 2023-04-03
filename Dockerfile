@@ -50,8 +50,7 @@ RUN git clone https://github.com/marcelauliano/MitoHiFi.git \
     
 RUN git clone https://github.com/weizhongli/cdhit.git [github.com] \
 && cd cdhit \
-&&
-make MAX_SEQ=10000000
+&& make MAX_SEQ=10000000
 
 # /opt/hifiasm-0.16.1
 RUN curl -L https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
