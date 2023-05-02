@@ -3,7 +3,7 @@ name: Build and Publish MitoHiFi
 on:
   push:
     branches:
-      - 'master'
+      - 'reviewes1'
   
 
 env:
