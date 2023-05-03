@@ -1,5 +1,5 @@
 
-FROM ?????????
+FROM ghcr.io/marcelauliano/mitohifi:reviews
 
 WORKDIR /opt
 
