@@ -81,7 +81,7 @@ WORKDIR /tmp
 ENV CONDA_DIR=/opt/conda
 
 # /opt/MitoHiFi
-RUN git clone -b reviwes https://github.com/marcelauliano/MitoHiFi.git \
+RUN git clone -b reviews https://github.com/marcelauliano/MitoHiFi.git \
     && cd MitoHiFi \
     && chmod +x *.py \
     && sed -i '1i#!/usr/bin/env python3' mitohifi.py findFrameShifts.py fixContigHeaders.py \
