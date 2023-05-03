@@ -24,6 +24,9 @@ RUN apt-get -qq -y update \
     wget \
     vim \
     && rm -rf /var/lib/apt/lists/*
+    
+
+WORKDIR /opt
 
 # /opt/minimap2-2.24_x64-linux
 RUN curl -L https://github.com/lh3/minimap2/releases/download/v2.24/minimap2-2.24_x64-linux.tar.bz2 \
