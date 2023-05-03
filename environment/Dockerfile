@@ -31,23 +31,6 @@ WORKDIR /opt
 RUN curl -L https://github.com/lh3/minimap2/releases/download/v2.24/minimap2-2.24_x64-linux.tar.bz2 \
     | tar -jxvf -
 
-# /opt/MitoHiFi
-RUN git clone https://github.com/marcelauliano/MitoHiFi.git \
-    && cd MitoHiFi \
-    && chmod +x *.py \
-    && sed -i '1i#!/usr/bin/env python3' mitohifi.py findFrameShifts.py fixContigHeaders.py \
-    && sed -i '1 s/python\>/python3/' *.py \
-    && sed -i 's/"python2",\s//' parallel_annotation_mitos.py \
-    && sed -i 's/MITOS\/data/\/opt\/databases/' parallel_annotation_mitos.py \
-    && pip3 --no-cache-dir install --upgrade pip \
-    && pip3 --no-cache-dir install biopython \
-    pandas \
-    Pillow \
-    matplotlib \
-    entrezpy \
-    dna_features_viewer \
-    bcbio-gff
-
 # /opt/hifiasm-0.16.1
 RUN curl -L https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
     | tar -xzvf - \
@@ -96,5 +79,22 @@ RUN curl -L https://zenodo.org/record/4284483/files/refseq89m.tar.bz2?download=1
 WORKDIR /tmp
 
 ENV CONDA_DIR=/opt/conda
+
+# /opt/MitoHiFi
+RUN git clone -b reviwes https://github.com/marcelauliano/MitoHiFi.git \
+    && cd MitoHiFi \
+    && chmod +x *.py \
+    && sed -i '1i#!/usr/bin/env python3' mitohifi.py findFrameShifts.py fixContigHeaders.py \
+    && sed -i '1 s/python\>/python3/' *.py \
+    && sed -i 's/"python2",\s//' parallel_annotation_mitos.py \
+    && sed -i 's/MITOS\/data/\/opt\/databases/' parallel_annotation_mitos.py \
+    && pip3 --no-cache-dir install --upgrade pip \
+    && pip3 --no-cache-dir install biopython \
+    pandas \
+    Pillow \
+    matplotlib \
+    entrezpy \
+    dna_features_viewer \
+    bcbio-gff
 
 ENV PATH /opt/wrappers:/opt/cdhit/:/opt/hifiasm-0.16.1/:/opt/MitoHiFi/:/opt/MitoFinder/:/opt/minimap2-2.24_x64-linux/:${PATH}
