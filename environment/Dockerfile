@@ -101,4 +101,4 @@ WORKDIR /tmp
 
 ENV CONDA_DIR=/opt/conda
 
-ENV PATH /opt/wrappers:/opt/cdhit/:/opt/hifiasm-0.16.1/:/opt/MitoHiFi/:/opt/MitoFinder/:/opt/minimap2-2.24_x64-linux/:${PATH}
+ENV PATH /opt/wrappers:/opt/cdhit/:/opt/hifiasm-0.16.1/:/opt/MitoHiFi/src/:/opt/MitoFinder/:/opt/minimap2-2.24_x64-linux/:${PATH}
