@@ -25,8 +25,6 @@ RUN apt-get -qq -y update \
     vim \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /opt
-
 # /opt/minimap2-2.24_x64-linux
 RUN curl -L https://github.com/lh3/minimap2/releases/download/v2.24/minimap2-2.24_x64-linux.tar.bz2 \
     | tar -jxvf -
@@ -76,9 +74,8 @@ WORKDIR /opt/databases
 RUN curl -L https://zenodo.org/record/4284483/files/refseq89m.tar.bz2?download=1 | tar -jxvf - \
     && curl -L https://zenodo.org/record/4284483/files/refseq89f.tar.bz2?download=1 | tar -jxvf -
 
-WORKDIR /tmp
 
-ENV CONDA_DIR=/opt/conda
+WORKDIR /opt
 
 # /opt/MitoHiFi
 RUN git clone -b reviews https://github.com/marcelauliano/MitoHiFi.git \
@@ -96,5 +93,9 @@ RUN git clone -b reviews https://github.com/marcelauliano/MitoHiFi.git \
     entrezpy \
     dna_features_viewer \
     bcbio-gff
+    
+WORKDIR /tmp
+
+ENV CONDA_DIR=/opt/conda
 
 ENV PATH /opt/wrappers:/opt/cdhit/:/opt/hifiasm-0.16.1/:/opt/MitoHiFi/:/opt/MitoFinder/:/opt/minimap2-2.24_x64-linux/:${PATH}
