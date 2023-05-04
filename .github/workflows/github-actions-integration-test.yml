@@ -19,6 +19,7 @@ jobs:
           docker pull ghcr.io/marcelauliano/mitohifi:reviews
           docker run \
           -v $pwd:/tmp \
+          -v /opt:/opt \
           ghcr.io/marcelauliano/mitohifi:reviews \
             mitohifi.py \
             -c /opt/MitoHiFi/tests/ilPhaBuce1_contig.fa \
@@ -27,12 +28,13 @@ jobs:
             -o 5 \
             -t 1
       - name: compare_contigs
-        run: cmp /opt/MitoHiFi/tests/ilPhaBuce1_final_mitogenome.gb final_mitogenome.gb && echo "SUCCESS"
+        run: cmp /opt/MitoHiFi/tests/ilPhaBuce1_final_mitogenome.gb ./final_mitogenome.gb && echo "SUCCESS"
       
       - name: Run integration test_reads with Docker
         run: |
           docker run \
           -v $pwd:/tmp \
+          -v /opt:/opt \
           ghcr.io/marcelauliano/mitohifi:reviews \
             mitohifi.py \
             -r /opt/MitoHiFi/tests/ilDeiPorc1.reads.100.fa \
