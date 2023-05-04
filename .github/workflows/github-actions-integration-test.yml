@@ -9,10 +9,6 @@ on:
 jobs:
   integration_test:
     runs-on: ubuntu-latest
-    services:
-      docker:
-        image: ghcr.io/marcelauliano/mitohifi:reviews
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -20,4 +16,5 @@ jobs:
       
       - name: Run integration test with Docker
         run: |
+          docker pull ghcr.io/marcelauliano/mitohifi:reviews
           docker run mitohifi:reviews python3 mitohifi.py --help
