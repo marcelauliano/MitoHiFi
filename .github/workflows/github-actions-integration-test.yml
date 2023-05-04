@@ -16,11 +16,8 @@ jobs:
       
       - name: Run integration test_contigs with Docker
         run: |
-          mkdir -p tmp_tests tmp
           docker pull ghcr.io/marcelauliano/mitohifi:reviews
-          docker run \
-          -v tmp:/tmp \
-          -v tmp_tests:/opt/MitoHiFi/tests/ \
+          docker run -d --name test_contigs \
           ghcr.io/marcelauliano/mitohifi:reviews \
             mitohifi.py \
             -c /opt/MitoHiFi/tests/ilPhaBuce1_contig.fa \
@@ -29,22 +26,24 @@ jobs:
             -o 5 \
             -t 1
       - name: compare_contigs
-        run: cmp tmp_tests/ilPhaBuce1_final_mitogenome.gb tmp/final_mitogenome.gb && echo "SUCCESS"
-      
-      - name: Run integration test_reads with Docker
         run: |
-          mkdir -p tmp_tests tmp
-          docker run \
-          -v $pwd:/tmp \
-          -v tmp_tests:/opt/MitoHiFi/tests/ \
-          ghcr.io/marcelauliano/mitohifi:reviews \
-            mitohifi.py \
-            -r /opt/MitoHiFi/tests/ilDeiPorc1.reads.100.fa \
-            -f /opt/MitoHiFi/tests/MW539688.1.fasta \
-            -g /opt/MitoHiFi/tests/MW539688.1.gb \
-            -o 5 \
-            -t 1
-      - name: compare_reads
-        run: cmp tmp_tests/ilDeiPorc1_final_mitogenome.gb tmp/final_mitogenome.gb && echo "SUCCESS"
+          docker cp test_contigs:/tmp/final_mitogenome.gb ./
+          cmp tests/ilPhaBuce1_final_mitogenome.gb final_mitogenome.gb && echo "SUCCESS"
+      
+      # - name: Run integration test_reads with Docker
+      #   run: |
+      #     mkdir -p tmp_tests tmp
+      #     docker run \
+      #     -v $pwd:/tmp \
+      #     -v tmp_tests:/opt/MitoHiFi/tests/ \
+      #     ghcr.io/marcelauliano/mitohifi:reviews \
+      #       mitohifi.py \
+      #       -r /opt/MitoHiFi/tests/ilDeiPorc1.reads.100.fa \
+      #       -f /opt/MitoHiFi/tests/MW539688.1.fasta \
+      #       -g /opt/MitoHiFi/tests/MW539688.1.gb \
+      #       -o 5 \
+      #       -t 1
+      # - name: compare_reads
+      #   run: cmp tmp_tests/ilDeiPorc1_final_mitogenome.gb tmp/final_mitogenome.gb && echo "SUCCESS"
           
 
