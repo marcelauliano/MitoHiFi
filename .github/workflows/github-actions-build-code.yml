@@ -1,9 +1,9 @@
-name: Build and Publish MitoHiFi
+name: Build and Publish MitoHiFi code
 
 on:
   push:
     branches:
-      - 'reviews'
+    - 'reviews'
   
 
 env:
@@ -47,7 +47,7 @@ jobs:
         uses: docker/build-push-action@v2
         id: build-and-push
         with:
-          context: ./environment
+          context: ./environment/code
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true
