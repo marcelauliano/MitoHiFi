@@ -16,10 +16,10 @@ jobs:
       
       - name: Run integration test_contigs with Docker
         run: |
-          mkdir -p tests
+          mkdir -p tests tmp
           docker pull ghcr.io/marcelauliano/mitohifi:reviews
           docker run \
-          -v $pwd:/tmp \
+          -v tmp:/tmp \
           -v tests:/opt/MitoHiFi/tests/ \
           ghcr.io/marcelauliano/mitohifi:reviews \
             mitohifi.py \
@@ -29,11 +29,11 @@ jobs:
             -o 5 \
             -t 1
       - name: compare_contigs
-        run: cmp tests/ilPhaBuce1_final_mitogenome.gb ./final_mitogenome.gb && echo "SUCCESS"
+        run: cmp tests/ilPhaBuce1_final_mitogenome.gb tmp/final_mitogenome.gb && echo "SUCCESS"
       
       - name: Run integration test_reads with Docker
         run: |
-          mkdir -p tests
+          mkdir -p tests tmp
           docker run \
           -v $pwd:/tmp \
           -v tests:/opt/MitoHiFi/tests/ \
@@ -45,6 +45,6 @@ jobs:
             -o 5 \
             -t 1
       - name: compare_reads
-        run: cmp tests/ilDeiPorc1_final_mitogenome.gb ./final_mitogenome.gb && echo "SUCCESS"
+        run: cmp tests/ilDeiPorc1_final_mitogenome.gb tmp/final_mitogenome.gb && echo "SUCCESS"
           
 
