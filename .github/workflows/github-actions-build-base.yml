@@ -1,6 +1,6 @@
 name: Build and Publish MitoHiFi base
 
-on: # workflow_dispatch
+on: 
   push:
     branches:
     - 'reviews'
