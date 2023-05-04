@@ -17,4 +17,4 @@ jobs:
       - name: Run integration test with Docker
         run: |
           docker pull ghcr.io/marcelauliano/mitohifi:reviews
-          docker run mitohifi:reviews python3 mitohifi.py --help
+          docker run ghcr.io/marcelauliano/mitohifi:reviews python3 mitohifi.py --help
