@@ -12,9 +12,7 @@ jobs:
     services:
       docker:
         image: ghcr.io/marcelauliano/mitohifi:reviews
-        options: >-
-          --privileged
-          --group-add=socket
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
