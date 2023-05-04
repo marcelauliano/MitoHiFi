@@ -77,7 +77,7 @@
 # RUN curl -L https://zenodo.org/record/4284483/files/refseq89m.tar.bz2?download=1 | tar -jxvf - \
 #     && curl -L https://zenodo.org/record/4284483/files/refseq89f.tar.bz2?download=1 | tar -jxvf -
 
-FROM ghcr.io/marcelauliano/mitohifi:reviews
+FROM ghcr.io/marcelauliano/mitohifi-base:reviews
 
 WORKDIR /opt
 
@@ -88,16 +88,8 @@ RUN git clone -b reviews https://github.com/marcelauliano/MitoHiFi.git \
     && sed -i '1i#!/usr/bin/env python3' mitohifi.py findFrameShifts.py fixContigHeaders.py \
     && sed -i '1 s/python\>/python3/' *.py \
     && sed -i 's/"python2",\s//' parallel_annotation_mitos.py \
-    && sed -i 's/MITOS\/data/\/opt\/databases/' parallel_annotation_mitos.py \
-    && pip3 --no-cache-dir install --upgrade pip \
-    && pip3 --no-cache-dir install biopython \
-    pandas \
-    Pillow \
-    matplotlib \
-    entrezpy \
-    dna_features_viewer \
-    bcbio-gff
-    
+    && sed -i 's/MITOS\/data/\/opt\/databases/' parallel_annotation_mitos.py
+
 WORKDIR /tmp
 
 ENV CONDA_DIR=/opt/conda

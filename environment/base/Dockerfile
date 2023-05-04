@@ -77,6 +77,17 @@ WORKDIR /opt/databases
 RUN curl -L https://zenodo.org/record/4284483/files/refseq89m.tar.bz2?download=1 | tar -jxvf - \
     && curl -L https://zenodo.org/record/4284483/files/refseq89f.tar.bz2?download=1 | tar -jxvf -
 
+WORKDIR /opt
+
+RUN pip3 --no-cache-dir install --upgrade pip \
+    && pip3 --no-cache-dir install biopython \
+    pandas \
+    Pillow \
+    matplotlib \
+    entrezpy \
+    dna_features_viewer \
+    bcbio-gff
+
 # FROM ghcr.io/marcelauliano/mitohifi:reviews
 
 # WORKDIR /opt

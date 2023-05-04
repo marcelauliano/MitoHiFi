@@ -9,7 +9,7 @@ on: workflow_dispatch
 env:
   REGISTRY: ghcr.io
   ORGANISATION: marcelauliano
-  IMAGE_NAME: MitoHiFi
+  IMAGE_NAME: MitoHiFi-base
 
 permissions:
   contents: write
