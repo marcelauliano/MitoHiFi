@@ -42,6 +42,7 @@ jobs:
       - name: compare_reads
         run: |
           docker cp test_reads:/tmp/final_mitogenome.gb ./
-          cmp tests/ilDeiPorc1.reads.100.fa final_mitogenome.gb
+          cmp tests/ilDeiPorc1_final_mitogenome.gb final_mitogenome.gb
+          
           
 
