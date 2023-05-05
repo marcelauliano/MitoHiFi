@@ -46,7 +46,7 @@ jobs:
           
       - name: Run integration test_reads_fail with Docker
         run: |
-          docker run --name test_reads \
+          docker run --name test_reads_fail \
           ghcr.io/marcelauliano/mitohifi:reviews \
             mitohifi.py \
             -r /opt/MitoHiFi/tests/ilDeiPorc1.reads.100.fa \
