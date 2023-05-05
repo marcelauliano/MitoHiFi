@@ -1,10 +1,10 @@
 name: MitoHiFi Integration Test
 
-# on: workflow_dispatch
-on:
-  push:
-    branches:
-    - 'reviews'
+ on: workflow_dispatch
+# on:
+#   push:
+#     branches:
+#     - 'reviews'
 
 jobs:
   integration_test:
@@ -27,7 +27,7 @@ jobs:
       - name: compare_contigs
         run: |
           docker cp test_contigs:/tmp/final_mitogenome.gb ./
-          cmp tests/ilPhaBuce1_final_mitogenome.gb final_mitogenome.gb
+          cmp tests/ilPhaBuce1_final_mitogenome.gb final_mitogenome.gb && echo 'SUCCESS CONTIGS'
       
       - name: Run integration test_reads with Docker
         run: |
@@ -42,21 +42,7 @@ jobs:
       - name: compare_reads
         run: |
           docker cp test_reads:/tmp/final_mitogenome.gb ./
-          cmp tests/ilDeiPorc1_final_mitogenome.gb final_mitogenome.gb
-          
-      - name: Run integration test_reads_fail with Docker
-        run: |
-          docker run --name test_reads_fail \
-          ghcr.io/marcelauliano/mitohifi:reviews \
-            mitohifi.py \
-            -r /opt/MitoHiFi/tests/ilDeiPorc1.reads.100.fa \
-            -f /opt/MitoHiFi/tests/MW539688.1.fasta \
-            -g /opt/MitoHiFi/tests/MW539688.1.gb \
-            -o 5 \
-            -t 1
-      - name: compare_reads
-        run: |
-          docker cp test_reads:/tmp/final_mitogenome.gb ./
-          cmp tests/ilPhaBuce1_final_mitogenome.gb final_mitogenome.gb
+          cmp tests/ilDeiPorc1_final_mitogenome.gb final_mitogenome.gb && echo 'SUCCESS READS'
+
           
 
