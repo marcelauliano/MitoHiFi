@@ -1,6 +1,6 @@
 name: MitoHiFi Integration Test
 
- on: workflow_dispatch
+on: workflow_dispatch
 # on:
 #   push:
 #     branches:
