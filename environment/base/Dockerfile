@@ -65,7 +65,7 @@ RUN wget -P /usr/local/src https://repo.anaconda.com/miniconda/Miniconda3-latest
     && bash /usr/local/src/Miniconda3-latest-Linux-x86_64.sh -b -p $CONDA_DIR \
     && $CONDA_DIR/bin/conda install -n base conda-libmamba-solver
 
-RUN $CONDA_DIR/bin/conda create -n mitos_env --experimental-solver=libmamba -c bioconda -y mitos=2.1.0
+RUN $CONDA_DIR/bin/conda create -n mitos_env --experimental-solver=libmamba -c bioconda -y mitos
 RUN $CONDA_DIR/bin/conda create -n mitofinder_env --experimental-solver=libmamba python=2.7
 
 RUN $CONDA_DIR/bin/conda clean -a
