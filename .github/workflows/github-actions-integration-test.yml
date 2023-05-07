@@ -42,7 +42,7 @@ jobs:
       - name: compare_reads
         run: |
           docker cp test_reads:/tmp/final_mitogenome.gb ./
-          cmp tests/ilDeiPorc1_final_mitogenome.gb final_mitogenome.gb && echo 'SUCCESS READS'
+          cmp tests/ilDeiPorc1.final_mitogenome.fasta final_mitogenome.fasta && echo 'SUCCESS READS & MITOS'
 
           
 
