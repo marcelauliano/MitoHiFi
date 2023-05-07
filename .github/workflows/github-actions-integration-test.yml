@@ -1,9 +1,9 @@
 name: MitoHiFi Integration Test
 
-on:  workflow_dispatch
-  # push:
-  #   branches:
-  #   - 'reviews'
+on:  #workflow_dispatch
+  push:
+    branches:
+    - 'reviews'
 
 jobs:
   integration_test:
@@ -36,6 +36,7 @@ jobs:
             -r /opt/MitoHiFi/tests/ilDeiPorc1.reads.100.fa \
             -f /opt/MitoHiFi/tests/MW539688.1.fasta \
             -g /opt/MitoHiFi/tests/MW539688.1.gb \
+            --mitos \
             -o 5 \
             -t 1
       - name: compare_reads
