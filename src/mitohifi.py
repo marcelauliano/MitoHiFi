@@ -369,14 +369,6 @@ The pipeline has stopped !! You need to run further scripts to check if you have
     shutil.copy(repr_contig_fasta, final_fasta)
     shutil.copy(repr_contig_annotation, final_annotation)
      
-    #repr_contig_get_gb = ["mitofinder", "--new-genes", "--max-contig-size",
-    #                    str(max_contig_size), "-j", "final_mitogenome.annotation",
-    #                    "-a", repr_contig_fasta, "-r", args.g, "-o", args.o, "-p", str(args.p),
-    #                    "--circular-size", "8000"]
-    #subprocess.run(repr_contig_get_gb, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
-
-    #final_fasta = os.path.join("final_mitogenome.annotation", "final_mitogenome.annotation_MitoFinder_mitfi_Final_Results", "final_mitogenome.annotation_mtDNA_contig.fasta")
-    #final_gbk = os.path.join("final_mitogenome.annotation", "final_mitogenome.annotation_MitoFinder_mitfi_Final_Results", "final_mitogenome.annotation_mtDNA_contig.gb")
     
     # Generate contigs stats
     step += 1
