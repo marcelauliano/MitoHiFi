@@ -10,6 +10,8 @@ MitoHiFi was first developed to assemble the mitogenomes for a wide range of spe
 
 Find out more [Darwin Tree of Life data portal](https://portal.darwintreeoflife.org/)
 
+[![MitoHiFi Integration Test](https://github.com/marcelauliano/MitoHiFi/actions/workflows/github-actions-integration-test.yml/badge.svg)](https://github.com/marcelauliano/MitoHiFi/actions/workflows/github-actions-integration-test.yml)
+
 --------------------------------------
 
 ## 1. Background
