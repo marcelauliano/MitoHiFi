@@ -1,11 +1,11 @@
 # MitoHiFi 
 
------- This is v3.0.0 -------
+------ This is v3.2 -------
 
 MitoHiFi is a python pipeline distributed under the [MIT License](LICENSE)
 
 
-MitoHiFi was first developed to assemble the mitogenomes for a wide range of species in the Darwin Tree of Life Project (DToL)  ![](dtol-logo-round-300x132.png)
+MitoHiFi was first developed to assemble the mitogenomes for a wide range of species in the Darwin Tree of Life Project (DToL)  ![](./docs/dtol-logo-round-300x132.png)
 
 
 Find out more [Darwin Tree of Life data portal](https://portal.darwintreeoflife.org/)
@@ -15,7 +15,7 @@ Find out more [Darwin Tree of Life data portal](https://portal.darwintreeoflife.
 ## 1. Background
 **MitoHiFi is a python workflow that assembles mitogenomes from Pacbio HiFi reads.**
 
-With MitoHiFi v3.0.0 you can start from the raw Pacbio HiFi reads (flag **-r**) or from the assembled contigs (flag **-c**). You also need a reference mitochondria sequence in FASTA and [GenBank format](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html). We provide an internal script (findMitoReference.py) that can be used to find and download the most closely-related reference genome for your species from NCBI.
+With MitoHiFi v3.2 you can start from the raw Pacbio HiFi reads (flag **-r**) or from the assembled contigs (flag **-c**). You also need a reference mitochondria sequence in FASTA and [GenBank format](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html). We provide an internal script (findMitoReference.py) that can be used to find and download the most closely-related reference genome for your species from NCBI.
 
 
 
@@ -23,7 +23,7 @@ With MitoHiFi v3.0.0 you can start from the raw Pacbio HiFi reads (flag **-r**) 
 
 
 
-MitoHiFi v3.0.0 will:
+MitoHiFi v3.2 will:
 
 (i) extract mito reads and assemble them with hifiasm (flag **-r**), or find the mito contigs among assembled contigs (flag **-c**)<br />    
 
@@ -39,7 +39,7 @@ MitoHiFi v3.0.0 will:
 
 ## 2. Installation
 
-There are two ways to install MitoHiFi v3.0.0:
+There are two ways to install MitoHiFi v3.2:
 
 (i) manually - and then you will need to have all the dependencies installed in your PATH.  
 
@@ -80,18 +80,18 @@ export PATH=</path/to/MitoFinder>:${PATH}
 
 where `</path/to/MitoFinder>` needs to be replaced with the path where MitoFinder was installed. 
 
-**Once all dependencies are installed, install MitoHiFi v2.3 (Linux)**
+**Once all dependencies are installed, install MitoHiFi v3.2 (Linux)**
 
 ```
 git clone https://github.com/marcelauliano/MitoHiFi.git
 ```
 
-### 2.2 Running MitoHiFi v3.0.0 from a Singularity with a Docker image
+### 2.2 Running MitoHiFi v3.2 from a Singularity with a Docker image
 
 
-We have wrapped up MitoHiFi v3.0.0 code into a singularity container. We recommend using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag **-r**
+We have wrapped up MitoHiFi v3.2 code into a singularity container. We recommend using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag **-r**
 
-MitoHiFi.v3.0.0 siungularity image should be run as:
+MitoHiFi.v3.2 siungularity image should be run as:
 
 ```
  singularity exec --bind /lustre/:/lustre/ docker://ghcr.io/marcelauliano/mitohifi:master mitohifi.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb -t 10 -o 2 
@@ -301,4 +301,4 @@ And for tRNAs annotation:
  
  For more information on python code and pipeline: mu2@sanger.ac.uk and jf18@sanger.ac.uk
  
- Questions on the Singularity: Marcela Uliano mu2@sanger.ac.uk
+ Questions about the Docker container: Marcela Uliano-Silva mu2@sanger.ac.uk

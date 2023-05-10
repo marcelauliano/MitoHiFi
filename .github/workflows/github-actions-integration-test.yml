@@ -1,0 +1,48 @@
+name: MitoHiFi Integration Test
+
+on:  #workflow_dispatch
+  push:
+    branches:
+    - 'reviews'
+
+jobs:
+  integration_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      
+      - name: Run integration test_contigs with Docker
+        run: |
+          docker run --name test_contigs \
+          ghcr.io/marcelauliano/mitohifi:reviews \
+            mitohifi.py \
+            -c /opt/MitoHiFi/tests/ilPhaBuce1_contig.fa \
+            -f /opt/MitoHiFi/tests/NC_016067.1.fasta \
+            -g /opt/MitoHiFi/tests/NC_016067.1.gb \
+            -o 5 \
+            -t 1
+      - name: compare_contigs
+        run: |
+          docker cp test_contigs:/tmp/final_mitogenome.gb ./
+          cmp tests/ilPhaBuce1_final_mitogenome.gb final_mitogenome.gb && echo 'SUCCESS CONTIGS'
+      
+      - name: Run integration test_reads with Docker
+        run: |
+          docker run --name test_reads \
+          ghcr.io/marcelauliano/mitohifi:reviews \
+            mitohifi.py \
+            -r /opt/MitoHiFi/tests/ilDeiPorc1.reads.100.fa \
+            -f /opt/MitoHiFi/tests/MW539688.1.fasta \
+            -g /opt/MitoHiFi/tests/MW539688.1.gb \
+            --mitos \
+            -o 5 \
+            -t 1
+      - name: compare_reads
+        run: |
+          docker cp test_reads:/tmp/final_mitogenome.fasta ./
+          cmp tests/ilDeiPorc1.final_mitogenome.fasta final_mitogenome.fasta && echo 'SUCCESS READS & MITOS'
+
+          
+
