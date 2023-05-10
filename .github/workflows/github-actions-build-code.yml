@@ -1,9 +1,9 @@
 name: Build and Publish MitoHiFi code
 
-on:  workflow_dispatch
-  # push:
-  #   branches:
-  #   - 'reviews'
+on:  #workflow_dispatch
+  push:
+    branches:
+    - 'main'
   
 
 env:
