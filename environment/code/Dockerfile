@@ -3,7 +3,7 @@ FROM ghcr.io/marcelauliano/mitohifi-base:reviews
 WORKDIR /opt
 
 # /opt/MitoHiFi
-RUN git clone -b reviews https://github.com/marcelauliano/MitoHiFi.git \
+RUN git clone https://github.com/marcelauliano/MitoHiFi.git \
     && cd MitoHiFi/src \
     && chmod +x *.py \
     && sed -i '1i#!/usr/bin/env python3' mitohifi.py findFrameShifts.py fixContigHeaders.py \

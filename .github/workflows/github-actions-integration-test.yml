@@ -1,10 +1,12 @@
 name: MitoHiFi Integration Test
 
 on:  #workflow_dispatch
-  push:
-    branches:
-    - 'master'
-
+  # push:
+  #   branches:
+  #   - 'master'
+  workflow_run: [Build and Publish MitoHiFi code]
+    types:
+    - completed
 jobs:
   integration_test:
     runs-on: ubuntu-latest
