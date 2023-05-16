@@ -23,7 +23,7 @@ For this run you have to have [singularity](https://docs.sylabs.io/guides/2.6/us
 
 [./run_MitoHiFi_funghi.sh](AdditonalFile1-funghi.tsv)
 
-!Note that the above is running with file [AdditonalFile1-funghi.tsv](AdditonalFile1-funghi.tsv)
+!Note that the above is running with file [AdditonalFile1-funghi.tsv](AdditonalFile1-funghi.tsv). One needs to modify paramter -t in lines 41 and 69 of [run_MitoHiFi_funghi.sh](AdditonalFile1-funghi.tsv) to run it with more threads.
 
 
 
