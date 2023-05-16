@@ -19,6 +19,8 @@ One will need the file AdditionalTable1-dtol.tsv and singularity to be installed
 
 For the species _Mucor piriformis, Flammulina velutipes, Pleurotus ostreatus_ and _Agaricus bisporus_, reads were first assembled with MBG (parameters  -k 1001 -w 250 -a 5 -u 150) to obtain contigs that were then input to MitoHiFi with the -c flag. Bellow you find a bash script to reproduce these runs.
 
-For this run you have to have singularity and MBG installed in your PATH.
+For this run you have to have singularity and [MBG](https://github.com/maickrau/MBG) installed and on your PATH.
+
+
 
 
