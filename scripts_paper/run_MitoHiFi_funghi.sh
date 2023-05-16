@@ -38,7 +38,7 @@ while IFS=$'\t' read -r species_name _ sra_id mito_code; do
   gz_file=$(find . -maxdepth 1 -name "*.gz" -type f -printf '%f\n' -quit)
 
   #Run MBG
-  /software/team311/mu2/mbg-noKbug/MBG/bin/MBG -k 1001 -w 250 -a 5 -u 150 -i "$gz_file" -o "$gz_file"_MBGcontigs.gfa -t 24
+  ./MBG -k 1001 -w 250 -a 5 -u 150 -i "$gz_file" -o "$gz_file"_MBGcontigs.gfa -t 24
 
   #Get contigs
   awk '/^S/ {print ">"$2"\n"$3}' "$gz_file"_MBGcontigs.gfa > "$gz_file"_MBGcontigs.fa
