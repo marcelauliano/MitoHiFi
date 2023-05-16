@@ -10,7 +10,7 @@ As stated in the paper, all mitogenomes were assembled with default MitoHiFi par
 One will need the file AdditionalTable1-dtol.tsv and singularity to be installed int the PATH to run the following:
 
 ```
-./runMitoHiFi_default.sh
+[./runMitoHiFi_default.sh](runMitoHiFi_default.sh)
 ```
 
 ! Note that one needs to change the BASE_DIR variable inside the script and INPUT_FILE in case one is running it only for a number of species.
