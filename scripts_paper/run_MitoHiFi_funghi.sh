@@ -32,7 +32,7 @@ while IFS=$'\t' read -r species_name _ sra_id mito_code; do
   sra_id=$(echo "$sra_id" | awk -F, '{print $1}')
 
   # Run fastq-dump command
-#  fastq-dump --fasta -O . --gzip "$sra_id"
+  fastq-dump --fasta -O . --gzip "$sra_id"
 
   #Get reads file
   gz_file=$(find . -maxdepth 1 -name "*.gz" -type f -printf '%f\n' -quit)
