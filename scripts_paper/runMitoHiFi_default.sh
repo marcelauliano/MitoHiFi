@@ -4,8 +4,9 @@
 BASE_DIR="."
 
 #This script is going to run MitoHiFi, creating a folder for each run, for as many species as you have in the input file. The input file is described next.
-# Set input file path. This is a file that has the exact structure of AdditonalFile1.tsv. It's a file with 4 columns separated by tab, where the first column is the species name, 
-thrid column is the SRA ID of the PacBio HiFi data to be dowloaded and the forth column is the mitochondrial genetic code for that species.
+# This is a file that has the exact structure of AdditonalFile1.tsv. It's a file with 4 columns separated by tab, where the first column is the species name, thrid column is the SRA ID of the PacBio HiFi data to be dowloaded and the forth column is the mitochondrial genetic code for that species.
+
+#Set the input file
 INPUT_FILE="AdditonalFile1-dtol.tsv"
 
 # Read input file
