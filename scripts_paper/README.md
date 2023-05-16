@@ -5,7 +5,7 @@ The scripts in this folder allow for the re-run of all mitogenomes assembled wit
 
 ## 1.1. Reassembling mitogenomes with MitoHiFi
 
-All the species assembled with MitoHiFi with default parameters can be reassembled as follows. One will need the file [AdditionalTable1-dtol.tsv](AdditionalTable1-dtol.tsv), [singularity](https://docs.sylabs.io/guides/2.6/user-guide/singularity_and_docker.html) and [sra-tools](https://github.com/ncbi/sra-tools) to be installed and on the PATH. 
+All the species assembled with MitoHiFi with default parameters can be reassembled as follows. One will need the file [AdditonalFile1-dtol.tsv](AdditonalFile1-dtol.tsv), [singularity](https://docs.sylabs.io/guides/2.6/user-guide/singularity_and_docker.html) and [sra-tools](https://github.com/ncbi/sra-tools) to be installed and on the PATH. 
 
 The following bash script will create a folder for each species, and inside each it will download the PacBio data from [SRA](https://www.ncbi.nlm.nih.gov/sra) and run MitoHiFi.
 
