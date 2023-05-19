@@ -17,7 +17,7 @@ Find out more [Darwin Tree of Life data portal](https://portal.darwintreeoflife.
 ## 1. Background
 **MitoHiFi is a python workflow that assembles mitogenomes from Pacbio HiFi reads.**
 
-With MitoHiFi v3.2 you can start from the raw Pacbio HiFi reads (flag **-r**) or from the assembled contigs (flag **-c**). You also need a reference mitochondria sequence in FASTA and [GenBank format](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html). We provide an internal script (findMitoReference.py) that can be used to find and download the most closely-related reference genome for your species from NCBI.
+With MitoHiFi v3.2 you can start from the raw Pacbio HiFi reads (flag **-r**) or from the assembled contigs (flag **-c**). You also need a reference mitochondria sequence in FASTA and [GenBank format](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html). We provide an internal script (findMitoReference.py) that can be used to find and download the most closely-related reference genome for your species from NCBI..
 
 
 
