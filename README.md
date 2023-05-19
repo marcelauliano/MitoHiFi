@@ -5,7 +5,9 @@
 MitoHiFi is a python pipeline distributed under the [MIT License](LICENSE) !
 
 
-MitoHiFi was first developed to assemble the mitogenomes for a wide range of species in the Darwin Tree of Life Project (DToL)  ![](./docs/dtol-logo-round-300x132.png)
+MitoHiFi was first developed to assemble the mitogenomes for a wide range of species in the Darwin Tree of Life Project (DToL) 
+
+![](./docs/dtol-logo-round-300x132.png)
 
 
 Find out more [Darwin Tree of Life data portal](https://portal.darwintreeoflife.org/)
@@ -27,44 +29,46 @@ With MitoHiFi v3.2 you can start from the raw Pacbio HiFi reads (flag **-r**) or
 
 MitoHiFi v3.2 will:
 
-(i) extract mito reads and assemble them with hifiasm (flag **-r**), or find the mito contigs among assembled contigs (flag **-c**)<br />    
+(i) Extract mitochondrial reads and assemble them with hifiasm (using the -r flag) or identify mitochondrial contigs among assembled contigs (using the -c flag).
 
-(ii) indentify and separate NUMTS from real mitogenome contigs<br />  
+(ii) Identify and separate NUMTS (Nuclear Mitochondrial DNA Sequences) from genuine mitogenome contigs.
 
-(iii) generate a circularized, non-redudant and annotated version of all the mitochondria variants present in your sample<br />
+(iii) Generate a circularized, non-redundant, and annotated version of all mitochondrial variants present in your sample.
 
-(iv) choose a representative as the final mitochondria genome assembly<br />
+(iv) Select a representative as the final mitochondrial genome assembly.
 
-(iv) plot annotation image and a reads coverage plot (if started with **-r**)
+(v) Plot an annotation image and a coverage plot of the reads (if initiated with the -r flag).
 
-See an image of the general MitoHiFi workflow here.
+You can view a diagram illustrating the general MitoHiFi workflow [here](./docs/Figure1.png).
 
 -----
 
 ## 2. Installation
 
-Bellow we describe the three different ways to install MitoHiFi 
+Below, we describe the three different ways to install MitoHiFi.
 
-### 2.1 Using docker and singularity
+### 2.1 Using Docker and Singularity
 
-We have a docker container for MitoHiFi. Our docker container is built with GitHub Actions and can be pulled as follows:
+We provide a Docker container for MitoHiFi. The container is built using GitHub Actions and can be obtained by running the following command:
 
 ```
 docker pull ghcr.io/marcelauliano/mitohifi:master
 ```
 
-After pulling, one can execute it inside Docker, or if Docker is not available in your cluster computer, one can execute it through singularity. Different environments will require slighlty different singularity parameters, but a generic singularity command would be as follows:
+Once the container is pulled, you can execute MitoHiFi within [Docker](https://docs.sylabs.io/guides/2.6/user-guide/singularity_and_docker.html). If Docker is not available on your cluster computer, you can use Singularity instead. Different environments may require slightly different Singularity parameters, but a generic Singularity command would be as follows:
 
 ```
 singularity exec --bind /path/to/container_directory:/path/to/container_directory docker://ghcr.io/marcelauliano/mitohifi:master mitohifi.py -h
 ```
 
-### 2.2 Conda: partially installing dependencies with conda
+### 2.2 Conda: Partially Installing Dependencies with Conda
 
-We *cannot* create a complete conda recipe for MitoHiFi because different dependencies need conflicting python versions that cannot coexist in the same conda environment. However, we have a partial conda recipe where most of the dependencies is installed, and then MitoFinder and/or MITOS must be installed outside of conda and put on the PATH before the run starts. Do the following:
+We are unable to create a complete Conda recipe for MitoHiFi due to conflicting Python versions required by different dependencies, making it impossible to coexist within the same Conda environment. However, we provide a partial Conda recipe that installs most of the dependencies. To complete the installation, follow these steps:
 
+1. Install MitoFinder and/or MITOS outside of Conda.
+2. Ensure MitoFinder and/or MITOS are added to the PATH before starting the run.
+Please note that MitoFinder and/or MITOS should be installed separately and made accessible via the PATH environment variable to ensure their proper integration with MitoHiFi. Once those are installed, do:
 ```
-
 #Clone MitoHiFi git repo
 git clone https://github.com/marcelauliano/MitoHiFi.git
 
@@ -72,9 +76,8 @@ git clone https://github.com/marcelauliano/MitoHiFi.git
 conda env create -n mitohifi_env -f MitoHiFi/environment/mitohifi_env.yml 
 ```
 
-Before you activate your mitohifi_env conda environment, follow instructions to install MitoFinder (if you are going to annotate with default) or MITOS (if using --mitos). Include them in your PATH.
+Add Mitofinder and/or MITOS to the PATH and then activate your mitohifi_env conda environment.
 
-Once Mitofinder and/or MITOS are installed and in your PATH, activate your mitohifi_env conda environment.
 To run MitoHiFi, do:
 
 ```
@@ -83,7 +86,7 @@ To run MitoHiFi, do:
 
 ### 2.3 Manually install all dependencies
 
-This is the least recommended way to install MitoHiFi, but bellow you find a list of softwares that need to be installed and in your PATH before you install MitoHiFi. The software versions are the latest ones we have tested and confirmed to be working:
+This is the least recommended way to install MitoHiFi, but below you will find a list of software that needs to be installed and added to your PATH before installing MitoHiFi. The software versions provided are the latest ones we have tested and confirmed to be working:
 
   - python=3.7
   - samtools=1.11
@@ -176,7 +179,7 @@ optional arguments:
 
 ## 4. Running MitoHiFi with the test data
 
-1-) To run MitoHiFi, first you need a close-related mitochondria sequence in fasta and genbank format. We have a script that can help you fetch this data from NCBI database. Given the name of the species you are assembling, the script is going to look for the closest mitochondria it can find on NCBI. By default the script searches for an available mitochondria assembly of the exactly same species. If it's not available the search goes on for a phylogenetically close candidate (based on NCBI taxonomy).
+To run MitoHiFi, you first need a closely related mitochondrial sequence in both FASTA and GenBank formats. We provide a script that can assist you in retrieving this data from the NCBI database. When provided with the species name you are assembling, the script will search for the nearest available mitochondrial assembly on NCBI. By default, the script looks for an exact match of the species for an available mitochondrial assembly. If an exact match is not found, it continues the search for a phylogenetically close candidate based on NCBI taxonomy.
 
 ### 4.1 Running MitoHiFi with test dataset starting from reads (-r)
 
@@ -212,14 +215,14 @@ python mitohifi.py -c MitoHiFi/tests/ilPhaBuce1_contig.fa -f NC_072273.1.fasta -
 ### 5.1 Main Outputs  
 
 MitoHifi will produce a series of folders with the results. The main results will be in your working folder and they are:
-- final_mitogenome.fasta - the final mitochondria circularized and rotated to start at tRNA-Phe
-- final_mitogenome.gb - the final mitochondria annotated in GenBank format.  
-- final_mitogenome.coverage.png - the sequencing coverage throughout the final mitogenome  
-- final_mitogenome.annotation.png - the predicted genes throughout the final mitogenome
-- contigs_annotations.png - annotation plots for all potential contigs
-- coverage_plot.png - reads coverage plot of filtered reads mapped to all potential contigs
-- contigs_stats.tsv - containing the statistics of your assembled mitos such as the number of genes, size, whether it was circularized or not, if the sequence has frameshifts and etc...
-- shared_genes.tsv - show comparison of annotation between close-related mitogenome and all potential contigs assembled
+- **final_mitogenome.fasta** - the final mitochondria circularized and rotated to start at tRNA-Phe
+- **final_mitogenome.gb** - the final mitochondria annotated in GenBank format.  
+- **final_mitogenome.coverage.png** - the sequencing coverage throughout the final mitogenome  
+- **final_mitogenome.annotation.png** - the predicted genes throughout the final mitogenome
+- **contigs_annotations.png** - annotation plots for all potential contigs
+- **coverage_plot.png** - reads coverage plot of filtered reads mapped to all potential contigs
+- **contigs_stats.tsv** - containing the statistics of your assembled mitos such as the number of genes, size, whether it was circularized or not, if the sequence has frameshifts and etc...
+- **shared_genes.tsv** - show comparison of annotation between close-related mitogenome and all potential contigs assembled
 
 ### 5.2 Further outputs
 
