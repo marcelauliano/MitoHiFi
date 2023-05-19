@@ -16,7 +16,7 @@ jobs:
       - name: Run integration test_contigs with Docker
         run: |
           docker run --name test_contigs \
-          ghcr.io/marcelauliano/mitohifi:reviews \
+          ghcr.io/marcelauliano/mitohifi:master \
             mitohifi.py \
             -c /opt/MitoHiFi/tests/ilPhaBuce1_contig.fa \
             -f /opt/MitoHiFi/tests/NC_016067.1.fasta \
@@ -31,7 +31,7 @@ jobs:
       - name: Run integration test_reads with Docker
         run: |
           docker run --name test_reads \
-          ghcr.io/marcelauliano/mitohifi:reviews \
+          ghcr.io/marcelauliano/mitohifi:master \
             mitohifi.py \
             -r /opt/MitoHiFi/tests/ilDeiPorc1.reads.100.fa \
             -f /opt/MitoHiFi/tests/MW539688.1.fasta \
