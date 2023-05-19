@@ -81,7 +81,7 @@ def main():
                             format=FORMAT, datefmt='%Y-%m-%d %H:%M:%S')
     
     # Welcome message
-    logging.info("Welcome to MitoHifi v2. Starting pipeline...")
+    logging.info("Welcome to MitoHiFi! Starting pipeline...")
     logging.debug("Running MitoHiFi on debug mode.")
     
     # Measure the length of the related mitogenome 
