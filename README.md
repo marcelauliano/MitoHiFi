@@ -21,7 +21,7 @@ With MitoHiFi v3.2 you can start from the raw Pacbio HiFi reads (flag **-r**) or
 
 
 
-*The dissemination of high-quality long reads - such as PacBio HiFi - makes the assembly of high-quality mitogenome straightforward. Because of the circular nature of the molecule, however, the mitogenome is usually assembled redundantly resulting in multiple-copy mitogenome contigs. This pipeline was developed to finalise the assembly and annotate the mitogenome. It also considers heteroplasmy and aims to assemble and annotate all the mtDNA variants in your sample, among which MitoHiFi v2.2 will choose a representative as the final genome assembly according to the similarity to the reference genome and gene completeness. In addtion, an multiple sequence alignment (MSA) of all the variants is provided to facilitate the analysis of mitochondria heteroplasmy.*
+*The availability of high-quality long reads, such as PacBio HiFi, greatly simplifies the assembly of accurate mitogenomes. However, due to the circular nature of the molecule, mitogenomes are typically assembled redundantly, resulting in multicopy mitogenome contigs. To address this, we have developed a pipeline specifically designed to finalize the assembly and the annotation of the mitogenome. Our pipeline takes into account heteroplasmy, aiming to assemble and annotate all mtDNA variants present in your sample. Among these variants, MitoHiFi selects a representative as the final genome assembly based on several criteria including circularization and gene completeness. Additionally, MitoHiFi provides multiple intermediate outputs such as coverage and annotation plots and a multiple sequence alignment (MSA) of all the variants, which facilitates the analysis of mitochondrial heteroplasmy.*
 
 
 
@@ -37,73 +37,77 @@ MitoHiFi v3.2 will:
 
 (iv) plot annotation image and a reads coverage plot (if started with **-r**)
 
+See an image of the general MitoHiFi workflow here.
+
 -----
 
 ## 2. Installation
 
-There are two ways to install MitoHiFi v3.2:
+Bellow we describe the three different ways to install MitoHiFi 
 
-(i) manually - and then you will need to have all the dependencies installed in your PATH.  
+### 2.1 Using docker and singularity
 
-(ii) with a docker image so you can run it with a singularity (highly recommended).
-
-### 2.1 Manual installation - Dependencies
-
-All the software listed bellow have to be installed and exported to your PATH. 
-MitoHifi v2.3 was developed and tested with the following software versions:
-
-- BLAST version 2.6.0
-- Bedtools version 2.30.0 
-- [MitoFinder version 1.4](https://github.com/RemiAllio/MitoFinder) (default annotation tool) or [MITOS](https://gitlab.com/Bernt/MITOS) version 2.1.0 (alternative annotation tool)  
-- Biopython version 1.78
-- [DNA Features Viewer](https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer) version 3.1.0
-- Matplotlib version 3.5.2 
-- Pandas version 1.1.3
-- [Pillow](https://pillow.readthedocs.io/en/stable/) version 6.2.1  
-- MAFFT version 7.475 
-- HiFiasm 0.16.1-r375 
-- CD-HIT version 4.8.1 
-- samtools version 1.7 
-- minimap version 2.17-r941
-- [MITOS](https://pypi.org/project/mitos/) 
-
-
-All above dependencies (except MitoFinder) can be installed using [conda](https://conda.io/projects/conda/en/latest/index.html), and we share a YML file to facilitate their installation. The user can create a conda environment named `mitohifi_env` with all dependencies installed by running:  
+We have a docker container for MitoHiFi. Our docker container is built with GitHub Actions and can be pulled as follows:
 
 ```
-conda env create -n mitohifi_env -f mitohifi_env.yml 
+docker pull ghcr.io/marcelauliano/mitohifi:master
 ```
 
-Due to incompatibility of python versions, MitoFinder needs to be manually installed following its official instructions. After that, the user must add MitoFinder to PATH:  
+After pulling, one can execute it inside Docker, or if Docker is not available in your cluster computer, one can execute it through singularity. Different environments will require slighlty different singularity parameters, but a generic singularity command would be as follows:
 
 ```
-export PATH=</path/to/MitoFinder>:${PATH}
+singularity exec --bind /path/to/container_directory:/path/to/container_directory docker://ghcr.io/marcelauliano/mitohifi:master mitohifi.py -h
 ```
 
-where `</path/to/MitoFinder>` needs to be replaced with the path where MitoFinder was installed. 
+### 2.2 Conda: partially installing dependencies with conda
 
-**Once all dependencies are installed, install MitoHiFi v3.2 (Linux)**
+We *cannot* create a complete conda recipe for MitoHiFi because different dependencies need conflicting python versions that cannot coexist in the same conda environment. However, we have a partial conda recipe where most of the dependencies is installed, and then MitoFinder and/or MITOS must be installed outside of conda and put on the PATH before the run starts. Do the following:
+
+```
+
+#Clone MitoHiFi git repo
+git clone https://github.com/marcelauliano/MitoHiFi.git
+
+#create a conda environment with our yml file that is inside MitoHiFi/environment
+conda env create -n mitohifi_env -f MitoHiFi/environment/mitohifi_env.yml 
+```
+
+Before you activate your mitohifi_env conda environment, follow instructions to install MitoFinder (if you are going to annotate with default) or MITOS (if using --mitos). Include them in your PATH.
+
+Once Mitofinder and/or MITOS are installed and in your PATH, activate your mitohifi_env conda environment.
+To run MitoHiFi, do:
+
+```
+(mitohifi_env) python MitoHiFi/src/mitohifi.py -h
+```
+
+### 2.3 Manually install all dependencies
+
+This is the least recommended way to install MitoHiFi, but bellow you find a list of softwares that need to be installed and in your PATH before you install MitoHiFi. The software versions are the latest ones we have tested and confirmed to be working:
+
+  - python=3.7
+  - samtools=1.11
+  - cd-hit=4.8.1
+  - minimap2=2.19
+  - hifiasm=0.19.5
+  - mafft=7.520
+  - biopython=1.79
+  - matplotlib=3.2.2
+  - dna_features_viewer=3.1.2
+  - pandas=1.3.5
+  - bedtools=2.31.0
+  - pillow=6.2.1
+  - bcbio-gff=0.7.0
+  - MitoFinder=v1.4.0
+  - MITOS=2.1.3
+
+Once all dependencies are installed and in your PATH, git clone MitoHiFi and execute it:
 
 ```
 git clone https://github.com/marcelauliano/MitoHiFi.git
+python MitoHiFi/src/mitohifi.py -h
 ```
 
-### 2.2 Running MitoHiFi v3.2 from a Singularity with a Docker image
-
-
-We have wrapped up MitoHiFi v3.2 code into a singularity container. We recommend using singularity versions => 3.7, as lower versions do not support spaces in the arguments, and you would not be able to pass more than one set of reads to the flag **-r**
-
-MitoHiFi.v3.2 siungularity image should be run as:
-
-```
- singularity exec --bind /lustre/:/lustre/ docker://ghcr.io/marcelauliano/mitohifi:master mitohifi.py -r "/data/f1.fasta /data/f2.fasta /data/f3.fasta" -f /data/reference.fasta -g /data/reference.gb -t 10 -o 2 
-```
-
-The script for quering reference .fasta and .gb files from NCBI is incorporated into the singularity image and can be called as follows:
-
-```
- singularity exec --bind /lustre/:/lustre/ docker://ghcr.io/marcelauliano/mitohifi:master findMitoReference.py --species "Cryptosula pallasiana" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000 
-```
 
 ## 3. Parameter list
 
@@ -170,42 +174,39 @@ optional arguments:
                         Code
 ```
 
-## 4. Running MitoHiFi
+## 4. Running MitoHiFi with the test data
 
-1-) To run MitoHiFi, first you need a close-related mitochondria in fasta and genbank format. We have a script that can help you fetch this data from NCBI database. Given the name of the species you are assembling, the script is going to look for the closest mitochondria it can find on NCBI. By default the script searches for an available mitochondria assembly of exactly same species. If it's not available the search goes on for a phylogenetically close candidate (based on NCBI taxonomy).
+1-) To run MitoHiFi, first you need a close-related mitochondria sequence in fasta and genbank format. We have a script that can help you fetch this data from NCBI database. Given the name of the species you are assembling, the script is going to look for the closest mitochondria it can find on NCBI. By default the script searches for an available mitochondria assembly of the exactly same species. If it's not available the search goes on for a phylogenetically close candidate (based on NCBI taxonomy).
 
-Using the species in our test data as an example, you would do:
+### 4.1 Running MitoHiFi with test dataset starting from reads (-r)
 
-```
-findMitoReference.py --species "Phalera bucephala" --email your@email.for.ncbi.db.query --outfolder /data/ --min_length 16000
-```
-This command will give you NC_016067.1.fasta and NC_016067.1.gb that you can use for flags **-f** and **-g** in the main pipeline.
-
-2-) Now, you need to decide if you want to run MitoHiFi v2.3 from:
-(i) raw reads, in which case the pipeline will map the reads (flag **-r**) to the reference genome of the closely-related species to pull out mito-reads and exclude possible NUMTS and then assemble them using Hifiasm, or 
-(ii) assembled contigs from the whole genome Pacbio HiFi sequence data, in which case the pipeline will take the contig file in FASTA format as input (flag **-c**) and map the contigs to the reference genome of the closely-related species to pull-out potential mitogenome contigs.
-
-2.1-) If you are starting from raw reads, **-r** flag is required to provide the raw PacBio HiFi reads. Here is an example:
+Using the file ilDeiPorc1.reads.100.fa in our test data as an input example, you would do:
 
 ```
-'singularity exec --bind /software/:/software/ docker://ghcr.io/marcelauliano/MitoHiFi:main mitohifi.py -r "f1.fasta f2.fasta f3.fasta" -f reference.fasta -g reference.gb -t <int> -o <int>'
- ```
+findMitoReference.py --species "Deilephila porcellus" --outfolder /path/to/outputdir --min_length 14000
+```
+This command will download OQ694980.1.fasta and OQ694980.1.gb that you should use for flags **-f** and **-g** in the main pipeline. Attention: once the NCBI is updated with more mitogenomes, findMitoReference.py might download something else. 
 
-2.2-) If you are starting from assembled contigs, **-c** flag is required to provide the FASTA file for assembled contigs. Here is an example:
+Now run MitoHiFi with 4 CPUs (change -t to change CPU numbers):
 
 ```
-'singularity exec --bind /software/:/software/ docker://ghcr.io/marcelauliano/MitoHiFi:main mitohifi.py -c contigs.fasta -f reference.fasta -g reference.gb -t <int> -o <int>'
+python mitohifi.py -r MitoHiFi/tests/ilDeiPorc1.reads.100.fa -f OQ694980.1.fasta -g OQ694980.1.gb -t 4 -o 5 
 ```
 
-### 4.1 Running MitoHiFi with test data
+### 4.1 Running MitoHiFi with test dataset starting from contigs (-c)
 
-- Use your singularity container image or have all the dependencies in your path then,
-- In the exampleFiles folder, the fasta and .gb file for NC_016067.1 will be your **-f** and **-g** inputs, respectively. Remember you could have gotten those files with the script findMitoReference.py.
-- Now run the test with the assembled contigs called test.fa
+To test starting from contigs, you are going to use the file MitoHiFi/test/ilPhaBuce1_contig.fa . For that, first you need to download a reference close to that species. For that, do:
 
 ```
-'python mitohifi.py -c exampleFiles/test.fa -f exampleFiles/NC_016067.1.fasta -g exampleFiles/NC_016067.1.gb -t 1 -o 5'
- ```
+findMitoReference.py --species "Phalera bucephala" --outfolder /path/to/outputdir --min_length 14000
+```
+
+Once the close reference is download, run MitoHiFi:
+
+```
+python mitohifi.py -c MitoHiFi/tests/ilPhaBuce1_contig.fa -f NC_072273.1.fasta -g NC_072273.1.fasta -t 4 -o 5 
+```
+
  
 ## 5. Output files
 ### 5.1 Main Outputs  
@@ -217,7 +218,7 @@ MitoHifi will produce a series of folders with the results. The main results wil
 - final_mitogenome.annotation.png - the predicted genes throughout the final mitogenome
 - contigs_annotations.png - annotation plots for all potential contigs
 - coverage_plot.png - reads coverage plot of filtered reads mapped to all potential contigs
-- contigs_stats.tsv - it will show you the statistics of your assembled mitos such as the number of genes, size, whether it was circularized or not, if the sequence has frameshifts and etc...
+- contigs_stats.tsv - containing the statistics of your assembled mitos such as the number of genes, size, whether it was circularized or not, if the sequence has frameshifts and etc...
 - shared_genes.tsv - show comparison of annotation between close-related mitogenome and all potential contigs assembled
 
 ### 5.2 Further outputs
@@ -288,7 +289,7 @@ bioRxiv 2022.12.23.521667; doi: https://doi.org/10.1101/2022.12.23.521667
  
 and
 
-Please cite MitoFinder:
+Please cite MitoFinder if you use the default annotation tool:
 
 - Allio, R, Schomaker‐Bastos, A, Romiguier, J, Prosdocimi, F, Nabholz, B, Delsuc, F. MitoFinder: Efficient automated large‐scale extraction of mitogenomic data in target enrichment phylogenomics. Mol Ecol Resour. 2020; 00: 1– 14. https://doi.org/10.1111/1755-0998.13160
 
