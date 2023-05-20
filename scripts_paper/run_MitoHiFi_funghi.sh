@@ -44,7 +44,7 @@ while IFS=$'\t' read -r species_name _ sra_id mito_code; do
   awk '/^S/ {print ">"$2"\n"$3}' "$gz_file"_MBGcontigs.gfa > "$gz_file"_MBGcontigs.fa
 
   # Run mitohifi command
-  singularity exec --bind /lustre/:/lustre/ docker://ghcr.io/marcelauliano/mitohifi:master findMitoReference.py --species "$dir_name_with_spaces" --outfolder . --min_length 12000 -n 1
+  singularity exec --bind /path/to/container_directory:/path/to/container_directory docker://ghcr.io/marcelauliano/mitohifi:master findMitoReference.py --species "$dir_name_with_spaces" --outfolder . --min_length 12000 -n 1
   
   # Get the fasta file
   fasta_file=$(ls *.fasta)
@@ -66,7 +66,7 @@ while IFS=$'\t' read -r species_name _ sra_id mito_code; do
   echo "mito_code: $mito_code"
   echo "mbg_file: $mbg_file"
 
-  singularity exec --bind /lustre/:/lustre/ docker://ghcr.io/marcelauliano/mitohifi:master mitohifi.py -c "$mbg_file" -f "$fasta_file" -g "$gb_file" -o "$mito_code" -t 4
+  singularity exec --bind /path/to/container_directory:/path/to/container_directory docker://ghcr.io/marcelauliano/mitohifi:master mitohifi.py -c "$mbg_file" -f "$fasta_file" -g "$gb_file" -o "$mito_code" -t 4
 
   # Change back to the previous directory
   cd ..
