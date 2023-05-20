@@ -35,7 +35,7 @@ while IFS=$'\t' read -r species_name _ sra_id mito_code; do
   fastq-dump --fasta -O . --gzip "$sra_id"
 
   # Run mitohifi command
-  singularity exec --bind /lustre/:/lustre/ docker://ghcr.io/marcelauliano/mitohifi:master findMitoReference.py --species "$dir_name_with_spaces" --outfolder . --min_length 12000 -n 1
+  singularity exec --bind /path/to/container_directory:/path/to/container_directory docker://ghcr.io/marcelauliano/mitohifi:master findMitoReference.py --species "$dir_name_with_spaces" --outfolder . --min_length 12000 -n 1
   
   # Get the fasta file
   fasta_file=$(ls *.fasta)
