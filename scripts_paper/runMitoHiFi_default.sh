@@ -7,7 +7,7 @@ BASE_DIR="."
 # This is a file that has the exact structure of AdditonalFile1.tsv. It's a file with 4 columns separated by tab, where the first column is the species name, thrid column is the SRA ID of the PacBio HiFi data to be dowloaded and the forth column is the mitochondrial genetic code for that species.
 
 #Set the input file
-INPUT_FILE="AdditonalFile1-dtol.tsv"
+INPUT_FILE="AdditionalTable1-dtol.tsv"
 
 # Read input file
 while IFS=$'\t' read -r species_name _ sra_id mito_code; do
