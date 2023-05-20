@@ -56,7 +56,7 @@ while IFS=$'\t' read -r species_name _ sra_id mito_code; do
   echo "gz_file: $gz_file"
   echo "mito_code: $mito_code"
 
-  singularity exec --bind /lustre/:/lustre/ docker://ghcr.io/marcelauliano/mitohifi:master mitohifi.py -r "$gz_file" -f "$fasta_file" -g "$gb_file" -o "$mito_code" -t 4
+  singularity exec --bind /path/to/container_directory:/path/to/container_directory docker://ghcr.io/marcelauliano/mitohifi:master mitohifi.py -r "$gz_file" -f "$fasta_file" -g "$gb_file" -o "$mito_code" -t 4
 
   # Change back to the previous directory
   cd ..
