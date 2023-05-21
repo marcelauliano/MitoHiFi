@@ -1,7 +1,11 @@
 # 1. Reassembling mitogenomes with MitoHiFi
 The scripts in this folder allow for the re-run of all mitogenomes assembled with MitoHiFi and presented in the manuscript _MitoHiFi: a python pipeline for mitochondrial genome assembly from PacBio High Fidelity reads_.
 
-**CAUTION IS ADVISED AS THIS COULD MEAN DOWNLOADING SEVERAL TERABYTES OF DATA**
+ | :warning: WARNING          |
+|:---------------------------|
+| **Caution: Potential for downloading several terabytes of data.**      |
+ 
+
 
 ## 1.1. Reassembling mitogenomes with MitoHiFi
 
