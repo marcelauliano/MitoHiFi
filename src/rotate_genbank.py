@@ -1,3 +1,8 @@
+"""This script updates the annotation coords of features to match the rotated version of the contig
+(i.e. where the reference gene is set as the start)
+
+"""
+
 from Bio import SeqIO
 from Bio.SeqFeature import SeqFeature, FeatureLocation, ExactPosition
 import sys

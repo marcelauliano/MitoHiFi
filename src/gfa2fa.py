@@ -1,3 +1,7 @@
+"""Converts genome from GFA to FASTA format.
+
+"""
+
 import os
 import sys
 

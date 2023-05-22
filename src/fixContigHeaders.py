@@ -1,4 +1,11 @@
-import sys #to remove after debugging
+"""This script fixes headers from contigs given as input to MitoHiFi in contigs mode (`-c`).
+
+The fix removes/changes suffixes from the contigs IDs in case they conflict with suffixes that
+are given by MitoHiFi while the pipeline runs.
+
+"""
+
+import sys 
 
 
 def fix_headers(fasta_in, fasta_out):

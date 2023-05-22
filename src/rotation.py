@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+"""This script rotates a contig setting a reference gene as the start.
+
+"""
+
 from argparse import ArgumentParser
 import os
 from Bio import SeqIO

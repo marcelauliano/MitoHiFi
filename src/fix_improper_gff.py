@@ -1,3 +1,10 @@
+"""This script checks and removes features that have start position greater than end position.
+
+This is necessary because we have noticed that MITOS sometimes create features 
+that follow this pattern, although it is not compatible with the GFF standard format.
+
+"""
+
 import logging
 import os
 import sys

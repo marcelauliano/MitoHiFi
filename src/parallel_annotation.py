@@ -1,3 +1,17 @@
+"""This script circularizes, annotates and rotates mito contigs using MitoFinder for annotation.
+
+The process_contig() function does the circularization, i.e. removal of artifactual repeated 
+sequences at both ends of the contig and the annotation, i.e. gene prediction.
+The process_contig_02() function rotates the contig, given a reference gene that will be set as the
+beginning of the sequence. This function also calculates statistics for the contig, which are saved
+to a file named `{contig_id}.individual.stats`.
+
+In the context of the mitohifi.py script, both functions are usually run in parallel for each
+potential mito contig. The process_contig_02() function will only be called after process_contig()
+is run for all potential contigs.
+
+"""
+
 import re
 import os
 import concurrent.futures

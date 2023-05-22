@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+"""This script rotates a contig setting a reference gene as the start. 
+
+It is equivalent to the rotation.py script, but adjusted to deal with MITOS annotations.
+
+"""
+
 from argparse import ArgumentParser
 import os
 from Bio import SeqIO

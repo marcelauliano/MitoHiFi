@@ -1,3 +1,11 @@
+"""This script allows the calculation of statistics over MitoHiFi execution.
+
+The `get_num_seqs` is used to calculate the number of sequences in a FASTA file. 
+The `get_ref_tRNA` allows the definition of the reference tRNA to be used to rotate 
+the potential mito contigs.
+
+"""
+
 from Bio import SeqIO
 import os 
 

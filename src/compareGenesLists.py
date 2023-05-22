@@ -1,3 +1,15 @@
+"""This script allows the user to compare two list of genes and return the set of genes 
+that are either i) shared by both lists; ii) present in only one list; iii) present only in
+the other list.
+
+The comparison of the lists is done with the compare_genes_dicts() function. The get_genes_counts()
+function works to count the number of occurrence of each gene in a list, and the get_clean_gene()
+function returns the "clean" string represenation of a gene's name (one final clean representation is
+needed to keep the compare_genes_dicts() from considering the same gene written in two different ways
+as different genes -> e.g. `cytb` and `cob`.
+
+"""
+
 from Bio.SeqUtils import seq1
 import sys
 from getGenesList import get_genes_list

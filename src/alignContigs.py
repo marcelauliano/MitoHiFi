@@ -1,3 +1,10 @@
+"""Align multiple sequence FASTA files with MAFFT.
+
+This script allows the user to concatenate multiple sequence files in FASTA format using the 
+concatenate_contigs() function and to align the multifasta file with the mafft_align() function.
+
+"""
+
 import os
 import logging
 import subprocess

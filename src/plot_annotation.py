@@ -1,3 +1,13 @@
+"""This script creates a plot with all the genes annotated in the mito contigs
+
+The plot_annotation() function is called when the input contig was annotated with MitoFinder
+and the plot_annotation_mitos() function when the annotation was done with MITOS. 
+
+The merge_images() function concatenates the plots generated for all potential mito contigs 
+into a single image.
+
+"""
+
 import sys
 import numpy as np
 import PIL

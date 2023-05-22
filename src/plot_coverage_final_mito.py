@@ -1,3 +1,8 @@
+"""This script supports the creation of an image containing the depth 
+distribution over the final mitogenome.
+
+"""
+
 from Bio import SeqIO
 import time
 import argparse

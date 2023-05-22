@@ -1,3 +1,8 @@
+"""This script iterates over a multifasta sequence file and returns all proteins that 
+contains stop codons in the middle of their sequences.
+
+"""
+
 import re
 import sys
 from Bio import SeqIO

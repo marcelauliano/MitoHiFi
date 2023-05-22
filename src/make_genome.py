@@ -1,3 +1,11 @@
+"""This script creates a genome file compatible with bedtools 
+
+The make_genome_file() function creates the genome file itself, while the 
+make_genome_windows() function creates a file containing windows of a given
+size (win_size) for each sequence from the genome.
+
+"""
+
 import sys
 import subprocess
 

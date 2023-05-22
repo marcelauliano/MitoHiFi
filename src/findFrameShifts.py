@@ -1,3 +1,11 @@
+"""This script iterates over a multifasta sequence file and returns all proteins that 
+contains stop codons in the middle of their sequences. 
+
+The find_frameshifts() function is used for the (default) annotation using `MitoFinder`,
+while find_frameshifts_mitos() is used when `MITOS` was selected as the annotation tool.
+
+"""
+
 from Bio import SeqIO
 import re
 import sys
@@ -17,7 +25,6 @@ def find_frameshifts(in_gb):
 
 def find_frameshifts_mitos(in_proteins_fasta):
     """Takes a multifasta protein file and returns information on proteins that contain frameshifts. """
-
 
     frameshift_genes = []
     for record in SeqIO.parse(in_proteins_fasta, "fasta"):

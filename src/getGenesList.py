@@ -1,3 +1,9 @@
+"""This script returns a list of annotated genes. 
+
+It recognizes annotations in either genbank or GFF format.
+
+"""
+
 import sys
 from   Bio import SeqIO
 

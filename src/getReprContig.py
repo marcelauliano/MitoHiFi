@@ -1,3 +1,15 @@
+"""This script chooses between all potential mito contigs the representative one that is 
+going to be considered the final mitogenome. 
+
+The get_repr_contig() is the function originally referred to by the main mitohifi.py script.  
+Over the process of choosing the final mitogenome, the get_circularization_info() function is 
+called to check if the contig was circularized and the get_repr_contig_info() function calculates
+some other metrics for all potential contigs and does the actual choice of the final mitogenome,
+retriving its ID and its related stats.
+
+The 
+"""
+
 import logging
 import subprocess
 import numpy

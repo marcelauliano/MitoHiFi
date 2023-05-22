@@ -1,3 +1,11 @@
+"""This script creates the reverse complement of a sequence.
+
+The reverse_complement() function is the default function to create the reverse complement.
+The reverse_complement_mitos() function is the one that should be used when dealing with MITOS annotations.
+The reverse_complement_annotation() function adjusts the annotation coordinates of features to match the ones from the reverse complemented sequence.
+
+"""
+
 import sys
 from Bio import SeqIO
 

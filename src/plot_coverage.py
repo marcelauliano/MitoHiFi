@@ -1,3 +1,22 @@
+"""This script supports the creation of an image showing the distribution of the sequencing 
+depth over the final mito contigs.
+
+The make_genome_file() function creates a genome file compatible with bedtools. 
+
+The make_genome_windows() function creates a file in bed format containing the coordinates of
+all sequence windows (size of window is given as input). 
+
+The get_windows_depth() function does the actual calculation of the mean depth for each sequence
+window, which are the values that will be used to create the depth image. 
+
+The final_mitogenome_coverage() function moves intermediate files created while building the depth
+image to a directory named final_mitogenome_coverage/. This is for better organization of output files.
+
+The plot_coverage() function creates the actual depth image based on the mean depths calculated for 
+each sequence window.
+
+"""
+
 from Bio import SeqIO
 import time
 import argparse

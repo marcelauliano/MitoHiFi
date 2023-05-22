@@ -1,3 +1,10 @@
+"""This script cleans up the working directory after MitoHiFi finishes running. 
+
+During the cleanup process, intermediate files are either deleted or moved to the
+proper subdirectories in order to better organize the final files. 
+
+"""
+
 import os 
 import shutil
 import sys

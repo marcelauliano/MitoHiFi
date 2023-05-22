@@ -1,3 +1,11 @@
+"""This script calculates statistics for the related mitogenome given as input for MitoHiFi.
+
+The get_mito_length() function calculates the total length of the input related mitogenome, while 
+the get_mito_genes() function returns the number of genes in the related mitogenome.
+
+"""
+
+
 def get_mito_length(mito_file):
     """
     Returns the length of a mitogenome
