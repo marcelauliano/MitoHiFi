@@ -102,7 +102,7 @@ This is the least recommended way to install MitoHiFi, but below you will find a
   - pillow=6.2.1
   - bcbio-gff=0.7.0
   - MitoFinder=v1.4.0
-  - MITOS=2.1.3
+  - MITOS=2.1.0
 
 Once all dependencies are installed and in your PATH, git clone MitoHiFi and execute it:
 
