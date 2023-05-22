@@ -25,9 +25,9 @@ For the species _Mucor piriformis, Flammulina velutipes, Pleurotus ostreatus_ an
 
 For this run you have to have [singularity](https://docs.sylabs.io/guides/2.6/user-guide/singularity_and_docker.html), [MBG](https://github.com/maickrau/MBG) and [sra-tools](https://github.com/ncbi/sra-tools) installed and on your PATH.
 
-[./run_MitoHiFi_funghi.sh](AdditonalFile1-funghi.tsv)
+[./run_MitoHiFi_funghi.sh](run_MitoHiFi_funghi.sh)
 
-!Note that the above is running with file [AdditonalFile1-funghi.tsv](AdditonalFile1-funghi.tsv). One needs to modify paramter -t in lines 41 and 69 of [run_MitoHiFi_funghi.sh](AdditonalFile1-funghi.tsv) to run it with more threads.
+!Note that the above is running with file [AdditonalFile1-funghi.tsv](AdditonalFile1-funghi.tsv). One needs to modify paramter -t in lines 41 and 69 of [run_MitoHiFi_funghi.sh](run_MitoHiFi_funghi.sh) to run it with more threads.
 
 
 
