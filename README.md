@@ -204,7 +204,7 @@ To test starting from contigs, you are going to use the file MitoHiFi/test/ilPha
 findMitoReference.py --species "Phalera bucephala" --outfolder /path/to/outputdir --min_length 14000
 ```
 
-Once the close reference is download, run MitoHiFi:
+Once the close reference is downloaded, run MitoHiFi:
 
 ```
 python mitohifi.py -c MitoHiFi/tests/ilPhaBuce1_contig.fa -f NC_072273.1.fasta -g NC_072273.1.fasta -t 4 -o 5 
