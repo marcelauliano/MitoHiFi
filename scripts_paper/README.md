@@ -17,7 +17,7 @@ The following bash script will create a folder for each species, and inside each
 [./runMitoHiFi_default.sh](runMitoHiFi_default.sh)
 
 
-! Note that one needs to change the BASE_DIR variable inside the script and INPUT_FILE in case one is running it only for a number of species. The script is set to run with 4 threads. One would need to change parameter -t (line 59) to modify the number of threads.
+:white_check_mark: Please ensure that you modify the BASE_DIR variable within the script and the INPUT_FILE if you intend to run it for a specific number of species. The script is configured to run with 4 threads by default. To adjust the number of threads, modify the -t parameter on line 59.
 
 ## 1.2. Reassemnbling Funghi mitogenomes with MitoHiFi
 
