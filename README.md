@@ -76,7 +76,7 @@ git clone https://github.com/marcelauliano/MitoHiFi.git
 conda env create -n mitohifi_env -f MitoHiFi/environment/mitohifi_env.yml 
 ```
 
-Add Mitofinder and/or MITOS to the PATH and then activate your mitohifi_env conda environment.
+Add MitoFinder and/or MITOS to the PATH and then activate your mitohifi_env conda environment.
 
 To run MitoHiFi, do:
 
