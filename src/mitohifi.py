@@ -1,3 +1,7 @@
+"""
+This is the main MitoHiFi script. 
+"""
+
 import concurrent.futures
 from concurrent.futures import wait
 import logging

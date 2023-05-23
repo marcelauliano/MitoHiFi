@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
-'''
+"""
+This script finds mitogenomes from related species in public databases. 
+
+License:
     Copyright 2022 Ksenia Krasheninnikova
     This script is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -12,7 +15,8 @@
     GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    '''
+
+"""
 
 from argparse import ArgumentParser
 import os

@@ -1,3 +1,7 @@
+"""
+This script calculates the per-base sequencing coverage of a contig.
+"""
+
 import subprocess
 
 def get_depth(bam_file, genome_file, target_seq):

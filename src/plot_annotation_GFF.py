@@ -1,3 +1,8 @@
+"""
+This script creates a PNG image containing all genes from an annotation
+file in GFF format.
+"""
+
 import sys
 import numpy as np
 import PIL

@@ -3,8 +3,8 @@ analogous to the `fetch.py`, except the `fetch.py` is suitable to process files 
 `MitoFinder` was used for annotation (default) and `fetch_mitos` is used when `MITOS`
 was chosen as the annotation tool.
 
-The `get_num_seqs` is used to calculate the number of sequences in a FASTA file. 
-The `get_ref_tRNA` allows the definition of the reference tRNA to be used to rotate 
+The get_num_seqs() function is used to calculate the number of sequences in a FASTA file. 
+The get_ref_tRNA() function allows the definition of the reference tRNA to be used to rotate 
 the potential mito contigs.
 
 """
