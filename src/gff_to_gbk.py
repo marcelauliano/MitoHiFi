@@ -1,11 +1,16 @@
 #!/usr/bin/env python
+
 """Convert a GFF and associated FASTA file into GenBank format.
+
 Usage:
-    gff_to_genbank.py <GFF annotation file> [<FASTA sequence file> <molecule type>]
- FASTA sequence file: input sequences matching records in GFF. Optional if sequences
-   are in the GFF
- molecule type: type of molecule in the GFF file. Defaults to DNA, the most common case.
+
+gff_to_genbank.py <GFF annotation file> [<FASTA sequence file> <molecule type>]
+
+    <FASTA sequence file>: input sequences matching records in GFF. Optional if sequences are in the GFF
+    <molecule type>: type of molecule in the GFF file. Defaults to DNA, the most common case.
+
 """
+
 from __future__ import print_function
 
 import sys
