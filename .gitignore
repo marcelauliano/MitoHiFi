@@ -1,1 +1,5 @@
 __pycache__/
+docs/Makefile
+docs/build/
+docs/source/
+docs/make.bat
