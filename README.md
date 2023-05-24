@@ -39,7 +39,7 @@ MitoHiFi v3.2 will:
 
 (v) Plot an annotation image and a coverage plot of the reads (if initiated with the -r flag).
 
-You can view a diagram illustrating the general MitoHiFi workflow [here](./docs/Figure1.png).
+You can view a diagram illustrating the general MitoHiFi workflow [here](./docs/Figure1.png). For documentation on the behaviour of each script visit [here](./docs/scripts_documentation.pdf). 
 
 -----
 
