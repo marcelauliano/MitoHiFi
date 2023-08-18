@@ -2,7 +2,7 @@
 
 ------ This is v3.2 -----
 
-MitoHiFi v3.2 is a python pipeline distributed under the [MIT License](LICENSE) !
+MitoHiFi v3.2 is a python pipeline distributed under [MIT License](LICENSE) !
 
 
 MitoHiFi was first developed to assemble the mitogenomes for a wide range of species in the Darwin Tree of Life Project (DToL) 
