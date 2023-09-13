@@ -1,0 +1,8 @@
+image: ghcr.io/marcelauliano/mitohifi:master
+tasks:
+- name: git clone
+  command: |
+    unset JAVA_TOOL_OPTIONS
+vscode:
+  extensions:
+    - anwar.papyrus-pdf
