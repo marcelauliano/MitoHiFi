@@ -3,6 +3,10 @@ tasks:
 - name: git clone
   command: |
     unset JAVA_TOOL_OPTIONS
+    cd /workspace
+    curl ftp://ftp.ed.ac.uk/edupload/lecture.tgz | tar xzf -
 vscode:
   extensions:
     - anwar.papyrus-pdf
+
+workspaceLocation: "/workspace"
