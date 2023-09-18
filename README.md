@@ -308,3 +308,10 @@ And for tRNAs annotation:
  For more information on python code and pipeline: mu2@sanger.ac.uk and jf18@sanger.ac.uk
  
  Questions about the Docker container: Marcela Uliano-Silva mu2@sanger.ac.uk
+
+
+
+## 9. Watch a lecture on MitoHiFi
+
+Want to know everything about how to run MitoHiFi for animals, funghi and plants? Why the pipeline stops sometimes? Caveats and best practices? Have a watch here: https://youtube.com/watch?v=1NWHC2zkRmg 
+
