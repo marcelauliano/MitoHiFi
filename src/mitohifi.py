@@ -434,10 +434,10 @@ The pipeline has stopped !! You need to run further scripts to check if you have
     contigs_stats_files = []
     for curr_file in os.listdir('.'):
         if curr_file.endswith('.individual.stats'):
-            # skips addition of representative contig, which is the 
-            # same as the final_mitogenome
-            #if curr_file.split('.individual.stats')[0] != repr_contig_id: 
-                #contigs_stats_files.append(curr_file)
+            skips addition of representative contig, which is the 
+            same as the final_mitogenome
+            if curr_file.split('.individual.stats')[0] == repr_contig_id: 
+                contigs_stats_files.append(curr_file)
     
     with open("contigs_stats.tsv", "a") as outfile:
         for contig_stats in contigs_stats_files:
