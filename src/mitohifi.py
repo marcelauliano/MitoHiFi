@@ -410,7 +410,9 @@ The pipeline has stopped !! You need to run further scripts to check if you have
         "length(bp)", "number_of_genes", "was_circular\n"]))
         f.write("\t".join(["final_mitogenome", all_frameshifts, final_annotation,
         str(contig_len), str(num_genes), str(is_circ)+"\n"]))
-    
+        f.write("\t".join([repr_contig_id, all_frameshifts, final_annotation,
+        str(contig_len), str(num_genes), str(is_circ)+"\n"]))
+        
     # compare list of genes from related mito and final mitogenome
     related_mito_annotation = args.g
     related_mito_genes = get_genes_list(related_mito_annotation, "genbank")
@@ -434,9 +436,9 @@ The pipeline has stopped !! You need to run further scripts to check if you have
     contigs_stats_files = []
     for curr_file in os.listdir('.'):
         if curr_file.endswith('.individual.stats'):
-            # don't skips addition of representative contig, which is the 
+            # skips addition of representative contig, which is the 
             # same as the final_mitogenome
-            if curr_file.split('.individual.stats')[0] == repr_contig_id: 
+            if curr_file.split('.individual.stats')[0] != repr_contig_id: 
                 contigs_stats_files.append(curr_file)
     
     with open("contigs_stats.tsv", "a") as outfile:
