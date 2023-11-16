@@ -29,6 +29,7 @@ import getMitoLength
 import getReprContig
 from getGenesList import get_genes_list
 from gfa2fa import gfa2fa
+from modify_circularity_in_header import modify_circularity_in_header
 from parallel_annotation import process_contig, process_contig_02
 from parallel_annotation_mitos import process_contig_mitos, process_contig_02_mitos
 import shlex
@@ -183,6 +184,12 @@ def main():
         
         os.remove(original_contigs) # remove original contig file  
         shutil.move("fixed_header_contigs.fasta", original_contigs) # replace original contigs file by the version that has the headers fixed
+        
+        # if contigs contain canu description of circularization, include that into the identifier
+        modify_circularity_in_header(original_contigs, "include_circ_to_contigs_IDs.contigs.fasta")
+
+        os.remove(original_contigs)
+        shutil.move("include_circ_to_contigs_IDs.contigs.fasta", original_contigs) 
         
         contigs = original_contigs
 
@@ -410,7 +417,9 @@ The pipeline has stopped !! You need to run further scripts to check if you have
         "length(bp)", "number_of_genes", "was_circular\n"]))
         f.write("\t".join(["final_mitogenome", all_frameshifts, final_annotation,
         str(contig_len), str(num_genes), str(is_circ)+"\n"]))
-    
+        f.write("\t".join([repr_contig_id, all_frameshifts, final_annotation,
+        str(contig_len), str(num_genes), str(is_circ)+"\n"]))
+        
     # compare list of genes from related mito and final mitogenome
     related_mito_annotation = args.g
     related_mito_genes = get_genes_list(related_mito_annotation, "genbank")
@@ -434,7 +443,7 @@ The pipeline has stopped !! You need to run further scripts to check if you have
     contigs_stats_files = []
     for curr_file in os.listdir('.'):
         if curr_file.endswith('.individual.stats'):
-            # skips addition of representative contig, which is the oi
+            # skips addition of representative contig, which is the 
             # same as the final_mitogenome
             if curr_file.split('.individual.stats')[0] != repr_contig_id: 
                 contigs_stats_files.append(curr_file)
