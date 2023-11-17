@@ -103,6 +103,7 @@ This is the least recommended way to install MitoHiFi, but below you will find a
   - bcbio-gff=0.7.0
   - MitoFinder=v1.4.0
   - MITOS=2.1.0
+  - ncbi-blast+
 
 Once all dependencies are installed and in your PATH, git clone MitoHiFi and execute it:
 
