@@ -227,8 +227,8 @@ def main():
     logging.info(f"{step}. Filtering BLAST output to select target sequences")
 
     #the next script parses a series of conditions to exclude blast with NUMTs. 
-    if args.a == "plant":
-        ## if species is a plant, set minimum query percentage equal to 0% of related mito 
+    if args.a == "plant" or args.a == "fungi":
+        ## if species is a plant or fungi, set minimum query percentage equal to 0% of related mito 
         ## and maximum query lenght 10 times the lenght of the related
         parse_blast.parse_blast(query_perc=args.p, min_query_perc=0, max_query_len=10)
     else:
