@@ -1,9 +1,9 @@
 name: Build and Publish MitoHiFi base
 
 on:  workflow_dispatch
-   # push:
-   #   branches:
-   #   - 'stats'
+  #  push:
+  #    branches:
+  #    - 'master'
   
 
 env:
