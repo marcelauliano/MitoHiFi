@@ -183,8 +183,6 @@ def main():
         fixContigHeaders.fix_headers(original_contigs, "fixed_header_contigs.fasta")
         
         original_contigs = "fixed_header_contigs.fasta"
-        #os.remove(original_contigs) # remove original contig file  
-        #shutil.move("fixed_header_contigs.fasta", original_contigs) # replace original contigs file by the version that has the headers fixed
         
         # if contigs contain canu description of circularization, include that into the identifier
         modify_circularity_in_header(original_contigs, "include_circ_to_contigs_IDs.contigs.fasta")
