@@ -19,9 +19,9 @@ def fix_headers(fasta_in, fasta_out):
                         f2.write(f">{fixed_id}\n")
                         print(f'Header substitution: {original_id} replaced by {fixed_id}')
                     else:
-                        f2.write(line)
+                        f2.write(line.strip() + "\n")
                 else:
-                    f2.write(line)
+                    f2.write(line.strip() + "\n")
 
 if __name__ == "__main__":
     fix_headers(sys.argv[1], sys.argv[2])

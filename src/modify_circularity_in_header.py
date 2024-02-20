@@ -14,4 +14,4 @@ def modify_circularity_in_header(input_file, output_file):
                     new_header = f">{header}"
                 output_fasta.write(new_header + "\n")
             else:
-                output_fasta.write(line + "\n")
+                output_fasta.write(line.strip() + "\n")
