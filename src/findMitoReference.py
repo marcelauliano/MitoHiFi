@@ -75,17 +75,20 @@ if __name__ == '__main__':
     parser.add_argument('--email', nargs='?', default="")
     parser.add_argument('--outfolder', nargs='?', default="")
     parser.add_argument('--type', choices=['mitochondrion','chloroplast'], default='mitochondrion', \
-                                  help='specify the type of organelle')
+                                  help='Specify the type of organelle')
     parser.add_argument('--min_length', nargs='?', type=int, default=0, \
-                                  help='minimal appropriate length')
+                                  help='Minimal appropriate length')
     parser.add_argument('-n', nargs='?',  type=int, default=1, \
                                   help='Number of genomes to report. Reported in order of identification')
+    parser.add_argument('--ncbi-api-key', nargs='?', help='Set NCBI API key')
     args = parser.parse_args()    
     n = args.n
     if n < 1:
         print('Number of genomes to report must be at least 1 (default)')
         exit(1)
     Entrez.email = args.email
+    if args.ncbi_api_key:
+        Entrez.api_key = args.ncbi_api_key
     if not os.path.isdir(args.outfolder):
         os.mkdir(args.outfolder)
     print('Looking for ' + args.type +' for ' + args.species)
