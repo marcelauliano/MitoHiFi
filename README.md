@@ -1,6 +1,6 @@
 # MitoHiFi 
 
------- This is v3.2.2 ----
+------ This is v3.2.2 ------
 
 MitoHiFi v3.2.2 is a python pipeline distributed under [MIT License](LICENSE) !
 
