@@ -60,12 +60,13 @@ RUN chmod -R 755 /opt/wrappers
 
 ARG CONDA_DIR=/opt/conda
 
-RUN wget -P /usr/local/src https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && bash /usr/local/src/Miniconda3-latest-Linux-x86_64.sh -b -p $CONDA_DIR \
-    && $CONDA_DIR/bin/conda install -n base conda-libmamba-solver
+RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" \
+    && bash Miniforge3-$(uname)-$(uname -m).sh -bfp $CONDA_DIR \
+    && rm -rf Miniforge3-$(uname)-$(uname -m).sh
+
 
 RUN $CONDA_DIR/bin/conda create -n mitos_env -c bioconda -c conda-forge mitos=2.1.0 "r-base>4"
-RUN $CONDA_DIR/bin/conda create -n mitofinder_env --experimental-solver=libmamba python=2.7
+RUN $CONDA_DIR/bin/conda create -n mitofinder_env python=2.7
 
 RUN $CONDA_DIR/bin/conda clean -a
 
