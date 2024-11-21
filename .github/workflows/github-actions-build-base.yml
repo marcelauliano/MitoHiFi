@@ -8,8 +8,7 @@ on:  workflow_dispatch
 
 env:
   REGISTRY: ghcr.io
-  ORGANISATION: marcelauliano
-  IMAGE_NAME: MitoHiFi-base
+  IMAGE_NAME: ${{ github.repository }}-base
 
 permissions:
   contents: write
@@ -39,7 +38,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.ORGANISATION }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}
