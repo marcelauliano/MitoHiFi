@@ -1,16 +1,13 @@
 name: Build and Publish MitoHiFi code
 
-on:  workflow_dispatch
-  # push:
-  #   branches:
-  #   - 'master'
-
-
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
 
 env:
   REGISTRY: ghcr.io
-  ORGANISATION: marcelauliano
-  IMAGE_NAME: MitoHiFi
+  IMAGE_NAME: ${{ github.repository }}
 
 permissions:
   contents: write
@@ -40,10 +37,11 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.ORGANISATION }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}
+ 
       - name: Build image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
         id: build-and-push
