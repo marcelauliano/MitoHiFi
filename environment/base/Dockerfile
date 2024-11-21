@@ -29,7 +29,7 @@ WORKDIR /opt
 
 # /opt/minimap2-2.24_x64-linux
 RUN curl -L https://github.com/lh3/minimap2/releases/download/v2.24/minimap2-2.24_x64-linux.tar.bz2 \
-    | tar -jxvf -
+    | tar -jxvf  - --no-same-owner
 
 # /opt/hifiasm-0.16.1
 RUN curl -L https://github.com/chhylp123/hifiasm/archive/refs/tags/0.16.1.tar.gz \
