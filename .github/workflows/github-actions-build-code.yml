@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
   release:
     types: [published]
+  push:
+    branches:
+    - 'master'
 
 env:
   REGISTRY: ghcr.io
@@ -20,6 +23,9 @@ jobs:
     name: Build Docker image and push to repositories
     # run only when code is compiling and tests are passing
     runs-on: ubuntu-latest
+
+    outputs:
+      DOCKER_IMAGE: ${{ steps.docker_image.outputs.docker_image }}
 
     # steps to perform in job
     steps:
@@ -41,6 +47,11 @@ jobs:
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}
+
+      - name: Set output
+        id: docker_image
+        run: |
+          echo "docker_image=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}" >> $GITHUB_OUTPUT
  
       - name: Build image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
@@ -53,3 +64,10 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.build-and-push.outputs.digest }}
+
+  integration-tests:
+    needs: build-and-push-docker-image
+    uses: ./.github/workflows/github-actions-integration-test.yml
+    with:
+      docker_image: ${{ needs.build-and-push-docker-image.outputs.DOCKER_IMAGE }}
+      digest: ${{ needs.build-and-push-docker-image.outputs.digest }}
