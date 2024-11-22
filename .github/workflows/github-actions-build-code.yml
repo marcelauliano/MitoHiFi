@@ -52,7 +52,7 @@ jobs:
       - name: Set output
         id: docker_image
         run: |
-          echo "docker_image=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}" >> $GITHUB_OUTPUT
+          echo "docker_image=${{ env.REGISTRY }}/${env.IMAGE_NAME,,}" >> $GITHUB_OUTPUT
  
       - name: Build image and push to GitHub Container Registry
         uses: docker/build-push-action@v2
