@@ -26,7 +26,7 @@ jobs:
 
     outputs:
       DOCKER_IMAGE: ${{ steps.docker_image.outputs.docker_image }}
-      DOCKER_IMAGE_DIGEST: ${{ steps.docker_image.outputs.docker_image_digest }}
+      DOCKER_IMAGE_DIGEST: ${{ steps.image_digest.outputs.docker_image_digest }}
 
     # steps to perform in job
     steps:
@@ -64,7 +64,7 @@ jobs:
           push: true
 
       - name: Image digest
-        id: image-digest
+        id: image_digest
         run: |
           echo ${{ steps.build-and-push.outputs.digest }}
           echo "docker_image_digest=${{ steps.build-and-push.outputs.digest }}" >> $GITHUB_OUTPUT
