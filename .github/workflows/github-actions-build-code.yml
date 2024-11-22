@@ -26,6 +26,7 @@ jobs:
 
     outputs:
       DOCKER_IMAGE: ${{ steps.docker_image.outputs.docker_image }}
+      DOCKER_IMAGE_DIGEST: ${{ steps.docker_image.outputs.docker_image_digest }}
 
     # steps to perform in job
     steps:
@@ -63,11 +64,14 @@ jobs:
           push: true
 
       - name: Image digest
-        run: echo ${{ steps.build-and-push.outputs.digest }}
+        id: image-digest
+        run: |
+          echo ${{ steps.build-and-push.outputs.digest }}
+          echo "docker_image_digest=${{ steps.build-and-push.outputs.digest }}" >> $GITHUB_OUTPUT
 
   integration-tests:
     needs: build-and-push-docker-image
     uses: ./.github/workflows/github-actions-integration-test.yml
     with:
       docker_image: ${{ needs.build-and-push-docker-image.outputs.DOCKER_IMAGE }}
-      digest: ${{ needs.build-and-push-docker-image.outputs.digest }}
+      digest: ${{ needs.build-and-push-docker-image.outputs.DOCKER_IMAGE_DIGEST }}
