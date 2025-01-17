@@ -18,7 +18,7 @@ def find_frameshifts(in_gb):
             if feature.type == 'CDS':
                 gene_name = feature.qualifiers['gene'][0]
                 gene_amino = feature.qualifiers['translation'][0]
-                if re.search("[A-Z]\*[A-Z]", gene_amino):
+                if re.search(r"[A-Z]\*[A-Z]", gene_amino):
                     print("Gene {} contains frameshift".format(gene_name))
                     frameshift_genes.add(gene_name)
     return frameshift_genes 
@@ -31,7 +31,7 @@ def find_frameshifts_mitos(in_proteins_fasta):
         seq = str(record.seq)
         description = record.description
         gene_name = description.split(";")[-1].strip()
-        if re.search("[A-Z]\*[A-Z]", seq):
+        if re.search(r"[A-Z]\*[A-Z]", seq):
             print("Gene {} contains frameshift".format(gene_name))
             frameshift_genes.append(gene_name)
     return frameshift_genes 
