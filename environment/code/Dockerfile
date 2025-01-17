@@ -1,6 +1,10 @@
-FROM ghcr.io/marcelauliano/mitohifi-base:reviews
+FROM ghcr.io/marcelauliano/mitohifi-base:master
 
 WORKDIR /opt
+
+# Updates MitoFinder wrapper to "see" /opt/MitoHiFi/tests directory (that contains files to test mitohifi image through github actions)
+RUN echo '#!/bin/bash\nsingularity run --bind /opt/MitoHiFi/tests:/opt/MitoHiFi/tests /opt/mitofinder_v1.4.2.sif "$@"' > /usr/bin/mitofinder \
+    && chmod +x /usr/bin/mitofinder
 
 # /opt/MitoHiFi
 RUN git clone https://github.com/marcelauliano/MitoHiFi.git \
@@ -15,5 +19,4 @@ WORKDIR /tmp
 
 ENV CONDA_DIR=/opt/conda
 
-ENV PATH /opt/wrappers:/opt/cdhit/:/opt/hifiasm-0.16.1/:/opt/MitoHiFi/src/:/opt/MitoFinder/:/opt/minimap2-2.24_x64-linux/:${PATH}
-#create docker in main branch now
+ENV PATH=/opt/wrappers:/opt/cdhit/:/opt/hifiasm-0.16.1/:/opt/MitoHiFi/src/:/opt/MitoFinder/:/opt/minimap2-2.24_x64-linux/:${PATH}
