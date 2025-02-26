@@ -55,7 +55,7 @@ jobs:
           docker_image="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
           echo "docker_image=${docker_image,,}" >> $GITHUB_OUTPUT
       - name: Build image and push to GitHub Container Registry
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v6
         id: build-and-push
         with:
           context: ./environment/code
