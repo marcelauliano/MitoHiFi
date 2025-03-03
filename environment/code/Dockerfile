@@ -1,4 +1,4 @@
-FROM ghcr.io/gq1/mitohifi-base:b1.0.1
+FROM ghcr.io/gq1/mitohifi-base:b1.0.2
 
 COPY . /opt/MitoHiFi
 
