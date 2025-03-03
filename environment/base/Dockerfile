@@ -99,7 +99,7 @@ RUN pip3 --no-cache-dir install --upgrade pip \
     Pillow \
     matplotlib \
     entrezpy \
-    dna_features_viewer \
+    dna_features_viewer==3.1.2 \
     bcbio-gff
 # this will install all packages under /usr/local/lib/python3.6/dist-packages
 # include biopython 1.79
