@@ -1,10 +1,10 @@
-FROM ghcr.io/gq1/mitohifi-base:b1.0
+FROM ghcr.io/gq1/mitohifi-base:b1.0.0
 
-WORKDIR /opt
+COPY . /opt/MitoHiFi
 
-# /opt/MitoHiFi
-RUN git clone https://github.com/marcelauliano/MitoHiFi.git \
-    && cd MitoHiFi/src \
+WORKDIR /opt/MitoHiFi
+
+RUN cd src \
     && chmod +x *.py \
     && sed -i '1i#!/usr/bin/env python3' mitohifi.py findFrameShifts.py fixContigHeaders.py \
     && sed -i '1 s/python\>/python3/' *.py \
@@ -16,4 +16,3 @@ WORKDIR /tmp
 ENV CONDA_DIR=/opt/conda
 
 ENV PATH=/opt/wrappers:/opt/cdhit/:/opt/hifiasm-0.16.1/:/opt/MitoHiFi/src/:/opt/MitoFinder/:/opt/minimap2-2.24_x64-linux/:${PATH}
-#create docker in main branch now

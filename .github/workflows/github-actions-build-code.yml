@@ -58,7 +58,8 @@ jobs:
         uses: docker/build-push-action@v6
         id: build-and-push
         with:
-          context: ./environment/code
+          context: .
+          file: ./environment/code/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true
