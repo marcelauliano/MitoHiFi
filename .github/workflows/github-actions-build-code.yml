@@ -2,9 +2,9 @@ name: Build and Publish MitoHiFi code
 
 on:
   workflow_dispatch:
-  release:
-    types: [published]
   push:
+    tags:
+    - 'v*'
     branches:
     - 'master'
 
