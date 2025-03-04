@@ -1,9 +1,14 @@
 name: MitoHiFi Integration Test
 
-on:  # workflow_dispatch
-  push:
-    branches:
-    - 'master'
+on:
+  workflow_call:
+    inputs:
+      docker_image:
+        required: true
+        type: string
+      digest:
+        required: true
+        type: string
   
 jobs:
   integration_test:
@@ -16,7 +21,7 @@ jobs:
       - name: Run integration test_contigs with Docker
         run: |
           docker run --name test_contigs \
-          ghcr.io/marcelauliano/mitohifi:master \
+          ${{ inputs.docker_image}}@${{ inputs.digest }} \
             mitohifi.py \
             -c /opt/MitoHiFi/tests/ilPhaBuce1_contig.fa \
             -f /opt/MitoHiFi/tests/NC_016067.1.fasta \
@@ -31,7 +36,7 @@ jobs:
       - name: Run integration test_reads with Docker
         run: |
           docker run --name test_reads \
-          ghcr.io/marcelauliano/mitohifi:master \
+          ${{ inputs.docker_image}}@${{ inputs.digest }} \
             mitohifi.py \
             -r /opt/MitoHiFi/tests/ilDeiPorc1.reads.100.fa \
             -f /opt/MitoHiFi/tests/MW539688.1.fasta \
@@ -43,6 +48,3 @@ jobs:
         run: |
           docker cp test_reads:/tmp/final_mitogenome.fasta ./
           cmp tests/ilDeiPorc1.final_mitogenome.fasta final_mitogenome.fasta && echo 'SUCCESS READS & MITOS'
-
-          
-

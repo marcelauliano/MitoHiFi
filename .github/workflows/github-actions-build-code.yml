@@ -1,16 +1,16 @@
 name: Build and Publish MitoHiFi code
 
-on:  workflow_dispatch
-  # push:
-  #   branches:
-  #   - 'master'
-
-
+on:
+  workflow_dispatch:
+  push:
+    tags:
+    - 'v*'
+    branches:
+    - 'master'
 
 env:
   REGISTRY: ghcr.io
-  ORGANISATION: marcelauliano
-  IMAGE_NAME: MitoHiFi
+  IMAGE_NAME: ${{ github.repository }}
 
 permissions:
   contents: write
@@ -23,6 +23,10 @@ jobs:
     name: Build Docker image and push to repositories
     # run only when code is compiling and tests are passing
     runs-on: ubuntu-latest
+
+    outputs:
+      DOCKER_IMAGE: ${{ steps.docker_image.outputs.docker_image }}
+      DOCKER_IMAGE_DIGEST: ${{ steps.image_digest.outputs.docker_image_digest }}
 
     # steps to perform in job
     steps:
@@ -40,18 +44,35 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.ORGANISATION }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}
+
+      - name: Set output
+        id: docker_image
+        run: |
+          docker_image="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+          echo "docker_image=${docker_image,,}" >> $GITHUB_OUTPUT
       - name: Build image and push to GitHub Container Registry
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v6
         id: build-and-push
         with:
-          context: ./environment/code
+          context: .
+          file: ./environment/code/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true
 
       - name: Image digest
-        run: echo ${{ steps.build-and-push.outputs.digest }}
+        id: image_digest
+        run: |
+          echo ${{ steps.build-and-push.outputs.digest }}
+          echo "docker_image_digest=${{ steps.build-and-push.outputs.digest }}" >> $GITHUB_OUTPUT
+
+  integration-tests:
+    needs: build-and-push-docker-image
+    uses: ./.github/workflows/github-actions-integration-test.yml
+    with:
+      docker_image: ${{ needs.build-and-push-docker-image.outputs.DOCKER_IMAGE }}
+      digest: ${{ needs.build-and-push-docker-image.outputs.DOCKER_IMAGE_DIGEST }}
