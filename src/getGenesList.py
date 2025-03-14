@@ -22,7 +22,10 @@ def get_genes_list(in_annotation, format="genbank"):
                     genes.append(feat.qualifiers['product'][0])
                     #genes.append([feat.qualifiers['product'], feat.location])
                 elif feat.type == "CDS":
-                    genes.append(feat.qualifiers['gene'][0])
+                    genes.append(feat.qualifiers['product'][0])
+                    name_replacement = {"NADH dehydrogenase subunit 6": "ND6", "NADH dehydrogenase subunit 4L": "ND4L", "12S ribosomal RNA": "s-rRNA", "NADH dehydrogenase subunit 1": "ND1", "ATP synthase F0 subunit 6": "ATP6", "NADH dehydrogenase subunit 2": "ND2", "cytochrome b": "CYTB", "cytochrome c oxidase subunit III": "COIII", "NADH dehydrogenase subunit 4": "ND4", "cytochrome c oxidase subunit I": "COI", "cytochrome c oxidase subunit II": "COII", "16S ribosomal RNA": "l-rRNA", "NADH dehydrogenase subunit 3": "ND3", "NADH dehydrogenase subunit 5": "ND5"}
+                    genes = [gene if gene not in name_replacement else name_replacement[gene] for gene in genes]
+                    #genes.append(feat.qualifiers['gene'][0])
                     #genes.append([feat.qualifiers['gene'], feat.location])
     
     elif format == "gff":
