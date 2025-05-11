@@ -285,11 +285,9 @@ The user can change **-winSize** and **-covMap** parameters to tun the final cov
 
 ## 8. Citations
 
-When using MitoHiFi, please cite our preprint: 
+When using MitoHiFi, please cite our paper: 
 
-MitoHiFi: a python pipeline for mitochondrial genome assembly from PacBio High Fidelity reads
-Marcela Uliano-Silva, João Gabriel R. N. Ferreira, Ksenia Krasheninnikova, Darwin Tree of Life Consortium, Giulio Formenti, Linelle Abueg, James Torrance, Eugene W. Myers, Richard Durbin, Mark Blaxter, Shane A. McCarthy
-bioRxiv 2022.12.23.521667; doi: https://doi.org/10.1101/2022.12.23.521667
+Uliano-Silva, M., Ferreira, J.G.R.N., Krasheninnikova, K. et al. MitoHiFi: a python pipeline for mitochondrial genome assembly from PacBio high fidelity reads. BMC Bioinformatics 24, 288 (2023). https://doi.org/10.1186/s12859-023-05385-y 
  
 and
 
