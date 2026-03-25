@@ -8,7 +8,7 @@ dependencies:
   - samtools=1.11
   - cd-hit=4.8.1
   - minimap2=2.19
-  - hifiasm=0.19.5
+  - hifiasm=0.25.0
   - mafft=7.520
   - biopython=1.79
   - matplotlib=3.2.2

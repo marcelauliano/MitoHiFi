@@ -1,5 +1,5 @@
 """This script builds a plot (`coverage_plot.png`) containing the mean coverage
-depth distribution for the final representative mitogenom and other assembled
+depth distribution for the final representative mitogenome and other assembled
 potential mito contigs. 
 
 """
@@ -15,6 +15,7 @@ import plot_coverage
 import plot_coverage_final_mito
 import PIL
 import numpy as np
+import matplotlib.pyplot as plt
 
 def get_contigs_headers(in_fasta):
     """
@@ -63,7 +64,7 @@ def get_contigs_to_map():
     return contigs_to_map
 
 
-def map_potential_contigs(in_reads, contigs, threads=1, covMap=20): 
+def map_potential_contigs(in_reads, contigs, threads=1, covMap=20, ont=False): 
     """
     Args:
         in_reads (list): reads file to be mapped against contigs
@@ -90,8 +91,15 @@ def map_potential_contigs(in_reads, contigs, threads=1, covMap=20):
    #         with open(f) as infile:
    #             outfile.write(infile.read())
     
+    # Override covMap if ONT
+    if ont:
+        covMap = 5
+        
     # map reads against concatenated contigs file
-    minimap_cmd = ["minimap2", "-t", str(threads), "--secondary=no", "-ax", "map-pb", concatenated_contigs] + in_reads
+    preset = "map-ont" if ont else "map-pb"
+    if isinstance(in_reads, str):
+        in_reads = [in_reads]
+    minimap_cmd = ["minimap2","-t", str(threads),"--secondary=no","-ax", preset, concatenated_contigs] + in_reads
     samtools_cmd = ["samtools", "view", "-@", str(threads), "-b", "-F4", "-F", "0x800", "-q", str(covMap), "-o", "HiFi-vs-potential_contigs.bam"]
     logging.info("Reads mapping:")
     logging.info(" ".join(minimap_cmd) + " | " + " ".join(samtools_cmd))
@@ -132,7 +140,7 @@ def map_potential_contigs(in_reads, contigs, threads=1, covMap=20):
     
     return "HiFi-vs-potential_contigs.sorted.bam"
 
-def map_final_mito(in_reads, threads=1, covMap=20): 
+def map_final_mito(in_reads, threads=1, covMap=20, ont=False): 
     """
     Args:
         in_reads (list): reads file to be mapped against contigs
@@ -148,9 +156,16 @@ def map_final_mito(in_reads, threads=1, covMap=20):
     except FileNotFoundError:
         sys.exit("""No final_mitogenome.fasta file.
         An error may have occurred when choosing the representative contig.""")
-    
+
+    # Override covMap if ONT
+    if ont:
+        covMap = 5
+        
     # map reads 
-    minimap_cmd = ["minimap2", "-t", str(threads), "--secondary=no", "-ax", "map-pb", "final_mitogenome.fasta"] + in_reads
+    preset = "map-ont" if ont else "map-pb"
+    if isinstance(in_reads, str):
+        in_reads = [in_reads]
+    minimap_cmd = ["minimap2", "-t", str(threads), "--secondary=no", "-ax", preset, "final_mitogenome.fasta"] + in_reads
     samtools_cmd = ["samtools", "view", "-@", str(threads), "-b", "-F4", "-F", "0x800", "-q", str(covMap), "-o", "HiFi-vs-final_mitogenome.bam"]
     logging.info("Reads mapping:")
     logging.info(" ".join(minimap_cmd) + " | " + " ".join(samtools_cmd))
@@ -252,41 +267,47 @@ def merge_images(img_list, out_file):
 
 def create_coverage_plot(mapped_contigs, winSize, repr_contig, is_final_mito=False):
 
-    #print("create_coverage_plot function started:") #debug
     coverage_plots = []
+
     for contig_id in mapped_contigs:
         if is_final_mito:
             genome_filename = plot_coverage_final_mito.make_genome_file(contig_id)
         else:
             genome_filename = plot_coverage.make_genome_file(contig_id)
-        #print(f"genome_filename: {genome_filename}") #debug
+
         genome_windows_filename = plot_coverage.make_genome_windows(genome_filename, winSize)
-        #print(f"genome_windows_filename: {genome_windows_filename}") #debug
+
         if is_final_mito:
             windows_depth_filename = plot_coverage_final_mito.get_windows_depth(genome_windows_filename, "HiFi-vs-final_mitogenome.bam")
         else:
             windows_depth_filename = plot_coverage.get_windows_depth(genome_windows_filename, f"{contig_id}.bam")
-        #print(f"filename: {windows_depth_filename}") #debug
+
         if is_final_mito:
             coverage_plot_filename = plot_coverage_final_mito.plot_coverage("final_mitogenome", windows_depth_filename, winSize, isFinalMito=True)
-            return "final_mitogenome.coverage.png" 
+
+            # 🔴 CLOSE FIGURE
+            plt.close('all')
+            return "final_mitogenome.coverage.png"
+
         else:
             if contig_id == repr_contig:
                 coverage_plot_filename = plot_coverage.plot_coverage(contig_id, windows_depth_filename, winSize, isFinalMito=True)
             else:
                 coverage_plot_filename = plot_coverage.plot_coverage(contig_id, windows_depth_filename, winSize)
-        #print(f"coverage_plot_filename: {coverage_plot_filename}") #debug
+
         coverage_plots.append(coverage_plot_filename)
 
-        #print(f"coverage_plots: {coverage_plots}")
-        
-        ### potential identation problem
-        merge_images(coverage_plots, "coverage_plot.png")
-        try:
-            with open("coverage_plot.png", "r") as f:
-                pass
-        except FileNotFoundError:
-           sys.exit("coverage_plot.png file not found.") 
+        # 🔴 CRITICAL: close figure after each iteration
+        plt.close('all')
+
+    # ✅ MERGE ONLY ONCE
+    merge_images(coverage_plots, "coverage_plot.png")
+
+    try:
+        with open("coverage_plot.png", "r") as f:
+            pass
+    except FileNotFoundError:
+        sys.exit("coverage_plot.png file not found.")
 
     return "coverage_plot.png"
 

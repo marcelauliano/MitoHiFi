@@ -16,14 +16,34 @@ def get_genes_list(in_annotation, format="genbank"):
     genes = []
     
     if format == "genbank":
+        name_replacement = {
+            # long names
+            "NADH dehydrogenase subunit 6": "ND6", "NADH dehydrogenase subunit 4L": "ND4L", "12S ribosomal RNA": "s-rRNA", "NADH dehydrogenase subunit 1": "ND1", "ATP synthase F0 subunit 6": "ATP6", "NADH dehydrogenase subunit 2": "ND2", "cytochrome b": "CYTB", "cytochrome c oxidase subunit III": "COIII", "NADH dehydrogenase subunit 4": "ND4", "cytochrome c oxidase subunit I": "COI", "cytochrome c oxidase subunit II": "COII", "16S ribosomal RNA": "l-rRNA", "NADH dehydrogenase subunit 3": "ND3", "NADH dehydrogenase subunit 5": "ND5",
+
+           # gene symbols (common variants)
+            "cox1": "COI", "COX1": "COI", "cox2": "COII", "cox3": "COIII", "cob": "CYTB", "cytb": "CYTB", "nad1": "ND1", "nad2": "ND2", "nad3": "ND3", "nad4": "ND4", "nad4l": "ND4L", "nad5": "ND5", "nad6": "ND6", "rrnS": "s-rRNA", "rrnL": "l-rRNA"
+        }
+
         for record in SeqIO.parse(in_annotation, format):
             for feat in record.features:
-                if feat.type in ["tRNA", "rRNA"]:
-                    genes.append(feat.qualifiers['product'][0])
-                    #genes.append([feat.qualifiers['product'], feat.location])
-                elif feat.type == "CDS":
-                    genes.append(feat.qualifiers['gene'][0])
-                    #genes.append([feat.qualifiers['gene'], feat.location])
+                if feat.type in ["tRNA", "rRNA", "CDS"]:
+                
+                    # --- SAFE extraction of gene name ---
+                    gene_name = None
+
+                    if 'product' in feat.qualifiers:
+                        gene_name = feat.qualifiers['product'][0]
+                    elif 'gene' in feat.qualifiers:
+                        gene_name = feat.qualifiers['gene'][0]
+                    elif 'locus_tag' in feat.qualifiers:
+                        gene_name = feat.qualifiers['locus_tag'][0]
+                    else:
+                        continue  # skip if nothing usable
+
+                    # --- apply replacement safely ---
+                    gene_name = name_replacement.get(gene_name, gene_name)
+
+                    genes.append(gene_name)
     
     elif format == "gff":
         with open(in_annotation, "r") as f:
