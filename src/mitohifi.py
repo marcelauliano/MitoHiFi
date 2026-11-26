@@ -60,7 +60,7 @@ def main():
     optional.add_argument("-minL", help="-minL: Minimum percentage of contig length relative to the reference genome length", type=int, default=80, metavar='<min_length>')
     optional.add_argument("-maxL", help="-maxL: Maximum allowed contig length, expressed as a multiple of the reference length", type=int, default=5, metavar='<max_length>')
     optional.add_argument("-m", help="-m: Number of bits for HiFiasm bloom filter [it maps to -f in HiFiasm] (default = 0)", type=int, default=0, metavar='<BLOOM FILTER>')
-    optional.add_argument("--max_read_len", help="Maximum read length relative to the related mito. For PacBio HiFi data, do not specify this parameter, as the default is ideal. For Nanopore data, provide a value based on the length of related species' mitogenomes to filter out irrelevant reads.", type=float, default=18.0)
+    optional.add_argument("--max_read_len", help="Maximum read length relative to the related mito. For PacBio HiFi data, do not specify this parameter, as the default is ideal. For Nanopore data, provide a value based on the length of related species' mitogenomes to filter out irrelevant reads.", type=float, default=18000.0)
     optional.add_argument("--mitos", help="Use MITOS2 for annotation (opposed to default MitoFinder", action="store_true")
     optional.add_argument('--circular-size', help='Size to consider when checking for circularization', type=int, default=220)
     optional.add_argument('--circular-offset', help='Offset from start and finish to consider when looking for circularization', type=int, default=40)
