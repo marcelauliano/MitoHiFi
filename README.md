@@ -16,10 +16,16 @@ Find out more [Darwin Tree of Life data portal](https://portal.darwintreeoflife.
 
 --------------------------------------
 
-## 1. Background
-**MitoHiFi is a python workflow that assembles mitogenomes from Pacbio HiFi reads.**
+**What's new: Oxford Nanopore R10 support**
 
-With MitoHiFi v3.2 you can start from the raw Pacbio HiFi reads (flag **-r**) or from the assembled contigs (flag **-c**). You also need a reference mitochondria sequence in FASTA and [GenBank format](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html). We provide an internal script (findMitoReference.py) that can be used to find and download the most closely-related reference genome for your species from NCBI..
+MitoHiFi can now start from Oxford Nanopore (ONT) reads produced with R10 chemistry in addition to PacBio HiFi reads. Choose the sequencing technology with the new **-s** parameter (pacbio, default, or ont). When -s ont is set, MitoHiFi adapts the read mapping and the assembly steps to ONT data (see section 4.3). The software environment was updated accordingly (see section 2).
+
+Note: only ONT R10 (simplex) reads are supported. Older chemistries (e.g. R9.4.1) have a higher error rate and are not supported by the hifiasm ONT mode used by MitoHiFi.
+
+## 1. Background
+**MitoHiFi is a python workflow that assembles mitogenomes from Pacbio HiFi or ONT R10 reads.**
+
+With MitoHiFi v3.2 you can start from the raw Pacbio HiFi or ONT R10 reads (flag **-r** and **-s**) or from the assembled contigs (flag **-c**). You also need a reference mitochondria sequence in FASTA and [GenBank format](https://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html). We provide an internal script (findMitoReference.py) that can be used to find and download the most closely-related reference genome for your species from NCBI..
 
 
 
@@ -91,8 +97,8 @@ This is the least recommended way to install MitoHiFi, but below you will find a
   - python=3.7
   - samtools=1.11
   - cd-hit=4.8.1
-  - minimap2=2.19
-  - hifiasm=0.19.5
+  - minimap2=2.27
+  - hifiasm=0.21
   - mafft=7.520
   - biopython=1.79
   - matplotlib=3.2.2
@@ -125,7 +131,7 @@ usage: MitoHiFi [-h] (-r <reads>.fasta | -c <contigs>.fasta) -f
                 [-covMap COVMAP] [-v] [-o <GENETIC CODE>]
 
 required arguments:
-  -r <reads>.fasta      -r: Pacbio Hifi Reads from your species
+  -r <reads>.fasta      -r: Pacbio Hifi or ONT Reads from your species
   -c <contigs>.fasta    -c: Assembled fasta contigs/scaffolds to be searched
                         to find mitogenome
   -f <relatedMito>.fasta
@@ -134,6 +140,8 @@ required arguments:
                         format
   -t <THREADS>          -t: Number of threads for (i) hifiasm and (ii) the
                         blast search
+  -s                    -s: Sequencing technology employed. Choose between 
+                        pacbio (default) or ont
 
 optional arguments:
   -d                    -d: debug mode to output additional info on log
@@ -141,11 +149,18 @@ optional arguments:
                         -a: Choose between animal (default) or plant
   -p <PERC>             -p: Percentage of query in the blast match with close-
                         related mito
+  -minL                 -minL: Minimum percentage of contig length relative to
+                        the reference genome length (default = 80)
+  -maxL                 -maxL: Maximum allowed contig length, expressed as a 
+                        multiple of the reference length (default = 5)
   -m <BLOOM FILTER>     -m: Number of bits for HiFiasm bloom filter [it maps
                         to -f in HiFiasm] (default = 0)
   --max-read-len MAX_READ_LEN
-                        Maximum lenght of read relative to related mito
-                        (default = 1.0x related mito length)
+                        Maximum read length relative to the related mito. 
+                        For PacBio HiFi data, do not specify this parameter, 
+                        as the default is ideal. For ONT data, provide a value
+                        based on the length of related species' mitogenomes 
+                        to filter out irrelevant reads (default = 18.0)
   --mitos               Use MITOS2 for annotation (opposed to default
                         MitoFinder
   --circular-size CIRCULAR_SIZE

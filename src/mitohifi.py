@@ -48,16 +48,19 @@ def main():
     required = parser.add_argument_group('required arguments')
     optional = parser.add_argument_group('optional arguments')
     mutually_exclusive_group = required.add_mutually_exclusive_group(required=True)    
-    mutually_exclusive_group.add_argument("-r", help= "-r: Pacbio Hifi Reads from your species", metavar='<reads>.fasta')
+    mutually_exclusive_group.add_argument("-r", help= "-r: Pacbio Hifi Reads or ONT R10 Reads from your species", metavar='<reads>.fasta')
     mutually_exclusive_group.add_argument("-c", help= "-c: Assembled fasta contigs/scaffolds to be searched to find mitogenome", metavar='<contigs>.fasta')
     required.add_argument("-f", help= "-f: Close-related Mitogenome is fasta format", required = "True", metavar='<relatedMito>.fasta')
     required.add_argument("-g", help= "-k: Close-related species Mitogenome in genebank format", required = "True", metavar='<relatedMito>.gbk')
     required.add_argument("-t", help= "-t: Number of threads for (i) hifiasm and (ii) the blast search", required = "True", type=int, metavar='<THREADS>')    
-    optional.add_argument("-d", help="-d: debug mode to output additional info on log", action="store_true")    
+    optional.add_argument("-s", help="-s: Sequencing technology employed. Choose between pacbio (default) or ont", default="pacbio", choices=["pacbio", "ont"])
+    optional.add_argument("-d", help="-d: debug mode to output additional info on log", action="store_true")
     optional.add_argument("-a", help="-a: Choose between animal (default) or plant", default="animal", choices=["animal", "plant", "fungi"])
     optional.add_argument("-p", help="-p: Percentage of query in the blast match with close-related mito", type=int, default=50, metavar='<PERC>')
+    optional.add_argument("-minL", help="-minL: Minimum percentage of contig length relative to the reference genome length", type=int, default=80, metavar='<min_length>')
+    optional.add_argument("-maxL", help="-maxL: Maximum allowed contig length, expressed as a multiple of the reference length", type=int, default=5, metavar='<max_length>')
     optional.add_argument("-m", help="-m: Number of bits for HiFiasm bloom filter [it maps to -f in HiFiasm] (default = 0)", type=int, default=0, metavar='<BLOOM FILTER>')
-    optional.add_argument("--max-read-len", help="Maximum lenght of read relative to related mito (default = 1.0x related mito length)", type=float, default=1.0)
+    optional.add_argument("--max_read_len", help="Maximum read length relative to the related mito. For PacBio HiFi data, do not specify this parameter, as the default is ideal. For Nanopore data, provide a value based on the length of related species' mitogenomes to filter out irrelevant reads.", type=float, default=18.0)
     optional.add_argument("--mitos", help="Use MITOS2 for annotation (opposed to default MitoFinder", action="store_true")
     optional.add_argument('--circular-size', help='Size to consider when checking for circularization', type=int, default=220)
     optional.add_argument('--circular-offset', help='Offset from start and finish to consider when looking for circularization', type=int, default=40)
@@ -99,7 +102,12 @@ def main():
     if args.r:
         logging.info("Running MitoHifi pipeline in reads mode...")
         logging.info("1. First we map your Pacbio HiFi reads to the close-related mitogenome")
-        minimap_cmd = ["minimap2", "-t", str(args.t), "--secondary=no", "-ax", "map-hifi", args.f] + shlex.split(args.r) 
+        if args.s == "pacbio":
+            minimap_cmd = ["minimap2", "-t", str(args.t), "--secondary=no", "-ax", "map-hifi", args.f] + shlex.split(
+                args.r)
+        else:
+            minimap_cmd = ["minimap2", "-t", str(args.t), "--secondary=no", "-ax", "lr:hq", args.f] + shlex.split(
+                args.r)
         samtools_cmd = ["samtools", "view", "-@", str(args.t), "-b", "-F4", "-F", "0x800", "-o", "reads.HiFiMapped.bam"] 
         logging.info(" ".join(minimap_cmd) + " | " + " ".join(samtools_cmd))        
         minimap = subprocess.Popen(minimap_cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
@@ -116,36 +124,71 @@ def main():
         finally:
             f.close()
 
-        logging.info("2. Now we filter out any mapped reads that are larger than the reference mitogenome to avoid NUMTS")
-        bam2fasta_cmd = ["samtools", "fasta", "reads.HiFiMapped.bam"]
-        logging.info("2.1 First we convert the mapped reads from BAM to FASTA format:")
-        logging.info(" ".join(bam2fasta_cmd) + " > gbk.HiFiMapped.bam.fasta")
-        mapped_fasta_f = open("gbk.HiFiMapped.bam.fasta", "w")
-        subprocess.run(bam2fasta_cmd, stdout=mapped_fasta_f, stderr=subprocess.DEVNULL)
-        before_filter = fetch.get_num_seqs("gbk.HiFiMapped.bam.fasta")
-        logging.info(f"Total number of mapped reads: {before_filter}")
+        if args.s == "pacbio":
+            logging.info(
+                "2. Now we filter out any mapped reads that are larger than the reference mitogenome to avoid NUMTS")
+            bam2fasta_cmd = ["samtools", "fasta", "reads.HiFiMapped.bam"]
+            logging.info("2.1 First we convert the mapped reads from BAM to FASTA format:")
+            logging.info(" ".join(bam2fasta_cmd) + " > gbk.HiFiMapped.bam.fasta")
+            mapped_fasta_f = open("gbk.HiFiMapped.bam.fasta", "w")
+            subprocess.run(bam2fasta_cmd, stdout=mapped_fasta_f, stderr=subprocess.DEVNULL)
+            before_filter = fetch.get_num_seqs("gbk.HiFiMapped.bam.fasta", "fasta")
+            logging.info(f"Total number of mapped reads: {before_filter}")
+        else:
+            logging.info(
+                "2. Now we filter out any mapped reads that are larger than the reference mitogenome to avoid NUMTS")
+            bam2fastq_cmd = ["samtools", "fastq", "reads.HiFiMapped.bam"]
+            logging.info("2.1 First we convert the mapped reads from BAM to FASTQ format:")
+            logging.info(" ".join(bam2fastq_cmd) + " > gbk.HiFiMapped.bam.fastq")
+            mapped_fastq_f = open("gbk.HiFiMapped.bam.fastq", "w")
+            subprocess.run(bam2fastq_cmd, stdout=mapped_fastq_f, stderr=subprocess.DEVNULL)
+            before_filter = fetch.get_num_seqs("gbk.HiFiMapped.bam.fastq", "fastq")
+            logging.info(f"Total number of mapped reads: {before_filter}")
         
-        max_read_len = round(args.max_read_len * rel_mito_len)
+        if args.s == "pacbio":
+            max_read_len = rel_mito_len
+        else:
+            max_read_len = args.max_read_len
         logging.info(f"2.2 Then we filter reads that are larger than {max_read_len} bp")
-        filterfasta.filterFasta(minLength=max_read_len, neg=True, inStream="gbk.HiFiMapped.bam.fasta",
-                                outPath="gbk.HiFiMapped.bam.filtered.fasta", log=False)
-        
-        try:
-            f = open("gbk.HiFiMapped.bam.filtered.fasta")
-        except FileNotFoundError:
-            sys.exit("""No gbk.HiFiMapped.bam.filtered.fasta file.
-            An error may have occurred when filtering reads larger than the reference mitogenome""")
-        finally:
-            f.close()
 
-        after_filter = fetch.get_num_seqs("gbk.HiFiMapped.bam.filtered.fasta")
-        logging.info(f"Number of filtered reads: {after_filter}")
+        if args.s == "pacbio":
+            filterfasta.filterFasta(minLength=max_read_len, neg=True, inStream="gbk.HiFiMapped.bam.fasta",
+                                    outPath="gbk.HiFiMapped.bam.filtered.fasta", log=False)
+
+            try:
+                f = open("gbk.HiFiMapped.bam.filtered.fasta")
+            except FileNotFoundError:
+                sys.exit("""No gbk.HiFiMapped.bam.filtered.fasta file. 
+                An error may have occurred when filtering reads larger than the reference mitogenome""")
+            finally:
+                f.close()
+
+            after_filter = fetch.get_num_seqs("gbk.HiFiMapped.bam.filtered.fasta", "fasta")
+            logging.info(f"Number of filtered reads: {after_filter}")
+        else:
+            filterfasta.filterFasta(minLength=max_read_len, neg=True, inStream="gbk.HiFiMapped.bam.fastq",
+                                    outPath="gbk.HiFiMapped.bam.filtered.fastq", log=False, fastq=True)
+            try:
+                f = open("gbk.HiFiMapped.bam.filtered.fastq")
+            except FileNotFoundError:
+                sys.exit("""No gbk.HiFiMapped.bam.filtered.fastq file. 
+                An error may have occurred when filtering reads larger than the reference mitogenome""")
+            finally:
+                f.close()
+
+            after_filter = fetch.get_num_seqs("gbk.HiFiMapped.bam.filtered.fastq", "fastq")
+            logging.info(f"Number of filtered reads: {after_filter}")
 
         logging.info("3. Now let's run hifiasm to assemble the mapped and filtered reads!")
         
-        hifiasm_cmd = ["hifiasm", "--primary", "-t", str(args.t), "-f", str(args.m), 
-                    "-o", "gbk.HiFiMapped.bam.filtered.assembled",
-                    "gbk.HiFiMapped.bam.filtered.fasta"]
+        if args.s == "pacbio":
+            hifiasm_cmd = ["hifiasm", "--primary", "-t", str(args.t), "-f", str(args.m),
+                           "-o", "gbk.HiFiMapped.bam.filtered.assembled",
+                           "gbk.HiFiMapped.bam.filtered.fasta"]
+        else:
+            hifiasm_cmd = ["hifiasm", "--primary", "-t", str(args.t), "-f", str(args.m), "--ont",
+                           "-o", "gbk.HiFiMapped.bam.filtered.assembled",
+                           "gbk.HiFiMapped.bam.filtered.fastq"]
 
         logging.info(" ".join(hifiasm_cmd))
         with open("hifiasm.log", "w") as hifiasm_log_f:
@@ -234,7 +277,7 @@ def main():
         ## if species is an animal, set minimum query percentage equal to 80% of related mito
         ## and maximum query length 5 times the length of the related (default values from 
         ## parse_blast function
-        parse_blast.parse_blast(query_perc=args.p, max_query_len=5)
+        parse_blast.parse_blast(query_perc=args.p, min_query_perc=args.minL, max_query_len=args.maxL)
 
     # select contigs to be circularized
     # first look for contigs in parsed_blast.txt
@@ -532,7 +575,10 @@ The pipeline has stopped !! You need to run further scripts to check if you have
         contigs_to_map = get_contigs_to_map()
         logging.info(f"contigs_to_map: {contigs_to_map}") 
         logging.info(f"{step}.1 Mapping HiFi (filtered) reads against potential contigs:")
-        contigs_mapping = map_potential_contigs(["gbk.HiFiMapped.bam.fasta"], contigs_to_map, args.t, args.covMap)
+        if args.s == "pacbio":
+            contigs_mapping = map_potential_contigs(["gbk.HiFiMapped.bam.fasta"], contigs_to_map, args.t, args.covMap, args.s)
+        else:
+            contigs_mapping = map_potential_contigs(["gbk.HiFiMapped.bam.fastq"], contigs_to_map, args.t, args.covMap, args.s)
         logging.info(f"HiFi reads mapping done. Output file: {contigs_mapping}")
         contigs_headers = get_contigs_headers("all_potential_contigs.fa")
         mapped_contigs = split_mapping_by_contig(contigs_mapping, contigs_headers, threads=args.t)
@@ -548,7 +594,10 @@ The pipeline has stopped !! You need to run further scripts to check if you have
         step += 1
         logging.info(f"{step}. Building coverage distribution for final mitogenome")
         logging.info(f"{step}.1 Mapping HiFi (filtered) reads against final_mitogenome.fasta:")
-        mapping_filename = map_final_mito(["gbk.HiFiMapped.bam.fasta"], args.t, args.covMap)
+        if args.s == "pacbio":
+            mapping_filename = map_final_mito(["gbk.HiFiMapped.bam.fasta"], args.t, args.covMap, args.s)
+        else:
+            mapping_filename = map_final_mito(["gbk.HiFiMapped.bam.fastq"], args.t, args.covMap, args.s)
         logging.info(f"HiFi reads mapping done. Output file: {mapping_filename}")
         logging.info(f"{step}.2 Creating coverage plot...")
         coverage_plot_filename = create_coverage_plot([repr_contig_id], args.winSize, repr_contig=repr_contig_id, is_final_mito=True)

@@ -9,7 +9,7 @@ the potential mito contigs.
 from Bio import SeqIO
 import os 
 
-def get_num_seqs(in_fasta):
+def get_num_seqs(in_fasta, format):
     """Gets the number of sequences in a FASTA file.
      
     Args:
@@ -20,7 +20,7 @@ def get_num_seqs(in_fasta):
     """
 
     c = 0
-    for rec in SeqIO.parse(in_fasta, "fasta"):
+    for rec in SeqIO.parse(in_fasta, format):
         c += 1
     return c
 
