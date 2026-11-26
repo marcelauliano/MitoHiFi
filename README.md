@@ -296,7 +296,15 @@ The default annotator for MitoHiFi is MitoFinder, but the user can annotate with
 
 ### 7.3 Plots
 
-The user can change **-winSize** and **-covMap** parameters to tun the final coverage plots. 
+The user can change **-winSize** and **-covMap** parameters to tun the final coverage plots.
+
+### 7.4 Parameters for ONT reads
+ 
+Always set **-s ont** when your reads come from Oxford Nanopore R10. ONT reads are much longer than PacBio HiFi reads, so the length filters designed for HiFi data need to be set explicitly:
+ 
+- **--max_read_len**: with HiFi data, MitoHiFi removes any mapped read longer than the related mitogenome, as a rough way to filter out NUMTs. Many ONT reads span the whole mitogenome and are longer than that, so this filter would discard most of them. With **-s ont**, provide the maximum read length in bp, choosing it based on the mitogenome lengths of related species.
+- **-minL**: minimum contig length, as a percentage of the reference length (default 80). Contigs shorter than this are discarded after the BLAST search.
+- **-maxL**: maximum contig length, as a multiple of the reference length (default 5). Longer contigs are discarded.
 
 ## 8. Citations
 
