@@ -17,3 +17,8 @@ dependencies:
   - bedtools=2.31.0
   - pillow=6.2.1
   - bcbio-gff=0.7.0
+  - blast=2.16.0
+  - mitos=2.1.9
+  - pip
+  - pip:
+    - futures3==1.0.0

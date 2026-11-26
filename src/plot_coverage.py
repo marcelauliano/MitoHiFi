@@ -122,7 +122,7 @@ def main():
 
     # mapping reads to reference
     out_map_file = f"{args.ref}.hifiMapped.bam"
-    minimap_cmd = ["minimap2", "-t", str(args.t), "--secondary=no", "-ax", "map-pb", args.ref] + shlex.split(args.reads) 
+    minimap_cmd = ["minimap2", "-t", str(args.t), "--secondary=no", "-ax", "map-hifi", args.ref] + shlex.split(args.reads)
     samtools_cmd = ["samtools", "view", "-@", str(args.t), "-S", "-b", "-F4", "-F", "0x800"] 
     logging.info("1. Mapping HiFi reads against final_mitogenome.fasta:")
     logging.info(" ".join(minimap_cmd) + " | " + " ".join(samtools_cmd) + f" > {out_map_file}")        

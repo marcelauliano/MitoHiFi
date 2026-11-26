@@ -23,15 +23,16 @@ def fix_improper_gff(in_gff):
     
     with open(in_gff, "r") as f:
         for line in f:
-            start = int(line.split("\t")[3])
-            end = int(line.split("\t")[4])
-            if start > end:
-                feature_description = line.split("\t")[-1]
-                logging.warning(f"Feature with start position > end position is improper GFF notation. Ignoring it: {feature_description}")
-                was_fixed = True
-            else:
-                with open(fixed_filename, "a") as f2:
-                    f2.write(line)
+            if not line.startswith("#"):
+                start = int(line.split("\t")[3])
+                end = int(line.split("\t")[4])
+                if start > end:
+                    feature_description = line.split("\t")[-1]
+                    logging.warning(f"Feature with start position > end position is improper GFF notation. Ignoring it: {feature_description}")
+                    was_fixed = True
+                else:
+                    with open(fixed_filename, "a") as f2:
+                        f2.write(line)
 
     # if `in_gff` was fixed, rename it by adding a `.old` suffix 
     # and give its original name to its fixed version 

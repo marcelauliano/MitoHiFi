@@ -13,7 +13,7 @@ potential mito contig. The process_contig_02_mitos() function will only be calle
 
 import re
 import os
-import concurrent.futures
+from futures3.process import ProcessPoolExecutor
 import sys
 import functools
 import subprocess
@@ -66,18 +66,27 @@ def process_contig_mitos(threads_per_contig, circular_size, circular_offset, con
         logging.info(f"Deleted existing annotation directory {annotation_dir}")
     # creates a new annotation dir
     os.mkdir(annotation_dir)
-    mitos2_cmd = ["python2", "runmitos.py", "--noplots", "-i", contig_id+".mitogenome.fa", "-c", gen_code,
-                    "--refdir", "MITOS/data", "-r", refseq_db, "-o", annotation_dir]
-    subprocess.run(mitos2_cmd) 
+    mitos_data = os.environ.get("MITOS_DATA", "/MITOS/data")
+    mitos2_cmd = ["runmitos.py", "--noplots", "-i", contig_id+".mitogenome.fa", "-c", gen_code,
+                    "--refdir", mitos_data, "-r", refseq_db, "-o", annotation_dir]
+    logging.info(" ".join(mitos2_cmd))
+    subprocess.run(mitos2_cmd)
     #logging.info(f"{contig_id} annotation done. Annotation log saved on ./potential_contigs/{contig_id}/{contig_id}.annotation_MitoFinder.log")
     logging.info(f"{contig_id} annotation done.")
     
     # check if annotation file has been created
-    mitogenome_gff = os.path.join(contig_id + ".annotation", "result.gff") 
-    if not os.path.isfile(mitogenome_gff):
+    mitogenome_gff_original = os.path.join(contig_id + ".annotation", "result.gff")
+    if not os.path.isfile(mitogenome_gff_original):
         warnings.warn("Contig "+ contig_id + " does not have an annotation file, an error has possibly occurred during MITOS2 execution")
-        return    
-    
+        return
+
+    # create a new gff file without informations about gff version
+    mitogenome_gff = os.path.join(contig_id + ".annotation", "result_modified.gff")
+    with open(mitogenome_gff_original) as f, open(mitogenome_gff, 'w') as o:
+        for line in f:
+            if not line.startswith("#"):
+                o.write(line)
+
     # check and remove if any feature has a start position greater than its end position
     fix_improper_gff(mitogenome_gff)
     
@@ -129,7 +138,7 @@ def process_contig_02_mitos(ref_tRNA, threads_per_contig, circular_size, circula
         return
 
     logging.info(f"ref_tRNA: {ref_tRNA} | start: {start} | strand: {strand}") 
-    mitogenome_annotation = os.path.join(contig_id + ".annotation", "result.gff")
+    mitogenome_annotation = os.path.join(contig_id + ".annotation", "result_modified.gff")
     #mitogenome_gb = contig_id + ".mitogenome.gb"
     #shutil.copy(mitogenome_annotation, mitogenome_gb)
     # create copy of annotation file without the _draft modification
@@ -199,7 +208,7 @@ def process_contig_02_mitos(ref_tRNA, threads_per_contig, circular_size, circula
     # check frameshifts in genes from contig and save findings to 
     # `{contig_id}.individual.stats` intermediate file
     logging.info(f"Started calculating mitocontig stats... {contig_id}") # debug
-    mitogenome_faa = mitogenome_annotation.replace("_RC", "").replace(".gff", ".faa")
+    mitogenome_faa = re.sub(r'_modified(?:_RC)?\.gff', '.faa', mitogenome_annotation)
     logging.info(f"mitogenome_faa: {mitogenome_faa}") #debug
     frameshifts = find_frameshifts_mitos(mitogenome_faa)
     logging.info(f"frameshifts: {frameshifts}") #debug
@@ -246,6 +255,7 @@ if __name__ == "__main__":
     gen_code = sys.argv[4]
 
     partial_annotate_mito = functools.partial(annotate_mito, max_contig_size, related_gbk, gen_code)
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        executor.map(partial_annotate_mito, contigs)
+    with ProcessPoolExecutor() as executor:
+        #executor.map(partial_annotate_mito, contigs)
+        list(executor.map(partial_process_contig, contigs_ids))
     print("Finished annotation!")

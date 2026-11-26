@@ -29,13 +29,14 @@ def get_trna_pos(path):
     trnas = {}
     with open(path, "r") as f:
         for line in f:
-            feat_type = line.split()[2]
-            if feat_type == "tRNA":
-                tRNA_start = line.split()[3]
-                tRNA_strand = line.split()[6]
-                feat_info = line.split()[-1].strip()
-                tRNA_name = re.search("gene_id=.*", feat_info).group(0).split("=")[-1]
-                trnas[tRNA_name] = [tRNA_start, tRNA_strand]
+            if not line.startswith("#"):
+                feat_type = line.split()[2]
+                if feat_type == "tRNA":
+                    tRNA_start = line.split()[3]
+                    tRNA_strand = line.split()[6]
+                    feat_info = line.split()[-1].strip()
+                    tRNA_name = re.search("gene_id=.*", feat_info).group(0).split("=")[-1]
+                    trnas[tRNA_name] = [tRNA_start, tRNA_strand]
 
     if len(trnas) > 0:
         return trnas
@@ -121,31 +122,32 @@ def rotate(genome, start, contig_id):
 def rotate_annotation(mitogenome_annotation, mitogenome_fasta, start, contig_id):
     """Takes a GFF file and the reference gene position and rotates the annotation to have the reference gene at position 1."""
     
-    logging.info(f"Started rotate_annotation function. mitogenome_annotation: {mitogenome_annotation} | mitogenome_fasta: {mitogenome_fasta} | start: {start} | contig_id: {contig_id}") #debug
+    logging.info(f"Started rotate_annotation function for {contig_id}. mitogenome_annotation: {mitogenome_annotation} | mitogenome_fasta: {mitogenome_fasta} | start: {start} | contig_id: {contig_id}") #debug
     for record in SeqIO.parse(mitogenome_fasta, "fasta"):
         mitogenome_len = len(record.seq)
     
     features = [] 
     with open(mitogenome_annotation, "r") as f:
        for line in f:
-            feature_fields = line.strip().split("\t")
-            feature_start = int(feature_fields[3])
-            feature_end = int(feature_fields[4])
-            
-            
-            if feature_start == start:
-                feature_fields[3] = 1
-                feature_fields[4] = feature_end - start + 1
-            elif feature_start > start:
-                feature_fields[3] = feature_start - start + 1 
-                feature_fields[4] = feature_end - start + 1
-            elif feature_start < start and feature_end < start:
-                feature_fields[3] = mitogenome_len - start + feature_start + 1
-                feature_fields[4] = mitogenome_len - start + feature_end + 1
-            elif feature_start < start and feature_end > start: # here we have a feature that overlaps the reference
-                print("warning: feature being ignore because it overlaps with reference gene and starts before it:")
-                print(feature_fields)
-                continue
+           if not line.startswith("#"):
+                feature_fields = line.strip().split("\t")
+                feature_start = int(feature_fields[3])
+                feature_end = int(feature_fields[4])
+
+
+                if feature_start == start:
+                    feature_fields[3] = 1
+                    feature_fields[4] = feature_end - start + 1
+                elif feature_start > start:
+                    feature_fields[3] = feature_start - start + 1
+                    feature_fields[4] = feature_end - start + 1
+                elif feature_start < start and feature_end < start:
+                    feature_fields[3] = mitogenome_len - start + feature_start + 1
+                    feature_fields[4] = mitogenome_len - start + feature_end + 1
+                elif feature_start < start and feature_end > start: # here we have a feature that overlaps the reference
+                    print("warning: feature being ignore because it overlaps with reference gene and starts before it:")
+                    print(feature_fields)
+                    continue
             
 #            # if feature start equal to reference gene start
 #            if feature_start == start:
@@ -167,10 +169,10 @@ def rotate_annotation(mitogenome_annotation, mitogenome_fasta, start, contig_id)
 #            elif feature_end < start: 
 #                feature_fields[4] = mitogenome_len - start + feature_end
 
-            features.append(feature_fields)
-    logging.info(f"features: {features}") # debug 
+                features.append(feature_fields)
+    logging.info(f"features for contig {contig_id}: {features}") # debug
     mitogenome_rotated_annotation = mitogenome_annotation.replace(".gff", ".rotated.gff")
-    logging.info(f"mitogenome_rotated_annotation: {mitogenome_rotated_annotation}") # debug
+    logging.info(f"mitogenome_rotated_annotation for contig {contig_id}: {mitogenome_rotated_annotation}") # debug
     if os.path.exists(mitogenome_rotated_annotation):
         print("deleting existing output file")
         os.remove(mitogenome_rotated_annotation)

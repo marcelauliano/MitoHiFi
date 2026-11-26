@@ -65,9 +65,9 @@ singularity exec --bind /path/to/container_directory:/path/to/container_director
 
 We are unable to create a complete Conda recipe for MitoHiFi due to conflicting Python versions required by different dependencies, making it impossible to coexist within the same Conda environment. However, we provide a partial Conda recipe that installs most of the dependencies. To complete the installation, follow these steps:
 
-1. Install MitoFinder and/or MITOS outside of Conda.
-2. Ensure MitoFinder and/or MITOS are added to the PATH before starting the run.
-Please note that MitoFinder and/or MITOS should be installed separately and made accessible via the PATH environment variable to ensure their proper integration with MitoHiFi. Once those are installed, do:
+1. Install MitoFinder outside of Conda.
+2. Ensure MitoFinder are added to the PATH before starting the run.
+Please note that MitoFinder should be installed separately and made accessible via the PATH environment variable to ensure their proper integration with MitoHiFi. Once those are installed, do:
 ```
 #Clone MitoHiFi git repo
 git clone https://github.com/marcelauliano/MitoHiFi.git
@@ -76,7 +76,7 @@ git clone https://github.com/marcelauliano/MitoHiFi.git
 conda env create -n mitohifi_env -f MitoHiFi/environment/mitohifi_env.yml 
 ```
 
-Add MitoFinder and/or MITOS to the PATH and then activate your mitohifi_env conda environment.
+Add MitoFinder to the PATH and then activate your mitohifi_env conda environment.
 
 To run MitoHiFi, do:
 
@@ -102,7 +102,7 @@ This is the least recommended way to install MitoHiFi, but below you will find a
   - pillow=6.2.1
   - bcbio-gff=0.7.0
   - MitoFinder=v1.4.0
-  - MITOS=2.1.0
+  - MITOS=2.1.9
   - ncbi-blast+
 
 Once all dependencies are installed and in your PATH, git clone MitoHiFi and execute it:
@@ -181,6 +181,15 @@ optional arguments:
 ## 4. Running MitoHiFi with the test data
 
 To run MitoHiFi, you first need a closely related mitochondrial sequence in both FASTA and GenBank formats. We provide a script that can assist you in retrieving this data from the NCBI database. When provided with the species name you are assembling, the script will search for the nearest available mitochondrial assembly on NCBI. By default, the script looks for an exact match of the species for an available mitochondrial assembly. If an exact match is not found, it continues the search for a phylogenetically close candidate based on NCBI taxonomy.
+
+> [!IMPORTANT]
+> If you use MITOS for annotation (`-a mitos`), you must export the path to the MITOS reference data **before** running MitoHiFi:
+>
+> ```bash
+> export MITOS_DATA=/path/to/MITOS/data
+> ```
+>
+> Replace `/path/to/MITOS/data` with the actual location of the MITOS `data` folder on your system. Without this, the annotation step will fail.
 
 ### 4.1 Running MitoHiFi with test dataset starting from reads (-r)
 
