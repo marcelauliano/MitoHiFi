@@ -14,7 +14,7 @@ is run for all potential contigs.
 
 import re
 import os
-import concurrent.futures
+from futures3.process import ProcessPoolExecutor
 import sys
 import functools
 import subprocess
@@ -207,6 +207,6 @@ if __name__ == "__main__":
     gen_code = sys.argv[4]
 
     partial_annotate_mito = functools.partial(annotate_mito, max_contig_size, related_gbk, gen_code)
-    with concurrent.futures.ProcessPoolExecutor() as executor:
+    with ProcessPoolExecutor() as executor:
         executor.map(partial_annotate_mito, contigs)
     print("Finished annotation!")

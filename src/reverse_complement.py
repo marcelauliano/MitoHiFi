@@ -43,29 +43,30 @@ def reverse_complement_annotation(mitogenome_annotation, mitogenome_fasta, mitog
 
     with open(mitogenome_annotation, "r") as f:
         for line in f:
-            fields = line.strip().split()
-            new_start = mitogenome_len - int(fields[3]) + 1
-            new_end = mitogenome_len - int(fields[4]) + 1
-            old_strand = fields[6]
-            
-            # switches the signal
-            if old_strand == "+":
-                new_strand = "-"
-            else:
-                new_strand = "+"
-            
-            # sets first coord as start
-            # and second coord as end
-            if new_start > new_end:
-                b = new_start
-                new_start = new_end
-                new_end = b
+            if not line.startswith("#"):
+                fields = line.strip().split()
+                new_start = mitogenome_len - int(fields[3]) + 1
+                new_end = mitogenome_len - int(fields[4]) + 1
+                old_strand = fields[6]
 
-            fields[3] = str(new_start)
-            fields[4] = str(new_end)
-            fields[6] = new_strand
-            with open(mitogenome_annotation_rc, "a") as f2:
-                f2.write("\t".join(fields) + "\n")
+                # switches the signal
+                if old_strand == "+":
+                    new_strand = "-"
+                else:
+                    new_strand = "+"
+
+                # sets first coord as start
+                # and second coord as end
+                if new_start > new_end:
+                    b = new_start
+                    new_start = new_end
+                    new_end = b
+
+                fields[3] = str(new_start)
+                fields[4] = str(new_end)
+                fields[6] = new_strand
+                with open(mitogenome_annotation_rc, "a") as f2:
+                    f2.write("\t".join(fields) + "\n")
 
 if __name__ == "__main__":
     in_gb = sys.argv[1]

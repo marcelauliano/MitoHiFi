@@ -2,8 +2,8 @@
 This is the main MitoHiFi script. 
 """
 
-import concurrent.futures
-from concurrent.futures import wait
+from futures3.thread import ThreadPoolExecutor
+from futures3.process import ProcessPoolExecutor
 import logging
 import shutil
 import subprocess
@@ -293,7 +293,7 @@ The pipeline has stopped !! You need to run further scripts to check if you have
                                                    args.circular_size, args.circular_offset,
                                                    contigs, max_contig_size, args.g, args.o)
     
-    with concurrent.futures.ProcessPoolExecutor() as executor:
+    with ProcessPoolExecutor() as executor:
         executor.map(partial_process_contig, contigs_ids)
     
     if args.mitos: 
@@ -316,7 +316,7 @@ The pipeline has stopped !! You need to run further scripts to check if you have
                                                     args.g, args.o)
 
 
-    with concurrent.futures.ProcessPoolExecutor() as executor:
+    with ProcessPoolExecutor() as executor:
         executor.map(partial_process_contig_02, contigs_ids)
 
     # concatenates circularization histories from all contigs into 
